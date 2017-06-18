@@ -40,7 +40,7 @@ Module.register("MMM-pages", {
     },
     
     
-    // TODO: Add animation
+    // TODO: Add slide-left/right animation
     updatePages: function() {
         if (this.config.modules.length !== 0) {
             MM.getModules() 
