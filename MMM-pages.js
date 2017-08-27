@@ -46,13 +46,13 @@ Module.register("MMM-pages", {
             MM.getModules() 
                 .exceptWithClass(this.config.excludes)
                 .exceptWithClass(this.config.modules[this.curPage])
-                .enumerate(module => { module.hide(this.config.animationTime / 2, { lockstring: this.identifier }) });
+                .enumerate(module => { module.hide(this.config.animationTime / 2, { lockString: this.identifier }) });
                 
             let self = this;
             setTimeout(function() {
                 MM.getModules()
                     .withClass(self.config.modules[self.curPage])
-                    .enumerate(module => { module.show(self.config.animationTime / 2, { lockstring: self.identifier }) });
+                    .enumerate(module => { module.show(self.config.animationTime / 2, { lockString: self.identifier }) });
             }, this.config.animationTime / 2);
         } else { Log.error("Pages aren't properly defined!") }
     },
