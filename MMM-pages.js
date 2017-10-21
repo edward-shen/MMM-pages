@@ -28,12 +28,11 @@ Module.register("MMM-pages", {
             this.updatePages(true);
         } else if (notification === "PAGE_INCREMENT") {
             Log.log(this.name + " recieved a notification to increment pages!");
-            if (this.curPage === this.config.modules.length - 1) {
-                this.curPage = 0;
-            } else { this.curPage++ }
+            this.curPage = (this.curPage++) % this.config.modules.length;
             this.updatePages(true);
         } else if (notification === "PAGE_DECREMENT") {
             Log.log(this.name + " recieved a notification to decrement pages!");
+            // Javascript doesn't support negative modulo (-1 % 5 != 4)
             if (this.curPage === 0) {
                 this.curPage = this.config.modules.length - 1;
             } else { this.curPage-- }
@@ -74,9 +73,7 @@ Module.register("MMM-pages", {
                 setTimeout(() => {
                     self.timer = setInterval(() => {
                         // Incrementing page
-                        if (self.curPage === self.config.modules.length - 1) {
-                            self.curPage = 0;
-                        } else { self.curPage++ }
+                        self.curPage = (self.curPage++) % self.config.modules.length;
                         self.sendNotification("PAGE_INCREMENT");
                         self.updatePages(false);
                     }, self.config.rotationTime, false);
