@@ -1,0 +1,8 @@
+{
+    "extends": "airbnb-base",
+    "globals": {
+        "Module": true,
+        "Log": true,
+        "MM": true
+    }
+}
