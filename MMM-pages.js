@@ -109,7 +109,7 @@ Module.register('MMM-pages', {
           });
       }, this.config.animationTime / 2);
 
-      if (manuallyCalled) {
+      if (manuallyCalled && this.config.rotationTime > 0) {
         Log.log('Manually updated page! setting delay before resuming timer!');
 
         clearInterval(this.timer);
