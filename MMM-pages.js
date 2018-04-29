@@ -13,8 +13,21 @@ Module.register('MMM-pages', {
     rotationDelay: 10000,
   },
 
+  /**
+   * Apply any styles, if we have any.
+   */
   getStyles() {
     return ['pages.css'];
+  },
+
+
+  /**
+   * Modulo that also works with negative numbers.
+   * @param {number} x The dividend
+   * @param {number} n The divisor
+   */
+  mod(x, n) {
+    return ((x % n) + n) % n;
   },
 
   /**
@@ -42,34 +55,31 @@ Module.register('MMM-pages', {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} recieved a notification`
-          + `to change to page ${payload} of type ${typeof payload }`);
+          + `to change to page ${payload} of type ${typeof payload}`);
         if (typeof payload === 'number') {
           this.curPage = payload;
         } else {
-          Log.error('Was asked to change to a nonnumber!');
+          Log.error('Was asked to change to an invalid number!');
+          Log.error(`Payload=${payload}, type=${typeof payload},
+            maxPageIndex=${this.config.modules.length - 1}`);
         }
         this.updatePages(true);
         break;
       case 'PAGE_INCREMENT':
         Log.log(`${this.name} recieved a notification to increment pages!`);
-        this.curPage = (this.curPage === this.config.modules.length - 1)
-          ? 0 : this.curPage + 1;
+        this.curPage = this.mod(this.curPage + 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'PAGE_DECREMENT':
         Log.log(`${this.name} recieved a notification to decrement pages!`);
-        this.curPage = (this.curPage === 0)
-          ? this.config.modules.length - 1 : this.curPage - 1;
+        this.curPage = this.mode(this.curPage - 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'DOM_OBJECTS_CREATED':
         Log.log(`${this.name} recieved that all objects are created;`
           + 'will now hide things!');
         this.updatePages(true);
-        this.sendNotification(
-          'MAX_PAGES_CHANGED',
-          this.config.modules.length,
-        );
+        this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
         break;
       default:
     }
@@ -117,8 +127,10 @@ Module.register('MMM-pages', {
         setTimeout(() => {
           self.timer = setInterval(() => {
             // Incrementing page
-            self.curPage = (self.curPage === self.config.modules.length - 1)
-              ? 0 : self.curPage + 1;
+            this.curPage = this.mod(
+              this.curPage + 1,
+              this.config.modules.length,
+            );
             self.sendNotification('PAGE_INCREMENT');
             self.updatePages(false);
           }, self.config.rotationTime, false);

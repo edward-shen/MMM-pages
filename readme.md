@@ -47,8 +47,8 @@ Option|Description
 ------|-----------
 `modules`|A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix.<br/>**Expected Value type:** `[ [String, String, ...], [String, String, ...], ...]`.
 `excludes`|Which modules should show up all the time.<br/>**Expected Value type:** `[ String, String, ... ]`.
-`animationTime`|Fading animation time. Set to `0` for instant change. Value is in millis.<br/>**Expected Value type:** `int`.
-`rotationTime`|Time, in milliseconds (1 second = 1000 milliseconds), between automatic page changes.<br/>**Expected Value type:** `int`.<br/>**Default value:** `0`
+`animationTime`|Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds).<br/>**Expected Value type:** `int`.
+`rotationTime`|Time, in milliseconds, between automatic page changes.<br/>**Expected Value type:** `int`.<br/>**Default value:** `0`
 `delayTime`|Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time.<br/>**Expected Value type:** `int`.<br/>**Default value:** `10000`
 
 For the `module` configuration option, the first element of the outer array should consist of elements that should be on the first page. The second element should consist of elements that should be on the second page, and so forth.
