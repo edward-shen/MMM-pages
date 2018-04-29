@@ -42,8 +42,8 @@ Module.register('MMM-pages', {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} recieved a notification`
-          + `to change to page ${payload}`);
-        if (typeof curPage === 'number') {
+          + `to change to page ${payload} of type ${typeof payload }`);
+        if (typeof payload === 'number') {
           this.curPage = payload;
         } else {
           Log.error('Was asked to change to a nonnumber!');
