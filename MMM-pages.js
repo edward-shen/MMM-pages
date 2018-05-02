@@ -72,7 +72,7 @@ Module.register('MMM-pages', {
         break;
       case 'PAGE_DECREMENT':
         Log.log(`${this.name} recieved a notification to decrement pages!`);
-        this.curPage = this.mode(this.curPage - 1, this.config.modules.length);
+        this.curPage = this.mod(this.curPage - 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'DOM_OBJECTS_CREATED':
