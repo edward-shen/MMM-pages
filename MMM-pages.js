@@ -72,7 +72,7 @@ Module.register('MMM-pages', {
         break;
       case 'PAGE_DECREMENT':
         Log.log(`${this.name} recieved a notification to decrement pages!`);
-        this.curPage = this.mode(this.curPage - 1, this.config.modules.length);
+        this.curPage = this.mod(this.curPage - 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'DOM_OBJECTS_CREATED':
@@ -94,7 +94,6 @@ Module.register('MMM-pages', {
   updatePages(manuallyCalled) {
     if (this.config.modules.length !== 0) {
       Log.log(`updatePages was ${manuallyCalled ? '' : 'not'} manually called`);
-      const self = this;
 
       // Hides the current page's elements.
       MM.getModules()
@@ -110,11 +109,11 @@ Module.register('MMM-pages', {
       // Shows the next page's elements
       setTimeout(() => {
         MM.getModules()
-          .withClass(self.config.modules[self.curPage])
+          .withClass(this.config.modules[this.curPage])
           .enumerate((module) => {
             module.show(
-              self.config.animationTime / 2,
-              { lockString: self.identifier },
+              this.config.animationTime / 2,
+              { lockString: this.identifier },
             );
           });
       }, this.config.animationTime / 2);
@@ -125,18 +124,17 @@ Module.register('MMM-pages', {
         clearInterval(this.timer);
 
         setTimeout(() => {
-          self.timer = setInterval(() => {
+          this.timer = setInterval(() => {
             // Incrementing page
             this.curPage = this.mod(
               this.curPage + 1,
               this.config.modules.length,
             );
-            self.sendNotification('PAGE_INCREMENT');
-            self.updatePages(false);
-          }, self.config.rotationTime, false);
+            this.sendNotification('PAGE_INCREMENT');
+            this.updatePages(false);
+          }, this.config.rotationTime, false);
         }, this.config.rotationDelay);
       }
     } else { Log.error("Pages aren't properly defined!"); }
   },
-
 });
