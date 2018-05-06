@@ -93,6 +93,10 @@ Module.register('MMM-pages', {
    */
   updatePages(manuallyCalled) {
     if (this.config.modules.length !== 0) {
+      // We need to use self because upstream uses an older electron and thus
+      // older version of node
+      const self = this;
+
       Log.log(`updatePages was ${manuallyCalled ? '' : 'not'} manually called`);
 
       // Hides the current page's elements.
@@ -101,19 +105,19 @@ Module.register('MMM-pages', {
         .exceptWithClass(this.config.modules[this.curPage])
         .enumerate((module) => {
           module.hide(
-            this.config.animationTime / 2,
-            { lockString: this.identifier },
+            self.config.animationTime / 2,
+            { lockString: self.identifier },
           );
         });
 
       // Shows the next page's elements
       setTimeout(() => {
         MM.getModules()
-          .withClass(this.config.modules[this.curPage])
+          .withClass(self.config.modules[self.curPage])
           .enumerate((module) => {
             module.show(
-              this.config.animationTime / 2,
-              { lockString: this.identifier },
+              self.config.animationTime / 2,
+              { lockString: self.identifier },
             );
           });
       }, this.config.animationTime / 2);
@@ -124,15 +128,15 @@ Module.register('MMM-pages', {
         clearInterval(this.timer);
 
         setTimeout(() => {
-          this.timer = setInterval(() => {
+          self.timer = setInterval(() => {
             // Incrementing page
-            this.curPage = this.mod(
-              this.curPage + 1,
-              this.config.modules.length,
+            self.curPage = self.mod(
+              self.curPage + 1,
+              self.config.modules.length,
             );
-            this.sendNotification('PAGE_INCREMENT');
-            this.updatePages(false);
-          }, this.config.rotationTime, false);
+            self.sendNotification('PAGE_INCREMENT');
+            self.updatePages(false);
+          }, self.config.rotationTime, false);
         }, this.config.rotationDelay);
       }
     } else { Log.error("Pages aren't properly defined!"); }
