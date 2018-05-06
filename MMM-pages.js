@@ -1,5 +1,8 @@
 Module.register('MMM-pages', {
 
+  // We require the older style of function declaration for compatability
+  // reasons.
+
   /**
    * By default, we have don't psuedo-paginate any modules. We also exclude
    * the page indicator by default, in case people actually want to use the
@@ -16,7 +19,7 @@ Module.register('MMM-pages', {
   /**
    * Apply any styles, if we have any.
    */
-  getStyles() {
+  getStyles: function() {
     return ['pages.css'];
   },
 
@@ -26,7 +29,7 @@ Module.register('MMM-pages', {
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
-  mod(x, n) {
+  mod: function(x, n) {
     return ((x % n) + n) % n;
   },
 
@@ -34,7 +37,7 @@ Module.register('MMM-pages', {
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
-  start() {
+  start: function() {
     this.curPage = 0;
 
     // Disable rotation if an invalid input is given
@@ -51,7 +54,7 @@ Module.register('MMM-pages', {
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to
    */
-  notificationReceived(notification, payload) {
+  notificationReceived: function(notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} recieved a notification`
@@ -91,7 +94,7 @@ Module.register('MMM-pages', {
    * elements.
    * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
-  updatePages(manuallyCalled) {
+  updatePages: function(manuallyCalled) {
     if (this.config.modules.length !== 0) {
       // We need to use self because upstream uses an older electron and thus
       // older version of node
