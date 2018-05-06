@@ -13,7 +13,7 @@ Module.register('MMM-pages', {
     excludes: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
-    rotationDelay: 10000,
+    rotationDelay: 10000
   },
 
   /**
@@ -109,7 +109,7 @@ Module.register('MMM-pages', {
         .enumerate((module) => {
           module.hide(
             self.config.animationTime / 2,
-            { lockString: self.identifier },
+            { lockString: self.identifier }
           );
         });
 
@@ -120,7 +120,7 @@ Module.register('MMM-pages', {
           .enumerate((module) => {
             module.show(
               self.config.animationTime / 2,
-              { lockString: self.identifier },
+              { lockString: self.identifier }
             );
           });
       }, this.config.animationTime / 2);
@@ -135,7 +135,7 @@ Module.register('MMM-pages', {
             // Incrementing page
             self.curPage = self.mod(
               self.curPage + 1,
-              self.config.modules.length,
+              self.config.modules.length
             );
             self.sendNotification('PAGE_INCREMENT');
             self.updatePages(false);
