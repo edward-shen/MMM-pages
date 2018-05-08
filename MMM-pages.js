@@ -55,7 +55,11 @@ Module.register('MMM-pages', {
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to
    */
-  notificationReceived: function (notification, payload) {
+  notificationReceived: function(notification, payload) {
+    const isValidPayload = typeof payload === 'number';
+
+    Log.log(`[Pages]:${payload} is a number? ${isValidPayload}`);
+    Log.log(`[Pages]:${this.curPage + (isValidPayload) ? payload : 1}`);
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} received a notification`
@@ -70,13 +74,19 @@ Module.register('MMM-pages', {
         this.updatePages(true);
         break;
       case 'PAGE_INCREMENT':
-        Log.log(`${this.name} received a notification to increment pages!`);
-        this.curPage = this.mod(this.curPage + 1, this.config.modules.length);
+        Log.log(`${this.name} recieved a notification to increment pages!`);
+        this.curPage = this.mod(
+          this.curPage + ((isValidPayload) ? payload : 1),
+          this.config.modules.length
+        );
         this.updatePages(true);
         break;
       case 'PAGE_DECREMENT':
-        Log.log(`${this.name} received a notification to decrement pages!`);
-        this.curPage = this.mod(this.curPage - 1, this.config.modules.length);
+        Log.log(`${this.name} recieved a notification to decrement pages!`);
+        this.curPage = this.mod(
+          this.curPage - ((isValidPayload) ? payload : 1),
+          this.config.modules.length
+        );
         this.updatePages(true);
         break;
       case 'DOM_OBJECTS_CREATED':
