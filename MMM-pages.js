@@ -19,7 +19,7 @@ Module.register('MMM-pages', {
   /**
    * Apply any styles, if we have any.
    */
-  getStyles: function() {
+  getStyles: function () {
     return ['pages.css'];
   },
 
@@ -29,7 +29,7 @@ Module.register('MMM-pages', {
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
-  mod: function(x, n) {
+  mod: function (x, n) {
     return ((x % n) + n) % n;
   },
 
@@ -37,7 +37,7 @@ Module.register('MMM-pages', {
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
-  start: function() {
+  start: function () {
     this.curPage = 0;
 
     // Disable rotation if an invalid input is given
@@ -54,7 +54,7 @@ Module.register('MMM-pages', {
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to
    */
-  notificationReceived: function(notification, payload) {
+  notificationReceived: function (notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} recieved a notification`
@@ -94,7 +94,7 @@ Module.register('MMM-pages', {
    * elements.
    * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
-  updatePages: function(manuallyCalled) {
+  updatePages: function (manuallyCalled) {
     if (this.config.modules.length !== 0) {
       // We need to use self because upstream uses an older electron and thus
       // older version of node
@@ -114,16 +114,14 @@ Module.register('MMM-pages', {
         });
 
       // Shows the next page's elements
-      setTimeout(() => {
+      setTimeout(() =>
         MM.getModules()
           .withClass(self.config.modules[self.curPage])
-          .enumerate((module) => {
+          .enumerate(module =>
             module.show(
               self.config.animationTime / 2,
-              { lockString: self.identifier }
-            );
-          });
-      }, this.config.animationTime / 2);
+              { lockString: self.identifier },
+            )), this.config.animationTime / 2);
 
       if (manuallyCalled && this.config.rotationTime > 0) {
         Log.log('Manually updated page! setting delay before resuming timer!');
