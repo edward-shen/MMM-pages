@@ -1,10 +1,10 @@
 Module.register('MMM-pages', {
 
-  // We require the older style of function declaration for compatability
+  // We require the older style of function declaration for compatibility
   // reasons.
 
   /**
-   * By default, we have don't psuedo-paginate any modules. We also exclude
+   * By default, we have don't pseudo-paginate any modules. We also exclude
    * the page indicator by default, in case people actually want to use the
    * sister module. We also don't rotate out modules by default.
    */
@@ -46,18 +46,19 @@ Module.register('MMM-pages', {
   },
 
   /**
-   * Handles incoming notifications. Repsonds to the following:
+   * Handles incoming notifications. Responds to the following:
    *   'PAGE_CHANGED' - Set the page to the specified payload page.
    *   'PAGE_INCREMENT' - Move to the next page.
    *   'PAGE_DECREMENT' - Move to the previous page.
    *   'DOM_OBJECTS_CREATED' - Starts the module.
+   *   'REQUEST_CURRENT_PAGE' - Requests the current page number
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to
    */
   notificationReceived: function (notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
-        Log.log(`${this.name} recieved a notification`
+        Log.log(`${this.name} received a notification`
           + `to change to page ${payload} of type ${typeof payload}`);
         if (typeof payload === 'number') {
           this.curPage = payload;
@@ -69,20 +70,23 @@ Module.register('MMM-pages', {
         this.updatePages(true);
         break;
       case 'PAGE_INCREMENT':
-        Log.log(`${this.name} recieved a notification to increment pages!`);
+        Log.log(`${this.name} received a notification to increment pages!`);
         this.curPage = this.mod(this.curPage + 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'PAGE_DECREMENT':
-        Log.log(`${this.name} recieved a notification to decrement pages!`);
+        Log.log(`${this.name} received a notification to decrement pages!`);
         this.curPage = this.mod(this.curPage - 1, this.config.modules.length);
         this.updatePages(true);
         break;
       case 'DOM_OBJECTS_CREATED':
-        Log.log(`${this.name} recieved that all objects are created;`
+        Log.log(`${this.name} received that all objects are created;`
           + 'will now hide things!');
         this.updatePages(true);
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
+        break;
+      case 'REQUEST_CURRENT_PAGE':
+        this.sendNotification('CURRENT_PAGE_IS', this.curPage);
         break;
       default:
     }
@@ -90,7 +94,7 @@ Module.register('MMM-pages', {
 
   // TODO: Add slide-left/right animation
   /**
-   * Handles hiding the current page's elements and unhinding the next page's
+   * Handles hiding the current page's elements and showing the next page's
    * elements.
    * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
@@ -114,14 +118,12 @@ Module.register('MMM-pages', {
         });
 
       // Shows the next page's elements
-      setTimeout(() =>
-        MM.getModules()
-          .withClass(self.config.modules[self.curPage])
-          .enumerate(module =>
-            module.show(
-              self.config.animationTime / 2,
-              { lockString: self.identifier },
-            )), this.config.animationTime / 2);
+      setTimeout(() => MM.getModules()
+        .withClass(self.config.modules[self.curPage])
+        .enumerate(module => module.show(
+          self.config.animationTime / 2,
+          { lockString: self.identifier },
+        )), this.config.animationTime / 2);
 
       if (manuallyCalled && this.config.rotationTime > 0) {
         Log.log('Manually updated page! setting delay before resuming timer!');
