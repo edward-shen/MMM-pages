@@ -50,13 +50,13 @@ modules: [
 
 ## Configuration options
 
-Option         |Type              |Default Value           |Description
----------------|------------------|------------------------|-----------
-`modules`      |`[[String...]...]`|`[]`                    |A 2D String array of what each module should be on which page. Notethat all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix.
-`excludes`     |`[String...]`     |`["MMM-page-indicator"]`|Which modules should show up all the time.
-`animationTime`|`int`             |`1000`                  |Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds).
-`rotationTime` |`int`             |`0`                     |Time, in milliseconds, between automatic page changes.
-`delayTime`    |`int`             |`0`                     |Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time.
+| Option          | Type               | Default Value            | Description                                                                                                                                                                                                                                                                                                                            |
+| --------------- | ------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `modules`       | `[[String...]...]` | `[]`                     | A 2D String array of what each module should be on which page. Notethat all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix.                                                                                           |
+| `excludes`      | `[String...]`      | `["MMM-page-indicator"]` | Which modules should show up all the time.                                                                                                                                                                                                                                                                                             |
+| `animationTime` | `int`              | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds).                                                                                                                                                                                                                         |
+| `rotationTime`  | `int`              | `0`                      | Time, in milliseconds, between automatic page changes.                                                                                                                                                                                                                                                                                 |
+| `delayTime`     | `int`              | `0`                      | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
 
 For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
@@ -66,7 +66,7 @@ should consist of elements that should be on the second page, and so forth.
 
 This module responds to the notification `PAGE_CHANGED`. The payload should be
 an `integer`. Note that this has strict error checking, so `"3"` will not work,
-while `3` will. Also do note that to switch to page 1, you need to send `0` to 
+while `3` will. Also do note that to switch to page 1, you need to send `0` to
 the module. **This uses a zero-based numbering system.**
 
 Let's say that you want to change the indicator to page 3. In your code, you
@@ -77,18 +77,22 @@ this.sendNotification("PAGE_CHANGED", 2);
 This would cause the module to change show that you are on page 3.
 
 You can also just send `PAGE_INCREMENT` or `PAGE_DECREMENT` without any payloads
- (or with, but it will be ignored) to have the module change the displayed page 
+ (or with, but it will be ignored) to have the module change the displayed page
  by one.
 
-This module keeps internal track of how many pages you have, defined by your 
-config in the config file. There is no way to dynamically change the pages you 
+This module keeps internal track of how many pages you have, defined by your
+config in the config file. There is no way to dynamically change the pages you
 have. If there arises a need, please create an issue.
 
-This module sends one notification, `MAX_PAGES_CHANGED` to assist display 
-modules with how many pages they should display. However, this module does not 
-enforce what page other modules should indicate. This is intentional, because 
-any other module that needs a page change notification should be recieving from 
+This module sends one notification, `MAX_PAGES_CHANGED` to assist display
+modules with how many pages they should display. However, this module does not
+enforce what page other modules should indicate. This is intentional, because
+any other module that needs a page change notification should be receiving from
 the notification system.
+
+Finally, if you want to know what page you're currently on, send a `QUERY_PAGE_NUMBER`
+notification. The module will respond with a `PAGE_NUMBER_IS` notification,
+with the payload of the current page number.
 
 ## FAQ
 

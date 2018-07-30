@@ -85,8 +85,8 @@ Module.register('MMM-pages', {
         this.updatePages(true);
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
         break;
-      case 'REQUEST_CURRENT_PAGE':
-        this.sendNotification('CURRENT_PAGE_IS', this.curPage);
+      case 'QUERY_PAGE_NUMBER':
+        this.sendNotification('PAGE_NUMBER_IS', this.curPage);
         break;
       default:
     }
