@@ -19,7 +19,7 @@ Module.register('MMM-pages', {
   /**
    * Apply any styles, if we have any.
    */
-  getStyles: function () {
+  getStyles: function() {
     return ['pages.css'];
   },
 
@@ -29,7 +29,7 @@ Module.register('MMM-pages', {
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
-  mod: function (x, n) {
+  mod: function(x, n) {
     return ((x % n) + n) % n;
   },
 
@@ -37,7 +37,7 @@ Module.register('MMM-pages', {
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
-  start: function () {
+  start: function() {
     this.curPage = 0;
 
     // Disable rotation if an invalid input is given
@@ -74,7 +74,7 @@ Module.register('MMM-pages', {
         this.updatePages(true);
         break;
       case 'PAGE_INCREMENT':
-        Log.log(`${this.name} recieved a notification to increment pages!`);
+        Log.log(`${this.name} received a notification to increment pages!`);
         this.curPage = this.mod(
           this.curPage + ((isValidPayload) ? payload : 1),
           this.config.modules.length
@@ -82,7 +82,7 @@ Module.register('MMM-pages', {
         this.updatePages(true);
         break;
       case 'PAGE_DECREMENT':
-        Log.log(`${this.name} recieved a notification to decrement pages!`);
+        Log.log(`${this.name} received a notification to decrement pages!`);
         this.curPage = this.mod(
           this.curPage - ((isValidPayload) ? payload : 1),
           this.config.modules.length
@@ -108,7 +108,7 @@ Module.register('MMM-pages', {
    * elements.
    * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
-  updatePages: function (manuallyCalled) {
+  updatePages: function(manuallyCalled) {
     if (this.config.modules.length !== 0) {
       // We need to use self because upstream uses an older electron and thus
       // older version of node
