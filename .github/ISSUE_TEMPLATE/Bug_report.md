@@ -9,6 +9,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+(Please paste any information on reproducing the issue, for example:)
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -18,7 +19,8 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem. If you believe you have aptly described your issue in words, feel free to ignore this section.
+If applicable, add screenshots to help explain your problem. If you believe you
+have aptly described your issue in words, feel free to ignore/delete this section.
 
 **Please fill out the following information;**
  - Node version: [This can be obtained by running `node --version`]
