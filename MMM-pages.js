@@ -109,6 +109,7 @@ Module.register('MMM-pages', {
    * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
   updatePages: function(manuallyCalled) {
+    // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       // We need to use self because upstream uses an older electron and thus
       // older version of node
@@ -116,7 +117,8 @@ Module.register('MMM-pages', {
 
       Log.log(`updatePages was ${manuallyCalled ? '' : 'not'} manually called`);
 
-      // Hides the current page's elements.
+      // Hides the current page's elements; using half the animation time we
+      // were allowed to switch between modules.
       MM.getModules()
         .exceptWithClass(this.config.excludes)
         .exceptWithClass(this.config.modules[this.curPage])
@@ -127,7 +129,8 @@ Module.register('MMM-pages', {
           );
         });
 
-      // Shows the next page's elements
+      // Shows the next page's elements; after half the animation time, start
+      // the animations for showing the next page's modules.
       setTimeout(() => MM.getModules()
         .withClass(self.config.modules[self.curPage])
         .enumerate(module => module.show(
@@ -149,7 +152,7 @@ Module.register('MMM-pages', {
             );
             self.sendNotification('PAGE_INCREMENT');
             self.updatePages(false);
-          }, self.config.rotationTime, false);
+          }, self.config.rotationTime);
         }, this.config.rotationDelay);
       }
     } else { Log.error("Pages aren't properly defined!"); }
