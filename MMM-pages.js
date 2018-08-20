@@ -26,6 +26,7 @@ Module.register('MMM-pages', {
 
   /**
    * Modulo that also works with negative numbers.
+   *
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
@@ -51,110 +52,135 @@ Module.register('MMM-pages', {
    *   'PAGE_INCREMENT' - Move to the next page.
    *   'PAGE_DECREMENT' - Move to the previous page.
    *   'DOM_OBJECTS_CREATED' - Starts the module.
-   *   'REQUEST_CURRENT_PAGE' - Requests the current page number
+   *   'QUERY_PAGE_NUMBER' - Requests the current page number
+   *
    * @param {string} notification the notification ID
-   * @param {number} payload the page to change to
+   * @param {number} payload the page to change to/by
    */
   notificationReceived: function(notification, payload) {
-    const isValidPayload = typeof payload === 'number';
+    if (typeof payload !== 'number') {
+      Log.warn(`[Pages]: ${payload} is not a number!`);
+    }
 
-    Log.log(`[Pages]:${payload} is a number? ${isValidPayload}`);
-    Log.log(`[Pages]:${this.curPage + (isValidPayload) ? payload : 1}`);
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log(`${this.name} received a notification`
           + `to change to page ${payload} of type ${typeof payload}`);
-        if (typeof payload === 'number') {
-          this.curPage = payload;
-        } else {
-          Log.error('Was asked to change to an invalid number!');
-          Log.error(`Payload=${payload}, type=${typeof payload},
-            maxPageIndex=${this.config.modules.length - 1}`);
-        }
-        this.updatePages(true);
+        this.curPage = payload;
+        this.updatePages();
         break;
       case 'PAGE_INCREMENT':
         Log.log(`${this.name} received a notification to increment pages!`);
-        this.curPage = this.mod(
-          this.curPage + ((isValidPayload) ? payload : 1),
-          this.config.modules.length
-        );
-        this.updatePages(true);
+        this.changePageBy(payload, 1);
+        this.updatePages();
         break;
       case 'PAGE_DECREMENT':
         Log.log(`${this.name} received a notification to decrement pages!`);
-        this.curPage = this.mod(
-          this.curPage - ((isValidPayload) ? payload : 1),
-          this.config.modules.length
-        );
-        this.updatePages(true);
+        this.changePageBy(payload, -1);
+        this.updatePages();
         break;
       case 'DOM_OBJECTS_CREATED':
         Log.log(`${this.name} received that all objects are created;`
           + 'will now hide things!');
-        this.updatePages(true);
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
+        this.animatePageChange();
+        this.resetTimerWithDelay(0);
         break;
       case 'QUERY_PAGE_NUMBER':
         this.sendNotification('PAGE_NUMBER_IS', this.curPage);
         break;
-      default:
+      default: // Do nothing
     }
   },
 
-  // TODO: Add slide-left/right animation
+  /**
+   * Changes the internal page number by the specified amount. If the provided
+   * amount is invalid, use the fallback amount. If the fallback amount is
+   * missing or invalid, do nothing.
+   *
+   * @param {number} amt the amount of pages to move forward by. Accepts
+   * negative numbers.
+   * @param {number} fallback the fallback value to use. Accepts negative
+   * numbers.
+   */
+  changePageBy: function(amt, fallback) {
+    if (typeof amt === 'number') {
+      this.curPage = this.mod(
+        this.curPage + amt,
+        this.config.modules.length
+      );
+    } else if (typeof fallback === 'number') {
+      this.curPage = this.mod(
+        this.curPage + fallback,
+        this.config.modules.length
+      );
+    }
+  },
+
   /**
    * Handles hiding the current page's elements and showing the next page's
    * elements.
-   * @param {boolean} manuallyCalled whether or not to add in an extended delay.
    */
-  updatePages: function(manuallyCalled) {
+  updatePages: function() {
     // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       // We need to use self because upstream uses an older electron and thus
       // older version of node
-      const self = this;
 
-      Log.log(`updatePages was ${manuallyCalled ? '' : 'not'} manually called`);
+      this.animatePageChange();
 
-      // Hides the current page's elements; using half the animation time we
-      // were allowed to switch between modules.
-      MM.getModules()
-        .exceptWithClass(this.config.excludes)
-        .exceptWithClass(this.config.modules[this.curPage])
-        .enumerate((module) => {
-          module.hide(
-            self.config.animationTime / 2,
-            { lockString: self.identifier }
-          );
-        });
-
-      // Shows the next page's elements; after half the animation time, start
-      // the animations for showing the next page's modules.
-      setTimeout(() => MM.getModules()
-        .withClass(self.config.modules[self.curPage])
-        .enumerate(module => module.show(
-          self.config.animationTime / 2,
-          { lockString: self.identifier },
-        )), this.config.animationTime / 2);
-
-      if (manuallyCalled && this.config.rotationTime > 0) {
-        Log.log('Manually updated page! setting delay before resuming timer!');
-
-        clearInterval(this.timer);
-
-        setTimeout(() => {
-          self.timer = setInterval(() => {
-            // Incrementing page
-            self.curPage = self.mod(
-              self.curPage + 1,
-              self.config.modules.length
-            );
-            self.sendNotification('PAGE_INCREMENT');
-            self.updatePages(false);
-          }, self.config.rotationTime);
-        }, this.config.rotationDelay);
+      if (this.config.rotationTime > 0) {
+        this.resetTimerWithDelay(this.config.rotationDelay);
       }
     } else { Log.error("Pages aren't properly defined!"); }
+  },
+
+  /**
+   * Animates the page change from the previous page to the current one. This
+   * assumes that there is a discrepancy between the page currently being shown
+   * and the page that is meant to be shown.
+   */
+  animatePageChange: function() {
+    const self = this;
+
+    // Hides all modules not on the current page. This hides any module not
+    // meant to be shown.
+    MM.getModules()
+      .exceptWithClass(this.config.excludes)
+      .exceptWithClass(this.config.modules[this.curPage])
+      .enumerate(module => module.hide(
+        self.config.animationTime / 2,
+        { lockString: self.identifier }
+      ));
+
+    // Shows all modules meant to be on the current page, after a small delay.
+    setTimeout(() => MM.getModules()
+      .withClass(this.config.modules[self.curPage])
+      .enumerate(module => module.show(
+        self.config.animationTime / 2,
+        { lockString: self.identifier },
+      )), this.config.animationTime / 2);
+  },
+
+  /**
+   * Resets the page changing timer with a delay.
+   *
+   * @param {number} delay the delay, in milliseconds.
+   */
+  resetTimerWithDelay: function(delay) {
+    if (this.config.rotationTime > 0) {
+      // This timer is the auto rotate function.
+      clearInterval(this.timer);
+      // This is delay timer after manually updating.
+      clearInterval(this.delayTimer);
+      const self = this;
+
+      this.delayTimer = setTimeout(() => {
+        self.timer = setInterval(() => {
+          self.changePageBy(1);
+          self.updatePages();
+        }, self.config.rotationTime);
+      }, delay);
+    }
   },
 });
