@@ -177,6 +177,7 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
+          self.sendNotification('PAGE_INCREMENT');
           self.changePageBy(1);
           self.updatePages();
         }, self.config.rotationTime);
