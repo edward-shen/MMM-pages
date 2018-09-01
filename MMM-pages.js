@@ -58,29 +58,25 @@ Module.register('MMM-pages', {
    * @param {number} payload the page to change to/by
    */
   notificationReceived: function(notification, payload) {
-    if (typeof payload !== 'number') {
-      Log.warn(`[Pages]: ${payload} is not a number!`);
-    }
-
     switch (notification) {
       case 'PAGE_CHANGED':
-        Log.log(`${this.name} received a notification`
+        Log.log('[Pages]: received a notification '
           + `to change to page ${payload} of type ${typeof payload}`);
         this.curPage = payload;
         this.updatePages();
         break;
       case 'PAGE_INCREMENT':
-        Log.log(`${this.name} received a notification to increment pages!`);
+        Log.log('[Pages]: received a notification to increment pages!');
         this.changePageBy(payload, 1);
         this.updatePages();
         break;
       case 'PAGE_DECREMENT':
-        Log.log(`${this.name} received a notification to decrement pages!`);
+        Log.log('[Pages]: received a notification to decrement pages!');
         this.changePageBy(payload, -1);
         this.updatePages();
         break;
       case 'DOM_OBJECTS_CREATED':
-        Log.log(`${this.name} received that all objects are created;`
+        Log.log('[Pages]: received that all objects are created;'
           + 'will now hide things!');
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
         this.animatePageChange();
@@ -104,6 +100,10 @@ Module.register('MMM-pages', {
    * numbers.
    */
   changePageBy: function(amt, fallback) {
+    if (typeof payload !== 'number') {
+      Log.warn(`[Pages]: ${amt} is not a number!`);
+    }
+
     if (typeof amt === 'number') {
       this.curPage = this.mod(
         this.curPage + amt,
@@ -124,15 +124,9 @@ Module.register('MMM-pages', {
   updatePages: function() {
     // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
-      // We need to use self because upstream uses an older electron and thus
-      // older version of node
-
       this.animatePageChange();
-
-      if (this.config.rotationTime > 0) {
-        this.resetTimerWithDelay(this.config.rotationDelay);
-      }
-    } else { Log.error("Pages aren't properly defined!"); }
+      this.resetTimerWithDelay(this.config.rotationDelay);
+    } else { Log.error("[Pages]: Pages aren't properly defined!"); }
   },
 
   /**
@@ -155,7 +149,7 @@ Module.register('MMM-pages', {
 
     // Shows all modules meant to be on the current page, after a small delay.
     setTimeout(() => MM.getModules()
-      .withClass(this.config.modules[self.curPage])
+      .withClass(self.config.modules[self.curPage])
       .enumerate(module => module.show(
         self.config.animationTime / 2,
         { lockString: self.identifier },
