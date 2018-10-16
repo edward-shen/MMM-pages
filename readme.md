@@ -77,8 +77,8 @@ this.sendNotification("PAGE_CHANGED", 2);
 This would cause the module to change show that you are on page 3.
 
 You can also just send `PAGE_INCREMENT` or `PAGE_DECREMENT` without any payloads
- (or with, but it will be ignored) to have the module change the displayed page
- by one.
+to have the module change the displayed page by one. If you attach a payload to 
+these commands, it will attempt to the nth next page or nth previous page.
 
 This module keeps internal track of how many pages you have, defined by your
 config in the config file. There is no way to dynamically change the pages you

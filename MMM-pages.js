@@ -72,7 +72,7 @@ Module.register('MMM-pages', {
         break;
       case 'PAGE_DECREMENT':
         Log.log('[Pages]: received a notification to decrement pages!');
-        this.changePageBy(payload, -1);
+        this.changePageBy(-payload, -1);
         this.updatePages();
         break;
       case 'DOM_OBJECTS_CREATED':
@@ -104,7 +104,7 @@ Module.register('MMM-pages', {
       Log.warn(`[Pages]: ${amt} is not a number!`);
     }
 
-    if (typeof amt === 'number') {
+    if (typeof amt === 'number' && !isNaN(amt)) {
       this.curPage = this.mod(
         this.curPage + amt,
         this.config.modules.length
