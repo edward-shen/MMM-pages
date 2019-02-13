@@ -10,7 +10,8 @@ Module.register('MMM-pages', {
    */
   defaults: {
     modules: [],
-    excludes: ['MMM-page-indicator'],
+    excludes: [], // Keep for compatibility
+    fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
     rotationDelay: 10000
@@ -40,6 +41,12 @@ Module.register('MMM-pages', {
    */
   start: function() {
     this.curPage = 0;
+    
+    // Compatibility
+    if (this.config.excludes.length) {
+      Log.warn(`[Pages]: The config option "excludes" is deprecated. Please use "fixed" instead.`);
+      this.config.fixed = this.config.excludes;
+    }
 
     // Disable rotation if an invalid input is given
     this.config.rotationTime = Math.max(this.config.rotationTime, 0);
@@ -140,7 +147,7 @@ Module.register('MMM-pages', {
     // Hides all modules not on the current page. This hides any module not
     // meant to be shown.
     MM.getModules()
-      .exceptWithClass(this.config.excludes)
+      .exceptWithClass(this.config.fixed)
       .exceptWithClass(this.config.modules[this.curPage])
       .enumerate(module => module.hide(
         self.config.animationTime / 2,

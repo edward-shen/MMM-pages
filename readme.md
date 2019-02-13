@@ -42,7 +42,7 @@ modules: [
                 modules:
                     [[ "weatherforecast", "newsfeed"],
                      [ "calendar", "compliments" ]],
-                excludes: ["clock", "currentweather", "MMM-page-indicator"],
+                fixed: ["clock", "currentweather", "MMM-page-indicator"],
         }
     }
 ]
@@ -50,12 +50,13 @@ modules: [
 
 ## Configuration options
 
-| Option          | Type               | Default Value            | Description                                                                                                                                                                                                                                                                                                                            |
-| --------------- | ------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `modules`       | `[[String...]...]` | `[]`                     | A 2D String array of what each module should be on which page. Notethat all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix.                                                                                           |
-| `excludes`      | `[String...]`      | `["MMM-page-indicator"]` | Which modules should show up all the time.                                                                                                                                                                                                                                                                                             |
-| `animationTime` | `int`              | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds).                                                                                                                                                                                                                         |
-| `rotationTime`  | `int`              | `0`                      | Time, in milliseconds, between automatic page changes.                                                                                                                                                                                                                                                                                 |
+| Option          | Type               | Default Value            | Description |
+| --------------- | ------------------ | ------------------------ | --------- |
+| `modules`       | `[[String...]...]` | `[]`                     | A 2D String array of what each module should be on which page. Notethat all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
+| `excludes`      | *None*             | *None*                   | **Deprecated** Use `fixed` instead. |
+| `fixed`         | `[String...]`      | `["MMM-page-indicator"]` | Which modules should show up all the time. |
+| `animationTime` | `int`              | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
+| `rotationTime`  | `int`              | `0`                      | Time, in milliseconds, between automatic page changes. |
 | `delayTime`     | `int`              | `0`                      | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
 
 For the `module` configuration option, the first element of the outer array
