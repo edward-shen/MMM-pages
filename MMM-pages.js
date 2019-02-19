@@ -155,12 +155,16 @@ Module.register('MMM-pages', {
       ));
 
     // Shows all modules meant to be on the current page, after a small delay.
-    setTimeout(() => MM.getModules()
-      .withClass(self.config.modules[self.curPage])
-      .enumerate(module => module.show(
-        self.config.animationTime / 2,
-        { lockString: self.identifier },
-      )), this.config.animationTime / 2);
+    setTimeout(() => {
+      MM.getModules()
+        .withClass(self.config.modules[self.curPage])
+        .enumerate((module) => {
+          module.show(
+            self.config.animationTime / 2,
+            { lockString: self.identifier }
+          );
+        });
+    }, this.config.animationTime / 2);
   },
 
   /**
