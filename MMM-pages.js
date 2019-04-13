@@ -107,7 +107,7 @@ Module.register('MMM-pages', {
    * numbers.
    */
   changePageBy: function(amt, fallback) {
-    if (typeof payload !== 'number') {
+    if (typeof amt !== 'number') {
       Log.warn(`[Pages]: ${amt} is not a number!`);
     }
 
