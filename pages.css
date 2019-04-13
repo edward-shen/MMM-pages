@@ -1,5 +1,6 @@
-/* This css page is reserved for future use. */
-
-.fullscreen.above {
-	 z-index: -1
- }
+.mmm-pages-slide-out {
+	transform: translateX(-200vw);
+}
+.mmm-pages-slide-in {
+	transform: translateX(-100vw);
+}

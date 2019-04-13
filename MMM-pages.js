@@ -14,7 +14,8 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
-    rotationDelay: 10000
+    rotationDelay: 10000,
+    slideAnimation: false,
   },
 
   /**
@@ -144,27 +145,57 @@ Module.register('MMM-pages', {
   animatePageChange: function() {
     const self = this;
 
-    // Hides all modules not on the current page. This hides any module not
-    // meant to be shown.
-    MM.getModules()
-      .exceptWithClass(this.config.fixed)
-      .exceptWithClass(this.config.modules[this.curPage])
-      .enumerate(module => module.hide(
-        self.config.animationTime / 2,
-        { lockString: self.identifier }
-      ));
+    if (this.config.slideAnimation) {
+      MM.getModules()
+        .exceptWithClass(this.config.fixed)
+        .exceptWithClass(this.config.modules[this.curPage])
+        .enumerate(module => {
+          const element = document.getElementById(module.data.identifier);
+          if (element) {
+            element.classList.add("mmm-pages-slide-out");
+            element.classList.remove("mmm-pages-slide-in");
+          }
+          setTimeout(() => {
+            module.hide(0, { lockString: self.identifier });
+            if (element) {
+              element.classList.remove("mmm-pages-slide-out");
+            }
+          }, self.config.animationTime);
+        });
 
-    // Shows all modules meant to be on the current page, after a small delay.
-    setTimeout(() => {
       MM.getModules()
         .withClass(self.config.modules[self.curPage])
         .enumerate((module) => {
-          module.show(
-            self.config.animationTime / 2,
-            { lockString: self.identifier }
-          );
+          const element = document.getElementById(module.data.identifier);
+          if (element) {
+            element.classList.add("mmm-pages-slide-in");
+          }
+          module.show(0, { lockString: self.identifier } );
         });
-    }, this.config.animationTime / 2);
+        
+    } else {
+      // Hides all modules not on the current page. This hides any module not
+      // meant to be shown.
+      MM.getModules()
+        .exceptWithClass(this.config.fixed)
+        .exceptWithClass(this.config.modules[this.curPage])
+        .enumerate(module => module.hide(
+          self.config.animationTime / 2,
+          { lockString: self.identifier }
+        ));
+
+      // Shows all modules meant to be on the current page, after a small delay.
+      setTimeout(() => {
+        MM.getModules()
+          .withClass(self.config.modules[self.curPage])
+          .enumerate((module) => {
+            module.show(
+              self.config.animationTime / 2,
+              { lockString: self.identifier }
+            );
+          });
+      }, this.config.animationTime / 2);
+    }
   },
 
   /**
