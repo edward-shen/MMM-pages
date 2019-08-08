@@ -44,7 +44,7 @@ Module.register('MMM-pages', {
 
     // Compatibility
     if (this.config.excludes.length) {
-      Log.warn(`[Pages]: The config option "excludes" is deprecated. Please use "fixed" instead.`);
+      Log.warn('[Pages]: The config option "excludes" is deprecated. Please use "fixed" instead.');
       this.config.fixed = this.config.excludes;
     }
 
@@ -113,7 +113,7 @@ Module.register('MMM-pages', {
       Log.warn(`[Pages]: ${amt} is not a number!`);
     }
 
-    if (typeof amt === 'number' && !isNaN(amt)) {
+    if (typeof amt === 'number' && !Number.isNaN(amt)) {
       this.curPage = this.mod(
         this.curPage + amt,
         this.config.modules.length
