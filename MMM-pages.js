@@ -41,7 +41,7 @@ Module.register('MMM-pages', {
    */
   start: function() {
     this.curPage = 0;
-    
+
     // Compatibility
     if (this.config.excludes.length) {
       Log.warn(`[Pages]: The config option "excludes" is deprecated. Please use "fixed" instead.`);
@@ -79,7 +79,9 @@ Module.register('MMM-pages', {
         break;
       case 'PAGE_DECREMENT':
         Log.log('[Pages]: received a notification to decrement pages!');
-        this.changePageBy(-payload, -1);
+        // We can't just pass in -payload for situations where payload is null
+        // JS will coerce -payload to -0.
+        this.changePageBy(payload ? -payload : payload, -1);
         this.updatePages();
         break;
       case 'DOM_OBJECTS_CREATED':
