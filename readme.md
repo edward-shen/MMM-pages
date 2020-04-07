@@ -78,7 +78,7 @@ this.sendNotification("PAGE_CHANGED", 2);
 This would cause the module to change show that you are on page 3.
 
 You can also just send `PAGE_INCREMENT` or `PAGE_DECREMENT` without any payloads
-to have the module change the displayed page by one. If you attach a payload to 
+to have the module change the displayed page by one. If you attach a payload to
 these commands, it will attempt to the nth next page or nth previous page.
 
 This module keeps internal track of how many pages you have, defined by your
@@ -91,9 +91,13 @@ enforce what page other modules should indicate. This is intentional, because
 any other module that needs a page change notification should be receiving from
 the notification system.
 
-Finally, if you want to know what page you're currently on, send a `QUERY_PAGE_NUMBER`
+If you want to know what page you're currently on, send a `QUERY_PAGE_NUMBER`
 notification. The module will respond with a `PAGE_NUMBER_IS` notification,
 with the payload of the current page number.
+
+This module also sends a `NEW_PAGE` notification on every page update. The
+payload is identical to as if one sent a `QUERY_PAGE_NUMBER` notification. A
+separate notification tag is used for compatibility reasons.
 
 ## FAQ
 

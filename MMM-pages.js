@@ -20,7 +20,7 @@ Module.register('MMM-pages', {
   /**
    * Apply any styles, if we have any.
    */
-  getStyles: function() {
+  getStyles: function () {
     return ['pages.css'];
   },
 
@@ -31,7 +31,7 @@ Module.register('MMM-pages', {
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
-  mod: function(x, n) {
+  mod: function (x, n) {
     return ((x % n) + n) % n;
   },
 
@@ -39,7 +39,7 @@ Module.register('MMM-pages', {
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
-  start: function() {
+  start: function () {
     this.curPage = 0;
 
     // Compatibility
@@ -64,7 +64,7 @@ Module.register('MMM-pages', {
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to/by
    */
-  notificationReceived: function(notification, payload) {
+  notificationReceived: function (notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log('[Pages]: received a notification '
@@ -108,7 +108,7 @@ Module.register('MMM-pages', {
    * @param {number} fallback the fallback value to use. Accepts negative
    * numbers.
    */
-  changePageBy: function(amt, fallback) {
+  changePageBy: function (amt, fallback) {
     if (typeof amt !== 'number') {
       Log.warn(`[Pages]: ${amt} is not a number!`);
     }
@@ -130,11 +130,12 @@ Module.register('MMM-pages', {
    * Handles hiding the current page's elements and showing the next page's
    * elements.
    */
-  updatePages: function() {
+  updatePages: function () {
     // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
       this.resetTimerWithDelay(this.config.rotationDelay);
+      this.sendNotification('NEW_PAGE', this.curPage);
     } else { Log.error("[Pages]: Pages aren't properly defined!"); }
   },
 
@@ -143,7 +144,7 @@ Module.register('MMM-pages', {
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
    */
-  animatePageChange: function() {
+  animatePageChange: function () {
     const self = this;
 
     // Hides all modules not on the current page. This hides any module not
@@ -174,7 +175,7 @@ Module.register('MMM-pages', {
    *
    * @param {number} delay the delay, in milliseconds.
    */
-  resetTimerWithDelay: function(delay) {
+  resetTimerWithDelay: function (delay) {
     if (this.config.rotationTime > 0) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
