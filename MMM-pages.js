@@ -41,6 +41,7 @@ Module.register('MMM-pages', {
    */
   start: function () {
     this.curPage = 0;
+    this.rotationPaused = false;
 
     // Compatibility
     if (this.config.excludes.length) {
@@ -94,6 +95,25 @@ Module.register('MMM-pages', {
       case 'QUERY_PAGE_NUMBER':
         this.sendNotification('PAGE_NUMBER_IS', this.curPage);
         break;
+      case 'PAUSE_ROTATION':
+        if (!this.rotationPaused) {
+          Log.log('[Pages]: pausing rotation due to notification');
+          this.clearInterval(this.timer);
+          this.clearInterval(this.delayTimer);
+          this.rotationPaused = true;
+        } else {
+          Log.warn('[Pages]: Was asked to paused but rotation was already paused!');
+        }
+        break;
+      case 'RESUME_ROTATION':
+        if (this.rotationPaused) {
+          Log.log('[Pages]: resuming rotation due to notification');
+          this.resetTimerWithDelay(this.rotationDelay);
+          this.rotationPaused = false;
+        } else {
+          Log.warn('[Pages]: Was asked to resume but rotation was not paused!');
+        }
+        break;
       default: // Do nothing
     }
   },
@@ -134,7 +154,9 @@ Module.register('MMM-pages', {
     // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
-      this.resetTimerWithDelay(this.config.rotationDelay);
+      if (!this.rotationPaused) {
+        this.resetTimerWithDelay(this.config.rotationDelay);
+      }
       this.sendNotification('NEW_PAGE', this.curPage);
     } else { Log.error("[Pages]: Pages aren't properly defined!"); }
   },
