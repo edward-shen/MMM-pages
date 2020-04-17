@@ -98,8 +98,8 @@ Module.register('MMM-pages', {
       case 'PAUSE_ROTATION':
         if (!this.rotationPaused) {
           Log.log('[Pages]: pausing rotation due to notification');
-          this.clearInterval(this.timer);
-          this.clearInterval(this.delayTimer);
+          clearInterval(this.timer);
+          clearInterval(this.delayTimer);
           this.rotationPaused = true;
         } else {
           Log.warn('[Pages]: Was asked to paused but rotation was already paused!');
