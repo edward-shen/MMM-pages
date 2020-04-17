@@ -99,6 +99,9 @@ This module also sends a `NEW_PAGE` notification on every page update. The
 payload is identical to as if one sent a `QUERY_PAGE_NUMBER` notification. A
 separate notification tag is used for compatibility reasons.
 
+If you wish to pause the auto rotation, send a `PAUSE_ROTATION` event. Likewise,
+you can send a `RESUME_ROTATION` event to resume it.
+
 ## FAQ
 
 - Help! My module is (above/below) another module in the same region but I want
