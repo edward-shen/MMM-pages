@@ -14,7 +14,7 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
-    rotationFirstpage: 0,
+    rotationFirstPage: 0,
     rotationDelay: 10000
   },
 
