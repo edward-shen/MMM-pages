@@ -14,6 +14,7 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
+    rotationFirstPage: 0,
     rotationDelay: 10000
   },
 
@@ -52,6 +53,7 @@ Module.register('MMM-pages', {
     // Disable rotation if an invalid input is given
     this.config.rotationTime = Math.max(this.config.rotationTime, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
+    this.config.rotationFirstPage = Math.max(this.config.rotationFirstPage, 0);
   },
 
   /**
@@ -212,6 +214,20 @@ Module.register('MMM-pages', {
           self.updatePages();
         }, self.config.rotationTime);
       }, delay);
-    }
+    } else if (this.config.rotationFirstPage > 0) {
+      // This timer is the auto rotate function.
+      clearInterval(this.timer);
+      // This is delay timer after manually updating.
+      clearInterval(this.delayTimer);
+      const self = this;
+
+      this.delayTimer = setTimeout(() => {
+        self.timer = setInterval(() => {
+          self.sendNotification('PAGE_CHANGED', 0);
+          self.curPage = 0;
+          self.updatePages();
+        }, self.config.rotationFirstPage);
+      }, delay);
+     }
   },
 });
