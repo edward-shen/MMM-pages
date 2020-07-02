@@ -15,7 +15,8 @@ Module.register('MMM-pages', {
     animationTime: 1000,
     rotationTime: 0,
     rotationFirstPage: 0,
-    rotationDelay: 10000
+    rotationDelay: 10000,
+    subclassBy: "header"
   },
 
   /**
@@ -173,23 +174,51 @@ Module.register('MMM-pages', {
 
     // Hides all modules not on the current page. This hides any module not
     // meant to be shown.
+
+var subclassBy = this.config.subclassBy;
+var majorModules = this.config.modules[this.curPage].map(function(a){ return a.split('.')[0]});
+var minorModules = this.config.modules[this.curPage].map(function(a){ var b = a.split('.')
+ if (b.length>1){return {major:b[0], minor: b[1]}} else {return {major:a}};
+});
+
     MM.getModules()
       .exceptWithClass(this.config.fixed)
-      .exceptWithClass(this.config.modules[this.curPage])
+      .exceptWithClass(majorModules)
       .enumerate(module => module.hide(
         self.config.animationTime / 2,
         { lockString: self.identifier }
       ));
 
+      var shortlist = MM.getModules()
+      .withClass(majorModules);
+    
+      shortlist.enumerate((module) => {
+        var mdata = module.data;
+        if (minorModules.find( function(el) { 
+          return (mdata.name === el.major) && (!el.minor || (mdata[subclassBy] === el.minor))} 
+          )) {
+          
+        console.log("should not hide this");
+         } else {
+          
+          module.hide(
+            self.config.animationTime / 2,
+            { lockString: self.identifier }
+            )} ;
+      });
+
     // Shows all modules meant to be on the current page, after a small delay.
     setTimeout(() => {
-      MM.getModules()
-        .withClass(self.config.modules[self.curPage])
-        .enumerate((module) => {
+        shortlist.enumerate((module) => {
+          var mdata = module.data;
+          if (minorModules.find( function(el) { 
+            return (mdata.name === el.major) && (!el.minor || (mdata[subclassBy] === el.minor))} 
+            )) {
+            
           module.show(
             self.config.animationTime / 2,
             { lockString: self.identifier }
-          );
+          ) } 
         });
     }, this.config.animationTime / 2);
   },
