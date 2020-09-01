@@ -15,7 +15,8 @@ Module.register('MMM-pages', {
     animationTime: 1000,
     rotationTime: 0,
     rotationFirstPage: 0,
-    rotationDelay: 10000
+    rotationDelay: 10000,
+    homePage: 0
   },
 
   /**
@@ -41,7 +42,11 @@ Module.register('MMM-pages', {
    * and sets the default current page to 0.
    */
   start: function () {
-    this.curPage = 0;
+    // Clamp homePage value to [0, num pages).
+    if (this.config.homePage >= this.config.modules.length || this.config.homePage < 0) {
+      this.config.homePage = 0;
+    }
+    this.curPage = this.config.homePage;
     this.rotationPaused = false;
 
     // Compatibility
@@ -63,6 +68,9 @@ Module.register('MMM-pages', {
    *   'PAGE_DECREMENT' - Move to the previous page.
    *   'DOM_OBJECTS_CREATED' - Starts the module.
    *   'QUERY_PAGE_NUMBER' - Requests the current page number
+   *   'PAUSE_ROTATION' - Stops rotation
+   *   'RESUME_ROTATION' - Resumes rotation
+   *   'HOME_PAGE' - Calls PAGED_CHANGED with the default home page.
    *
    * @param {string} notification the notification ID
    * @param {number} payload the page to change to/by
@@ -115,6 +123,9 @@ Module.register('MMM-pages', {
         } else {
           Log.warn('[Pages]: Was asked to resume but rotation was not paused!');
         }
+        break;
+      case 'HOME_PAGE':
+        this.notificationReceived('PAGE_CHANGED', this.config.homePage);
         break;
       default: // Do nothing
     }
@@ -228,6 +239,6 @@ Module.register('MMM-pages', {
           self.updatePages();
         }, self.config.rotationFirstPage);
       }, delay);
-     }
+    }
   },
 });
