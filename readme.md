@@ -65,7 +65,7 @@ For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
 should consist of elements that should be on the second page, and so forth.
 
-## Regarding notifications
+## Notifications
 
 This module responds to the notification `PAGE_CHANGED`. The payload should be
 an `integer`. Note that this has strict error checking, so `"3"` will not work,
@@ -105,6 +105,17 @@ If you wish to pause the auto rotation, send a `PAUSE_ROTATION` event. Likewise,
 you can send a `RESUME_ROTATION` event to resume it.
 
 If you want to return to the home page, simply send a `HOME_PAGE` notification.
+
+### Initialization
+
+_This section provides documentation on what notifications the module sends on
+startup. This section isn't necessary to read for most users._
+
+MMM-pages doesn't activate until we receive the `DOM_OBJECTS_CREATED`
+notification, as that notification ensures all modules have been loaded. On this
+notification, we send two notifications out, `MAX_PAGES_CHANGED` and `NEW_PAGE`,
+so other modules that would like to keep synchronized of the starting page and
+max pages have a way to determine which page to start on.
 
 ## FAQ
 
