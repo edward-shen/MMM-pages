@@ -5,7 +5,7 @@ This [MagicMirror²][mm] Module allows you to have pages in your magic mirror!
 Want to have more modules in your magic mirror, but want to keep the format?
 Or, want to have grouped modules that are themed together? Look no further!
 
-[Click here to see an example of it in action!][example_url]
+![Example](example.webp)
 
 Note that this module does not provide any method of manually changing the page!
 You should ask other developers to add a notification to their modules, or add
