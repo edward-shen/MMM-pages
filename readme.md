@@ -53,13 +53,14 @@ modules: [
 | Option              | Type               | Default Value            | Description |
 | ------------------- | ------------------ | ------------------------ | ----------- |
 | `modules`           | `[[String...]...]` | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
-| `excludes`          | *None*             | *None*                   | **Deprecated** Use `fixed` instead. |
 | `fixed`             | `[String...]`      | `["MMM-page-indicator"]` | Which modules should show up all the time. |
+| `excludes`          | *NA*               | *NA*                     | **Deprecated**. Use `fixed` instead. |
 | `animationTime`     | `int`              | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
 | `rotationTime`      | `int`              | `0`                      | Time, in milliseconds, between automatic page changes. |
 | `rotationDelay`     | `int`              | `0`                      | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
-| `rotationFirstPage` | `int`              | `0`                      | Time, in milliseconds, before automatically returning to the first page. |
-| `homePage`          | `int`              | `0`                      | Which page index is the home page. |
+| `rotationHomePage` | `int`               | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead.|
+| `rotationFirstPage` | *NA*               | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
+| `homePage`          | `int`              | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead. |
 
 For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
@@ -67,44 +68,46 @@ should consist of elements that should be on the second page, and so forth.
 
 ## Notifications
 
-This module responds to the notification `PAGE_CHANGED`. The payload should be
-an `integer`. Note that this has strict error checking, so `"3"` will not work,
-while `3` will. Also do note that to switch to page 1, you need to send `0` to
-the module. **This uses a zero-based numbering system.**
+The following is the list of notifications that MMM-pages will handle:
 
-Let's say that you want to change the indicator to page 3. In your code, you
-would write:
+| Notification        | Payload type    | Description |
+| ------------------- | --------------- | ----------- |
+| `PAGE_CHANGED`      | `int`           | MMM-pages will switch to the provided page index. |
+| `PAGE_INCREMENT`    | `int`, Optional | MMM-pages will increment the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to increment by, this will loop around to the first page. |
+| `PAGE_DECREMENT`    | `int`, Optional | MMM-pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page. |
+| `QUERY_PAGE_NUMBER` | *None*          | MMM-pages will respond with `PAGE_NUMBER_IS` with the current page index. |
+| `PAUSE_ROTATION`    | *None*          | If MMM-pages is set to rotate, this will pause rotation until a `RESUME_ROTATION` notification is sent. This does nothing if rotation was already paused. |
+| `RESUME_ROTATION`   | *None*          | If MMM-pages was requested to pause rotation, this will resume automatic rotation. This does nothing MMM-pages was not requested to pause. |
+| `HOME_PAGE`         | *None*          | Return to the home page. If no home page is provided, return to the first page instead. |
+
+The following is the list of notifications that MMM-pages sends out:
+
+| Notification | Payload type | Description |
+| --- | --- | --- |
+| `MAX_PAGES_CHANGED` | `int` | This is sent only once during initialization of MMM-pages. This contains the number of pages defined in `config.js`. |
+| `NEW_PAGE` | `int` | This notification is sent out on every page change and contains the  current page index. This is to help other modules keep track of what the current page is. |
+| `PAGE_NUMBER_IS` | `int` | Sent in response to a `QUERY_PAGE_NUMBER` notification. Returns the current page index. This notification sends the same payload as `NEW_PAGE`. |
+
+### Notes
+
+This module responds to the notification `PAGE_CHANGED` and the payload strictly
+must be an `integer`. Note that this has strict error checking, so `"3"` will
+not work, while `3` will.
+
+This module keeps track of pages by their index rather than their page number,
+so the leftmost page has an index of 0, the page to the right of that has an
+index of 1, and the page to the right of that has an index of 2. Thus, to change
+to the third page, your module should send out:
 ```js
 this.sendNotification("PAGE_CHANGED", 2);
 ```
-This would cause the module to change show that you are on page 3.
-
-You can also just send `PAGE_INCREMENT` or `PAGE_DECREMENT` without any payloads
-to have the module change the displayed page by one. If you attach a payload to
-these commands, it will attempt to the nth next page or nth previous page.
 
 This module keeps internal track of how many pages you have, defined by your
 config in the config file. There is no way to dynamically change the pages you
 have. If there arises a need, please create an issue.
 
-This module sends one notification, `MAX_PAGES_CHANGED` to assist display
-modules with how many pages they should display. However, this module does not
-enforce what page other modules should indicate. This is intentional, because
-any other module that needs a page change notification should be receiving from
-the notification system.
-
-If you want to know what page you're currently on, send a `QUERY_PAGE_NUMBER`
-notification. The module will respond with a `PAGE_NUMBER_IS` notification,
-with the payload of the current page number.
-
-This module also sends a `NEW_PAGE` notification on every page update. The
-payload is identical to as if one sent a `QUERY_PAGE_NUMBER` notification. A
-separate notification tag is used for compatibility reasons.
-
-If you wish to pause the auto rotation, send a `PAUSE_ROTATION` event. Likewise,
-you can send a `RESUME_ROTATION` event to resume it.
-
-If you want to return to the home page, simply send a `HOME_PAGE` notification.
+This module does not enforce how other modules represents or even responds to
+MMM-pages notifications.
 
 ### Initialization
 
@@ -118,6 +121,14 @@ so other modules that would like to keep synchronized of the starting page and
 max pages have a way to determine which page to start on.
 
 ## FAQ
+- How do I interact with different pages?
+
+  MMM-pages intentionally does not provide methods to interact with the pages.
+  This is intentional by design, as there are too many ways to interact with a
+  Magic Mirror. [MMM-page-indicator][page indicator] does provide a way to click
+  on the circles to change pages, but this requires the ability to click or tap
+  on the circles itself. If no other method is available, MMM-pages provides an
+  automatic rotation feature.
 
 - Help! My module is (above/below) another module in the same region but I want
   it to be somewhere else!
