@@ -14,7 +14,8 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
-    rotationFirstPage: 0,
+    rotationFirstPage: 0,  // Keep for compatibility
+    rotationHomePage: 0,
     rotationDelay: 10000,
     homePage: 0
   },
@@ -55,10 +56,15 @@ Module.register('MMM-pages', {
       this.config.fixed = this.config.excludes;
     }
 
+    if (this.config.rotationFirstPage) {
+      Log.warn('[Pages]: The config option "rotationFirstPage" is deprecated. Please used "rotationHomePage" instead.');
+      this.config.rotationHomePage = this.config.rotationFirstPage;
+    }
+
     // Disable rotation if an invalid input is given
     this.config.rotationTime = Math.max(this.config.rotationTime, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
-    this.config.rotationFirstPage = Math.max(this.config.rotationFirstPage, 0);
+    this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
   },
 
   /**
@@ -221,12 +227,10 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
-          self.sendNotification('PAGE_INCREMENT');
-          self.changePageBy(1);
-          self.updatePages();
+          self.notificationReceived('PAGE_INCREMENT');
         }, self.config.rotationTime);
       }, delay);
-    } else if (this.config.rotationFirstPage > 0) {
+    } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
       // This is delay timer after manually updating.
@@ -235,10 +239,8 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
-          self.sendNotification('PAGE_CHANGED', 0);
-          self.curPage = 0;
-          self.updatePages();
-        }, self.config.rotationFirstPage);
+          self.notificationReceived('PAGE_CHANGED', self.homePage);
+        }, self.config.rotationHomePage);
       }, delay);
     }
   },
