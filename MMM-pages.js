@@ -99,6 +99,7 @@ Module.register('MMM-pages', {
         Log.log('[Pages]: received that all objects are created;'
           + 'will now hide things!');
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
+        this.sendNotification('PAGE_CHANGED', this.curPage);
         this.animatePageChange();
         this.resetTimerWithDelay(0);
         break;
