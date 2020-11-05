@@ -18,10 +18,13 @@ In your terminal, go to your MagicMirror's Module folder:
 ```bash
 cd ~/MagicMirror/modules
 ```
+
 Clone this repository:
+
 ```bash
 git clone https://github.com/edward-shen/MMM-pages.git
 ```
+
 Configure the module in your config.js file.
 
 *\<self-promotion>*
@@ -33,7 +36,9 @@ To display what page you're on, I'd highly recommend checking out my
 
 ## Using the module
 
-To use this module, add it to the modules array in the `config/config.js` file:
+To use this module, add it to the modules array in the `config/config.js` file.  
+Note: module names used in the following example can be fictitious.
+
 ```js
 modules: [
     {
@@ -43,6 +48,10 @@ modules: [
                     [[ "weatherforecast", "newsfeed"],
                      [ "calendar", "compliments" ]],
                 fixed: ["clock", "currentweather", "MMM-page-indicator"],
+                hiddenPages: {
+                    "screenSaver": [ "clock", "MMM-SomeBackgroundImageModule" ],
+                    "admin": [ "MMM-ShowMeSystemStatsModule", "MMM-AnOnScreenMenuModule" ],
+                },
         }
     }
 ]
@@ -98,6 +107,7 @@ This module keeps track of pages by their index rather than their page number,
 so the leftmost page has an index of 0, the page to the right of that has an
 index of 1, and the page to the right of that has an index of 2. Thus, to change
 to the third page, your module should send out:
+
 ```js
 this.sendNotification("PAGE_CHANGED", 2);
 ```
@@ -120,7 +130,19 @@ notification, we send two notifications out, `MAX_PAGES_CHANGED` and `NEW_PAGE`,
 so other modules that would like to keep synchronized of the starting page and
 max pages have a way to determine which page to start on.
 
+### Hidden pages
+
+The idea behind hidden pages is to be able to create special "modes" which
+are totally configurable by the user and are seperated from the "normal" MM² operation.
+Some examples would be a "guest", "admin" or "screensaver" mode, where only very
+specific modules are shown and you do not want to have them in your normal page roation.
+
+These hidden pages are only accessible via notifications, so you need to send them from
+other modules. Examples integrations could be with touch, bots or voice commands.
+See also FAQ below.
+
 ## FAQ
+
 - How do I interact with different pages?
 
   MMM-pages intentionally does not provide methods to interact with the pages.

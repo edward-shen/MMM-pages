@@ -307,7 +307,6 @@ Module.register('MMM-pages', {
       // Only proceed if the named hidden page actually exists
       if (name in this.config.hiddenPages) {
         this.animatePageChange(name);
-        //this.sendNotification('NEW_PAGE', this.curPage);
       } else { Log.error(`[Pages]: Given name for hidden page ("${name}") does not exist!`); }
     }
   },
