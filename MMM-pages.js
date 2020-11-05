@@ -283,9 +283,9 @@ Module.register('MMM-pages', {
   pauseRotation: function (pause) {
     var stateBaseString = (pause) ? "paus" : "resum";
     if (pause === this.rotationPaused) {
-      Log.warn('[Pages]: Was asked to ' + stateBaseString + 'e but rotation is already ' + stateBaseString + 'ed!');
+      Log.warn(`[Pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
-      Log.log('[Pages]: ' + stateBaseString + 'ing rotation');
+      Log.log(`[Pages]: ${stateBaseString}ing rotation`);
       if (pause) {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
