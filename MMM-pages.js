@@ -82,7 +82,7 @@ Module.register('MMM-pages', {
    *   'LEAVE_HIDDEN_PAGE' - Hides the currently showing hidden page and resumes showing the last page
    *
    * @param {string} notification the notification ID
-   * @param {(number|string)} payload the page to change to/by
+   * @param {number|string} payload the page to change to/by
    */
   notificationReceived: function (notification, payload) {
     switch (notification) {
@@ -116,23 +116,23 @@ Module.register('MMM-pages', {
         this.sendNotification('PAGE_NUMBER_IS', this.curPage);
         break;
       case 'PAUSE_ROTATION':
-        this.pauseRotation(true);
+        this.setRotation(true);
         break;
       case 'RESUME_ROTATION':
-        this.pauseRotation(false);
+        this.setRotation(false);
         break;
       case 'HOME_PAGE':
         this.notificationReceived('PAGE_CHANGED', this.config.homePage);
         break;
       case 'SHOW_HIDDEN_PAGE':
         Log.log(`[Pages]: received a notification to change to the hidden page "${payload}" of type "${typeof payload}"`);
-        this.pauseRotation(true);
+        this.setRotation(true);
         this.showHiddenPage(payload);
         break;
       case 'LEAVE_HIDDEN_PAGE':
         Log.log("[Pages]: received a notification to leave the current hidden page ");
         this.animatePageChange();
-        this.pauseRotation(false);
+        this.setRotation(false);
         break;
       default: // Do nothing
     }
@@ -171,7 +171,7 @@ Module.register('MMM-pages', {
    * elements.
    */
   updatePages: function () {
-    // Update if there's at least one page.
+    // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
       if (!this.rotationPaused) {
@@ -186,50 +186,30 @@ Module.register('MMM-pages', {
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
    * 
-   * @param {string} [name] - the name of the hiddenPage we want to show. Optional and only used when we want to switch to a hidden page
+   * @param {string} [name] the name of the hiddenPage we want to show. Optional and only used when we want to switch to a hidden page
    */
   animatePageChange: function (name) {
     const self = this;
+    const modulesToShow = (typeof name !== 'undefined') ? this.config.hiddenPages[name] : this.config.fixed.concat(this.config.modules[this.curPage]);
 
-    if (typeof name !== 'undefined') {
-      // Hides all modules not defined in the defined named hidden page.
+    // Hides all modules not on the current page. This hides any module not
+    // meant to be shown.
+    MM.getModules()
+      .exceptWithClass(modulesToShow)
+      .enumerate(module => module.hide(
+        self.config.animationTime / 2,
+        { lockString: self.identifier }
+      ));
+
+    // Shows all modules meant to be on the current page, after a small delay.
+    setTimeout(() => {
       MM.getModules()
-        .exceptWithClass(this.config.hiddenPages[name])
-        .enumerate(module => module.hide(
+        .withClass(modulesToShow)
+        .enumerate(module => module.show(
           self.config.animationTime / 2,
           { lockString: self.identifier }
         ));
-      // Shows, after a small delay, all modules defined in the selected named hidden page.
-      setTimeout(() => {
-        MM.getModules()
-          .withClass(self.config.hiddenPages[name])
-          .enumerate((module) => {
-            module.show(
-              self.config.animationTime / 2,
-              { lockString: self.identifier }
-            );
-          });
-      }, this.config.animationTime / 2);
-    } else {
-      // Hides all modules not on the current page. This hides any module not
-      // meant to be shown.
-      MM.getModules()
-        .exceptWithClass(this.config.fixed.concat(this.config.modules[this.curPage]))
-        .enumerate(module => module.hide(
-          self.config.animationTime / 2,
-          { lockString: self.identifier }
-        ));
-
-      // Shows all modules meant to be on the current page, after a small delay.
-      setTimeout(() => {
-        MM.getModules()
-          .withClass(self.config.fixed.concat(self.config.modules[self.curPage]))
-          .enumerate(module => module.show(
-            self.config.animationTime / 2,
-            { lockString: self.identifier }
-          ));
-      }, this.config.animationTime / 2);
-    }
+    }, this.config.animationTime / 2);
   },
 
   /**
@@ -274,40 +254,39 @@ Module.register('MMM-pages', {
   },
 
   /**
-   * Pause or resume the page rotation. If the provided pause value is
+   * Pause or resume the page rotation. If the provided isRotating value is
    * set to false, it will resume the rotation. If the requested
-   * state (f.e. "pause" === true) equals the current state, print a warning and do nothing.
+   * state (f.e. isRotating === true) equals the current state, print a warning and do nothing.
    *
-   * @param {boolean} pause the parameter, if you want to pause or resume.
+   * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
-  pauseRotation: function (pause) {
-    var stateBaseString = (pause) ? "paus" : "resum";
-    if (pause === this.rotationPaused) {
+  setRotation: function (isRotating) {
+    var stateBaseString = (isRotating) ? "paus" : "resum";
+    if (isRotating === this.rotationPaused) {
       Log.warn(`[Pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
       Log.log(`[Pages]: ${stateBaseString}ing rotation`);
-      if (pause) {
+      if (isRotating) {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
       } else {
         this.resetTimerWithDelay(this.rotationDelay);
       }
-      this.rotationPaused = pause;
+      this.rotationPaused = isRotating;
     }
   },
 
   /**
    * Handles hidden pages.
-   * TODO: this should also interact with "MMM-page-indicator" so that there is no confusion on which page the user currently is
    * 
-   * @param {string} name - the name of the hiddenPage we want to show
+   * @param {string} name the name of the hiddenPage we want to show
    */
   showHiddenPage: function (name) {
-    if (typeof name !== 'undefined') {
-      // Only proceed if the named hidden page actually exists
-      if (name in this.config.hiddenPages) {
-        this.animatePageChange(name);
-      } else { Log.error(`[Pages]: Given name for hidden page ("${name}") does not exist!`); }
+    // Only proceed if the named hidden page actually exists
+    if (name in this.config.hiddenPages) {
+      this.animatePageChange(name);
+    } else {
+      Log.error(`Hidden page "${name}" does not exist!`);
     }
   },
 });

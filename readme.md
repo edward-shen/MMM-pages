@@ -37,7 +37,7 @@ To display what page you're on, I'd highly recommend checking out my
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.  
-Note: module names used in the following example can be fictitious.
+Note: module names used in the following example are fictitious.
 
 ```js
 modules: [
