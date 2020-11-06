@@ -227,6 +227,10 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
+          // Inform other modules and page change.
+          // MagicMirror automatically excludes the sender from receiving the
+          // message, so we need to trigger it for ourselves.
+          self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
         }, self.config.rotationTime);
       }, delay);
@@ -239,6 +243,10 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
+          // Inform other modules and page change.
+          // MagicMirror automatically excludes the sender from receiving the
+          // message, so we need to trigger it for ourselves.
+          self.sendNotification('PAGE_CHANGED', 0);
           self.notificationReceived('PAGE_CHANGED', self.config.homePage);
         }, self.config.rotationHomePage);
       }, delay);
