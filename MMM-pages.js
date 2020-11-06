@@ -14,7 +14,7 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     animationTime: 1000,
     rotationTime: 0,
-    rotationFirstPage: 0,  // Keep for compatibility
+    rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationDelay: 10000,
     homePage: 0
@@ -239,7 +239,7 @@ Module.register('MMM-pages', {
 
       this.delayTimer = setTimeout(() => {
         self.timer = setInterval(() => {
-          self.notificationReceived('PAGE_CHANGED', self.homePage);
+          self.notificationReceived('PAGE_CHANGED', self.config.homePage);
         }, self.config.rotationHomePage);
       }, delay);
     }
