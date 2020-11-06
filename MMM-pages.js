@@ -235,7 +235,6 @@ Module.register('MMM-pages', {
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
-          self.sendNotification('PAGE_INCREMENT');
         }, self.config.rotationTime);
       }, delay);
     } else if (this.config.rotationHomePage > 0) {
