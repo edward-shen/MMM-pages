@@ -78,8 +78,10 @@ Module.register('MMM-pages', {
    *   'PAUSE_ROTATION' - Stops rotation
    *   'RESUME_ROTATION' - Resumes rotation
    *   'HOME_PAGE' - Calls PAGED_CHANGED with the default home page.
-   *   'SHOW_HIDDEN_PAGE' - Shows the (in the payload) specified hidden page by name
-   *   'LEAVE_HIDDEN_PAGE' - Hides the currently showing hidden page and resumes showing the last page
+   *   'SHOW_HIDDEN_PAGE' - Shows the (in the payload) specified hidden
+   *                        page by name
+   *   'LEAVE_HIDDEN_PAGE' - Hides the currently showing hidden page and
+   *                         resumes showing the last page
    *
    * @param {string} notification the notification ID
    * @param {number|string} payload the page to change to/by
@@ -186,7 +188,8 @@ Module.register('MMM-pages', {
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
    * 
-   * @param {string} [name] the name of the hiddenPage we want to show. Optional and only used when we want to switch to a hidden page
+   * @param {string} [name] the name of the hiddenPage we want to show.
+   * Optional and only used when we want to switch to a hidden page
    */
   animatePageChange: function (name) {
     const self = this;
@@ -256,7 +259,8 @@ Module.register('MMM-pages', {
   /**
    * Pause or resume the page rotation. If the provided isRotating value is
    * set to false, it will resume the rotation. If the requested
-   * state (f.e. isRotating === true) equals the current state, print a warning and do nothing.
+   * state (f.e. isRotating === true) equals the current state, print a warning
+   * and do nothing.
    *
    * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
