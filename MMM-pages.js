@@ -265,7 +265,7 @@ Module.register('MMM-pages', {
    * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
   setRotation: function (isRotating) {
-    var stateBaseString = (isRotating) ? "paus" : "resum";
+    const stateBaseString = (isRotating) ? "paus" : "resum";
     if (isRotating === this.rotationPaused) {
       Log.warn(`[Pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
