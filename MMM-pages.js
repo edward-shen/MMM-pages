@@ -188,12 +188,12 @@ Module.register('MMM-pages', {
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
    * 
-   * @param {string} [name] the name of the hiddenPage we want to show.
+   * @param {string} [targetPageName] the name of the hiddenPage we want to show.
    * Optional and only used when we want to switch to a hidden page
    */
-  animatePageChange: function (name) {
+  animatePageChange: function (targetPageName) {
     const self = this;
-    const modulesToShow = (typeof name !== 'undefined') ? this.config.hiddenPages[name] : this.config.fixed.concat(this.config.modules[this.curPage]);
+    const modulesToShow = (typeof targetPageName !== 'undefined') ? this.config.hiddenPages[targetPageName] : this.config.fixed.concat(this.config.modules[this.curPage]);
 
     // Hides all modules not on the current page. This hides any module not
     // meant to be shown.
