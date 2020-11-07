@@ -118,23 +118,23 @@ Module.register('MMM-pages', {
         this.sendNotification('PAGE_NUMBER_IS', this.curPage);
         break;
       case 'PAUSE_ROTATION':
-        this.setRotation(true);
+        this.setRotation(false);
         break;
       case 'RESUME_ROTATION':
-        this.setRotation(false);
+        this.setRotation(true);
         break;
       case 'HOME_PAGE':
         this.notificationReceived('PAGE_CHANGED', this.config.homePage);
         break;
       case 'SHOW_HIDDEN_PAGE':
         Log.log(`[Pages]: received a notification to change to the hidden page "${payload}" of type "${typeof payload}"`);
-        this.setRotation(true);
+        this.setRotation(false);
         this.showHiddenPage(payload);
         break;
       case 'LEAVE_HIDDEN_PAGE':
         Log.log("[Pages]: received a notification to leave the current hidden page ");
         this.animatePageChange();
-        this.setRotation(false);
+        this.setRotation(true);
         break;
       default: // Do nothing
     }
@@ -258,19 +258,19 @@ Module.register('MMM-pages', {
 
   /**
    * Pause or resume the page rotation. If the provided isRotating value is
-   * set to false, it will resume the rotation. If the requested
+   * set to true, it will resume the rotation. If the requested
    * state (f.e. isRotating === true) equals the current state, print a warning
    * and do nothing.
    *
    * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
   setRotation: function (isRotating) {
-    const stateBaseString = (isRotating) ? "paus" : "resum";
+    const stateBaseString = (isRotating) ? "resum" : "paus";
     if (isRotating === this.rotationPaused) {
       Log.warn(`[Pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
       Log.log(`[Pages]: ${stateBaseString}ing rotation`);
-      if (isRotating) {
+      if (!isRotating) {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
       } else {
