@@ -197,7 +197,7 @@ Module.register('MMM-pages', {
    * Optional and only used when we want to switch to a hidden page
    */
   animatePageChange: function (targetPageName) {
-    let lockStringObj = { lockString: self.identifier };
+    let lockStringObj = { lockString: this.identifier };
     if (!this.config.useLockString) {
       // Passing in an undefined object is equivalent to not passing it in at
       // all, effectively providing only one arg to the hide and show calls
