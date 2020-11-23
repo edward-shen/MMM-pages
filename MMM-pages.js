@@ -197,12 +197,6 @@ Module.register('MMM-pages', {
    * Optional and only used when we want to switch to a hidden page
    */
   animatePageChange: function (targetPageName) {
-    const self = this;
-    const modulesToShow = (typeof targetPageName !== 'undefined') ? this.config.hiddenPages[targetPageName] : this.config.fixed.concat(this.config.modules[this.curPage]);
-
-    // Hides all modules not on the current page. This hides any module not
-    // meant to be shown.
-
     let lockStringObj = { lockString: self.identifier };
     if (!this.config.useLockString) {
       // Passing in an undefined object is equivalent to not passing it in at
@@ -210,22 +204,28 @@ Module.register('MMM-pages', {
       lockStringObj = undefined;
     }
 
+    // Hides all modules not on the current page. This hides any module not
+    // meant to be shown.
+
+    const self = this;
+    let modulesToShow;
+    if (typeof targetPageName !== 'undefined') {
+      modulesToShow = this.config.hiddenPages[targetPageName];
+    } else {
+      modulesToShow = this.config.fixed.concat(this.config.modules[this.curPage]);
+    }
+    const animationTime = self.config.animationTime / 2;
+
     MM.getModules()
       .exceptWithClass(modulesToShow)
-      .enumerate(module => module.hide(
-        self.config.animationTime / 2,
-        lockStringObj
-      ));
+      .enumerate(module => module.hide(animationTime, lockStringObj));
 
     // Shows all modules meant to be on the current page, after a small delay.
     setTimeout(() => {
       MM.getModules()
         .withClass(modulesToShow)
-        .enumerate(module => module.show(
-          self.config.animationTime / 2,
-          lockStringObj
-        ));
-    }, this.config.animationTime / 2);
+        .enumerate(module => module.show(animationTime, lockStringObj));
+    }, animationTime);
   },
 
   /**
