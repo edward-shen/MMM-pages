@@ -36,7 +36,7 @@ To display what page you're on, I'd highly recommend checking out my
 
 ## Using the module
 
-To use this module, add it to the modules array in the `config/config.js` file.  
+To use this module, add it to the modules array in the `config/config.js` file.
 Note: module names used in the following example are fictitious.
 
 ```js
@@ -59,18 +59,19 @@ modules: [
 
 ## Configuration options
 
-| Option              | Type                       | Default Value            | Description                                                                                                                                                                                                                                                                                                                            |
-| ------------------- | ------------------         | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix.                                                                                          |
-| `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time.                                                                                                                                                                                                                                                                                             |
-| `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead.                                                                                                                                                                                                                                                                                                   |
-| `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accassible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page.                                                                                     |
-| `animationTime`     | `int`                      | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds).                                                                                                                                                                                                                         |
-| `rotationTime`      | `int`                      | `0`                      | Time, in milliseconds, between automatic page changes.                                                                                                                                                                                                                                                                                 |
+| Option | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
+| `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time. |
+| `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead. |
+| `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accassible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
+| `animationTime`     | `int`                      | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
+| `rotationTime`      | `int`                      | `0`                      | Time, in milliseconds, between automatic page changes. |
 | `rotationDelay`     | `int`                      | `10000`                  | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
-| `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead.                                                                                                                                                                                          |
-| `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead.                                                                                                                                                                                                                                                                                        |
-| `homePage`          | `int`                      | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead.                                                                                                                                                                                                                                          |
+| `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead. |
+| `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
+| `homePage`          | `int`                      | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead. |
+| `useLockString`     | `bool`                     | `true`                   | Whether or not to use a lock string to show or hide pages. If disabled, other modules may override when modules may be shown. _Advanced users only. Only override this if you know what you're doing._
 
 For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
@@ -80,17 +81,17 @@ should consist of elements that should be on the second page, and so forth.
 
 The following is the list of notifications that MMM-pages will handle:
 
-| Notification        | Payload type    | Description                                                                                                                                                                                                                        |
-| ------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PAGE_CHANGED`      | `int`           | MMM-pages will switch to the provided page index.                                                                                                                                                                                  |
+| Notification | Payload type | Description |
+| --- | --- | --- |
+| `PAGE_CHANGED`      | `int`           | MMM-pages will switch to the provided page index. |
 | `PAGE_INCREMENT`    | `int`, Optional | MMM-pages will increment the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to increment by, this will loop around to the first page. |
-| `PAGE_DECREMENT`    | `int`, Optional | MMM-pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page.  |
-| `QUERY_PAGE_NUMBER` | *None*          | MMM-pages will respond with `PAGE_NUMBER_IS` with the current page index.                                                                                                                                                          |
-| `PAUSE_ROTATION`    | *None*          | If MMM-pages is set to rotate, this will pause rotation until a `RESUME_ROTATION` notification is sent. This does nothing if rotation was already paused.                                                                          |
-| `RESUME_ROTATION`   | *None*          | If MMM-pages was requested to pause rotation, this will resume automatic rotation. This does nothing MMM-pages was not requested to pause.                                                                                         |
-| `HOME_PAGE`         | *None*          | Return to the home page. If no home page is provided, return to the first page instead.                                                                                                                                            |
-| `SHOW_HIDDEN_PAGE`  | `String`        | MMM-pages will switch to the provided hidden page name.                                                                                                                                                                            |
-| `LEAVE_HIDDEN_PAGE` | *None*          | MMM-pages will leave the currently showing hidden page and return to the previous showing page index.                                                                                                                              |
+| `PAGE_DECREMENT`    | `int`, Optional | MMM-pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page. |
+| `QUERY_PAGE_NUMBER` | *None*          | MMM-pages will respond with `PAGE_NUMBER_IS` with the current page index. |
+| `PAUSE_ROTATION`    | *None*          | If MMM-pages is set to rotate, this will pause rotation until a `RESUME_ROTATION` notification is sent. This does nothing if rotation was already paused. |
+| `RESUME_ROTATION`   | *None*          | If MMM-pages was requested to pause rotation, this will resume automatic rotation. This does nothing MMM-pages was not requested to pause. |
+| `HOME_PAGE`         | *None*          | Return to the home page. If no home page is provided, return to the first page instead. |
+| `SHOW_HIDDEN_PAGE`  | `String`        | MMM-pages will switch to the provided hidden page name. |
+| `LEAVE_HIDDEN_PAGE` | *None*          | MMM-pages will leave the currently showing hidden page and return to the previous showing page index. |
 
 The following is the list of notifications that MMM-pages sends out:
 

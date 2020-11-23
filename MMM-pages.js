@@ -18,7 +18,8 @@ Module.register('MMM-pages', {
     rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationDelay: 10000,
-    homePage: 0
+    homePage: 0,
+    useLockString: true,
   },
 
   /**
@@ -66,6 +67,10 @@ Module.register('MMM-pages', {
     this.config.rotationTime = Math.max(this.config.rotationTime, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
+
+    if (!this.config.useLockString) {
+      Log.log('[Pages]: User opted to not use lock strings!');
+    }
   },
 
   /**
@@ -187,7 +192,7 @@ Module.register('MMM-pages', {
    * Animates the page change from the previous page to the current one. This
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
-   * 
+   *
    * @param {string} [targetPageName] the name of the hiddenPage we want to show.
    * Optional and only used when we want to switch to a hidden page
    */
@@ -197,11 +202,19 @@ Module.register('MMM-pages', {
 
     // Hides all modules not on the current page. This hides any module not
     // meant to be shown.
+
+    let lockStringObj = { lockString: self.identifier };
+    if (!this.config.useLockString) {
+      // Passing in an undefined object is equivalent to not passing it in at
+      // all, effectively providing only one arg to the hide and show calls
+      lockStringObj = undefined;
+    }
+
     MM.getModules()
       .exceptWithClass(modulesToShow)
       .enumerate(module => module.hide(
         self.config.animationTime / 2,
-        { lockString: self.identifier }
+        lockStringObj
       ));
 
     // Shows all modules meant to be on the current page, after a small delay.
@@ -210,7 +223,7 @@ Module.register('MMM-pages', {
         .withClass(modulesToShow)
         .enumerate(module => module.show(
           self.config.animationTime / 2,
-          { lockString: self.identifier }
+          lockStringObj
         ));
     }, this.config.animationTime / 2);
   },
@@ -282,7 +295,7 @@ Module.register('MMM-pages', {
 
   /**
    * Handles hidden pages.
-   * 
+   *
    * @param {string} name the name of the hiddenPage we want to show
    */
   showHiddenPage: function (name) {
