@@ -98,7 +98,7 @@ The following is the list of notifications that MMM-pages sends out:
 | Notification        | Payload type | Description                                                                                                                                                    |
 | ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `MAX_PAGES_CHANGED` | `int`        | This is sent only once during initialization of MMM-pages. This contains the number of pages defined in `config.js`.                                           |
-| `NEW_PAGE`          | `int`        | This notification is sent out on every page change and contains the  current page index. This is to help other modules keep track of what the current page is. |
+| `NEW_PAGE`          | `int`        | This notification is sent out on every page change and contains the current page index. This is to help other modules keep track of what the current page is. This is also sent out during initialization. |
 | `PAGE_NUMBER_IS`    | `int`        | Sent in response to a `QUERY_PAGE_NUMBER` notification. Returns the current page index. This notification sends the same payload as `NEW_PAGE`.                |
 
 ### Notes
