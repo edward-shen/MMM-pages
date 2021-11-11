@@ -45,9 +45,9 @@ modules: [
         module: 'MMM-pages',
         config: {
                 modules:
-                    [[ "weatherforecast", "newsfeed"],
+                    [[ "newsfeed" ],
                      [ "calendar", "compliments" ]],
-                fixed: ["clock", "currentweather", "MMM-page-indicator"],
+                fixed: [ "clock", "weather", "MMM-page-indicator" ],
                 hiddenPages: {
                     "screenSaver": [ "clock", "MMM-SomeBackgroundImageModule" ],
                     "admin": [ "MMM-ShowMeSystemStatsModule", "MMM-AnOnScreenMenuModule" ],
