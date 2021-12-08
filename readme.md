@@ -1,3 +1,23 @@
+## Maintainer needed
+
+Hello, it's been 5 years since I've written this! While I'm happy to see it
+thriving, it's also about time I step away. I haven't had a magic mirror up
+in years, and to be frank, I'm hoping someone else will be willing to take
+up maintainership of the project.
+
+I find this project to be in a near complete form. Other than a few mishaps of
+me not having proper testing before pushing out code, more often than not any
+problems that people have usually isn't often because of this project. The few
+issues that do exist aren't very hard to fix nor are they severe that they
+impact the project in any large manner. It's just I haven't had the time nor
+motivation to fix them.
+
+I don't think there are expectations for this project to have new features, so
+a maintainer should really only need to just make sure people are getting help
+when they raise issues and fix the rare bug that pops out every so often. If
+you're interested, please don't hesitate to reach out.
+
+---
 
 # MMM-pages
 
