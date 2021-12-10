@@ -182,7 +182,7 @@ Module.register('MMM-pages', {
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
       if (!this.rotationPaused) {
-        this.resetTimerWithDelay(this.config.rotationDelay);
+        this.resetTimerWithDelay(0);
       }
       this.sendNotification('NEW_PAGE', this.curPage);
     } else { Log.error("[Pages]: Pages aren't properly defined!"); }
