@@ -88,7 +88,9 @@ modules: [
         config: {
                 modules:
                     [[ "page1" ],
-                     [ "page2" ]],
+                     [ "page2" ],
+                     [ "page3" ],
+                    ],
                 fixed: [ "fixed_page" ],
                 hiddenPages: {
                     "screenSaver": [ "screensaver_page" ],
@@ -122,9 +124,13 @@ if u want a modules content on multiple pages the classes has those page names
     classes:"page1",
   },
   {
-    module:"calendar",
+    module:"calendar",  // first calendar instance on page 2
     classes:"page2",
   },
+  {
+    module:"calendar",  // second calendar instance on page 3
+    classes:"page3",
+  },  
   {
     module:"compliments",
     classes:"page1, page2",
