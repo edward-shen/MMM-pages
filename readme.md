@@ -133,7 +133,7 @@ if u want a modules content on multiple pages the classes has those page names
   },  
   {
     module:"compliments",
-    classes:"page1, page2",
+    classes:"page1 page2",
   }
 ```
 
