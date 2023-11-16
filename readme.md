@@ -57,7 +57,9 @@ To display what page you're on, I'd highly recommend checking out my
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.
-Note: module names used in the following example are fictitious.
+Note: module names used in the following example are fictitious. this approach uses the module names as the page organization technique, as the modulename is added as a css class in the MM page content. 
+Because  the modulename is used, this approach does not support multiple instances of the same module with data 
+on different pages. (like your calendar on page 1, and someone elses on page 2)
 
 ```js
 modules: [
@@ -75,6 +77,58 @@ modules: [
         }
     }
 ]
+```
+
+and alternative approach, is to define a fixed MMM-Pages config
+
+```js
+modules: [
+    {
+        module: 'MMM-pages',
+        config: {
+                modules:
+                    [[ "page1" ],
+                     [ "page2" ]],
+                fixed: [ "fixed_page" ],
+                hiddenPages: {
+                    "screenSaver": [ "screensaver_page" ],
+                    "admin": [ "admin_page" ],
+                },
+        }
+    }
+]
+```
+and then at each module, add a classes: property to indicate the page(s) this is supposed to appear on
+```
+  { 
+    module:"newsfeed",
+    classes:"page1",
+  },
+  {
+    module:"calendar",
+    classes:"page2",
+  },
+  {
+    module:"compliments",
+    classes:"page2",
+  }
+```
+etc
+
+if u want a modules content on multiple pages the classes has those page names
+```
+  { 
+    module:"newsfeed",
+    classes:"page1",
+  },
+  {
+    module:"calendar",
+    classes:"page2",
+  },
+  {
+    module:"compliments",
+    classes:"page1, page2",
+  }
 ```
 
 ## Configuration options
