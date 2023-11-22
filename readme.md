@@ -57,8 +57,10 @@ To display what page you're on, I'd highly recommend checking out my
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.
-Note: module names used in the following example are fictitious. this approach uses the module names as the page organization technique, as the modulename is added as a css class in the MM page content. 
-Because  the modulename is used, this approach does not support multiple instances of the same module with data 
+Note: module names used in the following example are fictitious. 
+
+this approach uses the module names as the page organization technique, as the modulename is added as a css class in the MM page content. 
+Because the modulename is used, this approach does not support multiple instances of the same module with data 
 on different pages. (like your calendar on page 1, and someone elses on page 2)
 
 ```js
@@ -100,7 +102,7 @@ modules: [
     }
 ]
 ```
-and then at each module, add a classes: property to indicate the page(s) this is supposed to appear on
+and then at each module, add a classes: property to indicate the page(s) this module is supposed to appear on
 ```
   { 
     module:"newsfeed",
@@ -117,7 +119,7 @@ and then at each module, add a classes: property to indicate the page(s) this is
 ```
 etc
 
-if u want a modules content on multiple pages the classes has those page names
+if u want a modules content on multiple pages the classes would list those page names
 ```
   { 
     module:"newsfeed",
@@ -133,7 +135,7 @@ if u want a modules content on multiple pages the classes has those page names
   },  
   {
     module:"compliments",
-    classes:"page1 page2",
+    classes:"page1 page2",  // this module appears on multiple pages
   }
 ```
 
