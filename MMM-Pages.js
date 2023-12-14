@@ -1,4 +1,4 @@
-Module.register('MMM-pages', {
+Module.register('MMM-Pages', {
 
   // We require the older style of function declaration for compatibility
   // reasons.
@@ -218,13 +218,13 @@ Module.register('MMM-pages', {
 
     MM.getModules()
       .exceptWithClass(modulesToShow)
-      .enumerate(module => module.hide(animationTime, lockStringObj));
+      .enumerate(module => module.hide(animationTime,()=>{},  lockStringObj));
 
     // Shows all modules meant to be on the current page, after a small delay.
     setTimeout(() => {
       MM.getModules()
         .withClass(modulesToShow)
-        .enumerate(module => module.show(animationTime, lockStringObj));
+        .enumerate(module => module.show(animationTime, ()=>{},  lockStringObj));
     }, animationTime);
   },
 
