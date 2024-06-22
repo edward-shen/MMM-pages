@@ -8,6 +8,7 @@ Module.register('MMM-Pages', {
    * the page indicator by default, in case people actually want to use the
    * sister module. We also don't rotate out modules by default.
    */
+ 
   defaults: {
     modules: [],
     excludes: [], // Keep for compatibility
@@ -20,8 +21,9 @@ Module.register('MMM-Pages', {
     rotationDelay: 10000,
     homePage: 0,
     useLockString: true,
+    pageTimeout: []
   },
-
+  timer:null,
   /**
    * Apply any styles, if we have any.
    */
@@ -236,35 +238,54 @@ Module.register('MMM-Pages', {
   resetTimerWithDelay: function (delay) {
     if (this.config.rotationTime > 0) {
       // This timer is the auto rotate function.
-      clearInterval(this.timer);
+      if(this.timer){
+        (this.config.pageTimeout.length?clearTimeout:clearInterval)(this.timer);
+        this.timer=null
+      }
       // This is delay timer after manually updating.
-      clearInterval(this.delayTimer);
-      const self = this;
-
+      clearTimeout(this.delayTimer);
+      let rotation_timeout=this.config.rotationTime
+      if(this.config.pageTimeout.length){
+        for(let pageInfo of this.config.pageTimeout){
+          if((pageInfo.pageNumber) -1 == this.curPage){
+            rotation_timeout= pageInfo.timeout
+            break;
+          }
+        }
+      }
+      const self = this;      
       this.delayTimer = setTimeout(() => {
-        self.timer = setInterval(() => {
+        self.timer = (this.config.pageTimeout.length?setTimeout:setInterval)(() => {
           // Inform other modules and page change.
           // MagicMirror automatically excludes the sender from receiving the
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
-        }, self.config.rotationTime);
-      }, delay);
+        }, rotation_timeout);
+      }, delay, this);
     } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
-      clearInterval(this.timer);
+      (this.config.pageTimeout.length?clearTimeout:clearInterval)(this.timer);
       // This is delay timer after manually updating.
-      clearInterval(this.delayTimer);
+      clearTimeout(this.delayTimer);
+      let rotation_timeout=this.config.rotationHomePage
+      if(this.config.pageTimeout.length){
+        for(let pageInfo of this.config.pageTimeout){
+          if((pageInfo.pagenumber) -1 == this.curPage){
+            rotation_timeout= pageInfo.timeout
+            break;
+          }
+        }
+      }
       const self = this;
-
       this.delayTimer = setTimeout(() => {
-        self.timer = setInterval(() => {
+        self.timer = (this.config.pageTimeout.length?setTimeout:setInterval)(() => {
           // Inform other modules and page change.
           // MagicMirror automatically excludes the sender from receiving the
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_CHANGED', 0);
           self.notificationReceived('PAGE_CHANGED', self.config.homePage);
-        }, self.config.rotationHomePage);
+        }, rotation_timeout);
       }, delay);
     }
   },
@@ -284,8 +305,9 @@ Module.register('MMM-Pages', {
     } else {
       Log.log(`[Pages]: ${stateBaseString}ing rotation`);
       if (!isRotating) {
-        clearInterval(this.timer);
-        clearInterval(this.delayTimer);
+        
+        this.timer_clear_function(this.timer);
+        clearTimeout(this.delayTimer);
       } else {
         this.resetTimerWithDelay(this.rotationDelay);
       }

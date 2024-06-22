@@ -42,7 +42,7 @@ cd ~/MagicMirror/modules
 Clone this repository:
 
 ```bash
-git clone https://github.com/edward-shen/MMM-pages.git
+git clone https://github.com/sdetweil/MMM-pages.git
 ```
 
 Configure the module in your config.js file.
@@ -154,6 +154,8 @@ if u want a modules content on multiple pages the classes would list those page 
 | `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
 | `homePage`          | `int`                      | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead. |
 | `useLockString`     | `bool`                     | `true`                   | Whether or not to use a lock string to show or hide pages. If disabled, other modules may override when modules may be shown. _Advanced users only. Only override this if you know what you're doing._
+| `pageTimeout  `     | `[]`                       | `{pageNumber:x,timeout:nnnn}`| array of structures,  enable different timeouts for different pages
+|||| pageNumber starts at 1 for the first page, timeout is in milliseconds              
 
 For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
