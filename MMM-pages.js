@@ -1,4 +1,4 @@
-Module.register('MMM-Pages', {
+Module.register('MMM-pages', {
 
   // We require the older style of function declaration for compatibility
   // reasons.
