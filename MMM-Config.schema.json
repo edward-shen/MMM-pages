@@ -1,0 +1,268 @@
+{
+  "schema": {
+    "MMM-pages": {
+      "type": "object",
+      "title": "properties for MMM-pages",
+      "properties": {
+        "module": {
+          "type": "string",
+          "title": "module",
+          "default": "MMM-pages",
+          "readonly": true
+        },
+        "disabled": {
+          "type": "boolean",
+          "title": "disabled",
+          "default": false
+        },
+        "position": {
+          "type": "string",
+          "title": "module position",
+          "readonly": "true"
+        },
+        "classes": {
+          "type": "string",
+          "title": "classes",
+          "default": ""
+        },
+        "order": {
+          "type": "string",
+          "title": "order",
+          "default": "*"
+        },
+        "inconfig": {
+          "type": "string",
+          "title": "inconfig",
+          "default": "0"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "config": {
+          "type": "object",
+          "title": "config",
+          "properties": {
+            "modules": {
+              "type": "array",
+              "items":{
+                  "type":"array",
+                  "items": {
+                    "type": "string"
+                  }
+              }
+            },
+            "excludes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fixed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hiddenPages": {
+              "type": "array",
+              "items": {
+                "type": "pair"
+              }
+            },
+            "animationTime": {
+              "type": "integer"
+            },
+            "rotationTime": {
+              "type": "integer"
+            },
+            "rotationFirstPage": {
+              "type": "integer"
+            },
+            "rotationHomePage": {
+              "type": "integer"
+            },
+            "rotationDelay": {
+              "type": "integer"
+            },
+            "homePage": {
+              "type": "integer"
+            },
+            "useLockString": {
+              "type": "boolean"
+            },
+            "pageTimeout": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "pageNumber": {
+                    "type": "integer"
+                  },
+                  "timeout": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "form": [
+    {
+      "key": "MMM-pages.disabled",
+      "htmlClass": "disabled_checkbox",
+      "description": "when checked the module will not be used by MagicMirror<br> but will remain in config.js if already present"
+    },
+    {
+      "key": "MMM-pages.position",
+      "description": "use Module Positions section below to set or change"
+    },
+    {
+      "key": "MMM-pages.classes",
+      "description": "css classes to use for this module, beyond what MM provides"
+    },
+    {
+      "key": "MMM-pages.order",
+      "type": "hidden"
+    },
+    {
+      "key": "MMM-pages.inconfig",
+      "type": "hidden"
+    },
+    {
+      "key": "MMM-pages.index",
+      "type": "hidden"
+    },
+    {
+      "type": "fieldset",
+      "title": "config",
+      "items": [
+        {
+          "type": "array",
+          "title": "modules (aka pages)",
+          "key": "MMM-pages.config.modules[]",
+          "items": [
+            {
+              "type": "array",
+              "title": "page {{idx}} module names (or classes)",
+              "items": [
+                {
+                  "notitle": true,
+                  "key": "MMM-pages.config.modules[][]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "title": "excludes",
+          "deleteCurrent": false,
+          "items": [
+            {
+              "title": "excludes {{idx}}",
+              "key": "MMM-pages.config.excludes[]"
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "title": "fixed",
+          "deleteCurrent": false,
+          "items": [
+            {
+              "title": "fixed {{idx}}",
+              "key": "MMM-pages.config.fixed[]"
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "title": "hiddenPages",
+          "deleteCurrent": false,
+          "items": [
+            {
+              "key": "MMM-pages.config.hiddenPages[]",
+              "title": "hiddenPage {{idx}}"
+            }
+          ]
+        },
+        {
+          "title": "animationTime",
+          "key": "MMM-pages.config.animationTime"
+        },
+        {
+          "title": "rotationTime",
+          "key": "MMM-pages.config.rotationTime"
+        },
+        {
+          "title": "rotationFirstPage",
+          "key": "MMM-pages.config.rotationFirstPage"
+        },
+        {
+          "title": "rotationHomePage",
+          "key": "MMM-pages.config.rotationHomePage"
+        },
+        {
+          "title": "rotationDelay",
+          "key": "MMM-pages.config.rotationDelay"
+        },
+        {
+          "title": "homePage",
+          "key": "MMM-pages.config.homePage"
+        },
+        {
+          "title": "useLockString",
+          "key": "MMM-pages.config.useLockString"
+        },
+        {
+          "type": "array",
+          "title": "pageTimeout",
+          "deleteCurrent": false,
+          "items": {
+            "type": "fieldset",
+            "title": "pageTimeout",
+            "items": [
+              {
+                "title": "pageNumber",
+                "key": "MMM-pages.config.pageTimeout[].pageNumber"
+              },
+              {
+                "title": "timeout",
+                "key": "MMM-pages.config.pageTimeout[].timeout"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "value": {
+    "disabled": true,
+    "module": "MMM-pages",
+    "position": "none",
+    "order": "*",
+    "inconfig": "0",
+    "config": {
+      "modules": [
+        [
+        ]
+      ],
+      "excludes": [],
+      "fixed": [
+        "MMM-page-indicator"
+      ],
+      "hiddenPages": {},
+      "animationTime": 1000,
+      "rotationTime": 0,
+      "rotationFirstPage": 0,
+      "rotationHomePage": 0,
+      "rotationDelay": 10000,
+      "homePage": 0,
+      "useLockString": true,
+      "pageTimeout": []
+    }
+  }
+}
