@@ -1,4 +1,4 @@
-## Maintainer needed
+# Maintainer needed
 
 Hello, it's been 5 years since I've written this! While I'm happy to see it
 thriving, it's also about time I step away. I haven't had a MagicMirror up
@@ -19,7 +19,7 @@ you're interested, please don't hesitate to reach out.
 
 ---
 
-# MMM-Pages
+# MMM-pages
 
 This [MagicMirror²][mm] Module allows you to have pages in your MagicMirror!
 Want to have more modules in your MagicMirror, but want to keep the format?
@@ -66,7 +66,7 @@ on different pages. (like your calendar on page 1, and someone elses on page 2)
 ```js
 modules: [
     {
-        module: 'MMM-Pages',
+        module: 'MMM-pages',
         config: {
                 modules:
                     [[ "newsfeed" ],
@@ -81,12 +81,12 @@ modules: [
 ]
 ```
 
-and alternative approach, is to define a fixed MMM-Pages config
+and alternative approach, is to define a fixed MMM-pages config
 
 ```js
 modules: [
     {
-        module: 'MMM-Pages',
+        module: 'MMM-pages',
         config: {
                 modules:
                     [[ "page1" ],
@@ -143,7 +143,7 @@ if u want a modules content on multiple pages the classes would list those page 
 
 | Option | Type | Default Value | Description |
 | --- | --- | --- | --- |
-| `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-Pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
+| `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
 | `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time. |
 | `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead. |
 | `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accassible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
@@ -163,25 +163,25 @@ should consist of elements that should be on the second page, and so forth.
 
 ## Notifications
 
-The following is the list of notifications that MMM-Pages will handle:
+The following is the list of notifications that MMM-pages will handle:
 
 | Notification | Payload type | Description |
 | --- | --- | --- |
-| `PAGE_CHANGED`      | `int`           | MMM-Pages will switch to the provided page index. |
-| `PAGE_INCREMENT`    | `int`, Optional | MMM-Pages will increment the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to increment by, this will loop around to the first page. |
-| `PAGE_DECREMENT`    | `int`, Optional | MMM-Pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page. |
-| `QUERY_PAGE_NUMBER` | *None*          | MMM-Pages will respond with `PAGE_NUMBER_IS` with the current page index. |
-| `PAUSE_ROTATION`    | *None*          | If MMM-Pages is set to rotate, this will pause rotation until a `RESUME_ROTATION` notification is sent. This does nothing if rotation was already paused. |
-| `RESUME_ROTATION`   | *None*          | If MMM-Pages was requested to pause rotation, this will resume automatic rotation. This does nothing MMM-Pages was not requested to pause. |
+| `PAGE_CHANGED`      | `int`           | MMM-pages will switch to the provided page index. |
+| `PAGE_INCREMENT`    | `int`, Optional | MMM-pages will increment the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to increment by, this will loop around to the first page. |
+| `PAGE_DECREMENT`    | `int`, Optional | MMM-pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page. |
+| `QUERY_PAGE_NUMBER` | *None*          | MMM-pages will respond with `PAGE_NUMBER_IS` with the current page index. |
+| `PAUSE_ROTATION`    | *None*          | If MMM-pages is set to rotate, this will pause rotation until a `RESUME_ROTATION` notification is sent. This does nothing if rotation was already paused. |
+| `RESUME_ROTATION`   | *None*          | If MMM-pages was requested to pause rotation, this will resume automatic rotation. This does nothing MMM-pages was not requested to pause. |
 | `HOME_PAGE`         | *None*          | Return to the home page. If no home page is provided, return to the first page instead. |
-| `SHOW_HIDDEN_PAGE`  | `String`        | MMM-Pages will switch to the provided hidden page name. |
-| `LEAVE_HIDDEN_PAGE` | *None*          | MMM-Pages will leave the currently showing hidden page and return to the previous showing page index. |
+| `SHOW_HIDDEN_PAGE`  | `String`        | MMM-pages will switch to the provided hidden page name. |
+| `LEAVE_HIDDEN_PAGE` | *None*          | MMM-pages will leave the currently showing hidden page and return to the previous showing page index. |
 
-The following is the list of notifications that MMM-Pages sends out:
+The following is the list of notifications that MMM-pages sends out:
 
 | Notification        | Payload type | Description                                                                                                                                                    |
 | ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MAX_PAGES_CHANGED` | `int`        | This is sent only once during initialization of MMM-Pages. This contains the number of pages defined in `config.js`.                                           |
+| `MAX_PAGES_CHANGED` | `int`        | This is sent only once during initialization of MMM-pages. This contains the number of pages defined in `config.js`.                                           |
 | `NEW_PAGE`          | `int`        | This notification is sent out on every page change and contains the current page index. This is to help other modules keep track of what the current page is. This is also sent out during initialization. |
 | `PAGE_NUMBER_IS`    | `int`        | Sent in response to a `QUERY_PAGE_NUMBER` notification. Returns the current page index. This notification sends the same payload as `NEW_PAGE`.                |
 
@@ -205,14 +205,14 @@ config in the config file. There is no way to dynamically change the pages you
 have. If there arises a need, please create an issue.
 
 This module does not enforce how other modules represents or even responds to
-MMM-Pages notifications.
+MMM-pages notifications.
 
 ### Initialization
 
 _This section provides documentation on what notifications the module sends on
 startup. This section isn't necessary to read for most users._
 
-MMM-Pages doesn't activate until we receive the `DOM_OBJECTS_CREATED`
+MMM-pages doesn't activate until we receive the `DOM_OBJECTS_CREATED`
 notification, as that notification ensures all modules have been loaded. On this
 notification, we send two notifications out, `MAX_PAGES_CHANGED` and `NEW_PAGE`,
 so other modules that would like to keep synchronized of the starting page and
@@ -233,11 +233,11 @@ See also FAQ below.
 
 - How do I interact with different pages?
 
-  MMM-Pages intentionally does not provide methods to interact with the pages.
+  MMM-pages intentionally does not provide methods to interact with the pages.
   This is intentional by design, as there are too many ways to interact with a
   MagicMirror. [MMM-page-indicator][page indicator] does provide a way to click
   on the circles to change pages, but this requires the ability to click or tap
-  on the circles itself. If no other method is available, MMM-Pages provides an
+  on the circles itself. If no other method is available, MMM-pages provides an
   automatic rotation feature.
 
 - Help! My module is (above/below) another module in the same region but I want
