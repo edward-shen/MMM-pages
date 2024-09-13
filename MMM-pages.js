@@ -27,7 +27,7 @@ Module.register('MMM-pages', {
   /**
    * Apply any styles, if we have any.
    */
-  getStyles: function () {
+  getStyles () {
     return ['pages.css'];
   },
 
@@ -38,7 +38,7 @@ Module.register('MMM-pages', {
    * @param {number} x The dividend
    * @param {number} n The divisor
    */
-  mod: function (x, n) {
+  mod (x, n) {
     return ((x % n) + n) % n;
   },
 
@@ -46,7 +46,7 @@ Module.register('MMM-pages', {
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
-  start: function () {
+  start () {
     // Clamp homePage value to [0, num pages).
     if (this.config.homePage >= this.config.modules.length || this.config.homePage < 0) {
       this.config.homePage = 0;
@@ -93,7 +93,7 @@ Module.register('MMM-pages', {
    * @param {string} notification the notification ID
    * @param {number|string} payload the page to change to/by
    */
-  notificationReceived: function (notification, payload) {
+  notificationReceived (notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
         Log.log('[MMM-pages]: received a notification '
@@ -157,7 +157,7 @@ Module.register('MMM-pages', {
    * @param {number} fallback the fallback value to use. Accepts negative
    * numbers.
    */
-  changePageBy: function (amt, fallback) {
+  changePageBy (amt, fallback) {
     if (typeof amt !== 'number' && typeof fallback === 'undefined') {
       Log.warn(`[MMM-pages]: ${amt} is not a number!`);
     }
@@ -179,7 +179,7 @@ Module.register('MMM-pages', {
    * Handles hiding the current page's elements and showing the next page's
    * elements.
    */
-  updatePages: function () {
+  updatePages () {
     // Update iff there's at least one page.
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
@@ -198,7 +198,7 @@ Module.register('MMM-pages', {
    * @param {string} [targetPageName] the name of the hiddenPage we want to show.
    * Optional and only used when we want to switch to a hidden page
    */
-  animatePageChange: function (targetPageName) {
+  animatePageChange (targetPageName) {
     let lockStringObj = { lockString: this.identifier };
     if (!this.config.useLockString) {
       // Passing in an undefined object is equivalent to not passing it in at
@@ -235,7 +235,7 @@ Module.register('MMM-pages', {
    *
    * @param {number} delay the delay, in milliseconds.
    */
-  resetTimerWithDelay: function (delay) {
+  resetTimerWithDelay (delay) {
     if (this.config.rotationTime > 0) {
       // This timer is the auto rotate function.
       if(this.timer){
@@ -308,7 +308,7 @@ Module.register('MMM-pages', {
    *
    * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
-  setRotation: function (isRotating) {
+  setRotation (isRotating) {
     const stateBaseString = (isRotating) ? "resum" : "paus";
     if (isRotating === this.rotationPaused) {
       Log.warn(`[MMM-pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
@@ -335,7 +335,7 @@ Module.register('MMM-pages', {
    *
    * @param {string} name the name of the hiddenPage we want to show
    */
-  showHiddenPage: function (name) {
+  showHiddenPage (name) {
     // Only proceed if the named hidden page actually exists
     if (name in this.config.hiddenPages) {
       this.animatePageChange(name);
