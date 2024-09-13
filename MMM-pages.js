@@ -243,7 +243,10 @@ Module.register('MMM-pages', {
         this.timer=null
       }
       // This is delay timer after manually updating.
-      clearTimeout(this.delayTimer);
+      if(this.delayTimer){
+        clearTimeout(this.delayTimer);
+        this.delayTimer=null
+      }
       let rotation_timeout=this.config.rotationTime
       if(this.config.pageTimeout.length){
         for(let pageInfo of this.config.pageTimeout){
@@ -265,9 +268,15 @@ Module.register('MMM-pages', {
       }, delay, this);
     } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
+      if(this.timer){
       (this.config.pageTimeout.length?clearTimeout:clearInterval)(this.timer);
+        this.timer = null
+      }
       // This is delay timer after manually updating.
-      clearTimeout(this.delayTimer);
+      if(this.delayTimer){
+        clearTimeout(this.delayTimer);
+        this.delayTimer=null
+      }
       let rotation_timeout=this.config.rotationHomePage
       if(this.config.pageTimeout.length){
         for(let pageInfo of this.config.pageTimeout){
@@ -279,6 +288,7 @@ Module.register('MMM-pages', {
       }
       const self = this;
       this.delayTimer = setTimeout(() => {
+        this.delayTimer=null
         self.timer = (this.config.pageTimeout.length?setTimeout:setInterval)(() => {
           // Inform other modules and page change.
           // MagicMirror automatically excludes the sender from receiving the
@@ -305,9 +315,14 @@ Module.register('MMM-pages', {
     } else {
       Log.log(`[Pages]: ${stateBaseString}ing rotation`);
       if (!isRotating) {
-        
-        this.timer_clear_function(this.timer);
-        clearTimeout(this.delayTimer);
+        if(this.timer){
+          this.timer_clear_function(this.timer);
+          this.timer=null
+        }
+        if(this.delayTimer){
+          clearTimeout(this.delayTimer);
+          this.delayTimer=null
+        }
       } else {
         this.resetTimerWithDelay(this.rotationDelay);
       }
