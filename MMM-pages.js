@@ -247,11 +247,11 @@ Module.register('MMM-pages', {
         clearTimeout(this.delayTimer);
         this.delayTimer=null
       }
-      let rotation_timeout=this.config.rotationTime
+      let rotationTimeout=this.config.rotationTime
       if(this.config.pageTimeout.length){
         for(let pageInfo of this.config.pageTimeout){
           if((pageInfo.pageNumber) -1 == this.curPage){
-            rotation_timeout= pageInfo.timeout
+            rotationTimeout= pageInfo.timeout
             break;
           }
         }
@@ -264,7 +264,7 @@ Module.register('MMM-pages', {
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
-        }, rotation_timeout);
+        }, rotationTimeout);
       }, delay, this);
     } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
@@ -277,11 +277,11 @@ Module.register('MMM-pages', {
         clearTimeout(this.delayTimer);
         this.delayTimer=null
       }
-      let rotation_timeout=this.config.rotationHomePage
+      let rotationTimeout=this.config.rotationHomePage
       if(this.config.pageTimeout.length){
         for(let pageInfo of this.config.pageTimeout){
           if((pageInfo.pagenumber) -1 == this.curPage){
-            rotation_timeout= pageInfo.timeout
+            rotationTimeout= pageInfo.timeout
             break;
           }
         }
@@ -295,7 +295,7 @@ Module.register('MMM-pages', {
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_CHANGED', 0);
           self.notificationReceived('PAGE_CHANGED', self.config.homePage);
-        }, rotation_timeout);
+        }, rotationTimeout);
       }, delay);
     }
   },
