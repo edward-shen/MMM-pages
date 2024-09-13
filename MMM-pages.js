@@ -56,12 +56,12 @@ Module.register('MMM-pages', {
 
     // Compatibility
     if (this.config.excludes.length) {
-      Log.warn('[Pages]: The config option "excludes" is deprecated. Please use "fixed" instead.');
+      Log.warn('[MMM-pages]: The config option "excludes" is deprecated. Please use "fixed" instead.');
       this.config.fixed = this.config.excludes;
     }
 
     if (this.config.rotationFirstPage) {
-      Log.warn('[Pages]: The config option "rotationFirstPage" is deprecated. Please used "rotationHomePage" instead.');
+      Log.warn('[MMM-pages]: The config option "rotationFirstPage" is deprecated. Please used "rotationHomePage" instead.');
       this.config.rotationHomePage = this.config.rotationFirstPage;
     }
 
@@ -71,7 +71,7 @@ Module.register('MMM-pages', {
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
 
     if (!this.config.useLockString) {
-      Log.log('[Pages]: User opted to not use lock strings!');
+      Log.log('[MMM-pages]: User opted to not use lock strings!');
     }
   },
 
@@ -96,25 +96,25 @@ Module.register('MMM-pages', {
   notificationReceived: function (notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
-        Log.log('[Pages]: received a notification '
+        Log.log('[MMM-pages]: received a notification '
           + `to change to page ${payload} of type ${typeof payload}`);
         this.curPage = payload;
         this.updatePages();
         break;
       case 'PAGE_INCREMENT':
-        Log.log('[Pages]: received a notification to increment pages!');
+        Log.log('[MMM-pages]: received a notification to increment pages!');
         this.changePageBy(payload, 1);
         this.updatePages();
         break;
       case 'PAGE_DECREMENT':
-        Log.log('[Pages]: received a notification to decrement pages!');
+        Log.log('[MMM-pages]: received a notification to decrement pages!');
         // We can't just pass in -payload for situations where payload is null
         // JS will coerce -payload to -0.
         this.changePageBy(payload ? -payload : payload, -1);
         this.updatePages();
         break;
       case 'DOM_OBJECTS_CREATED':
-        Log.log('[Pages]: received that all objects are created;'
+        Log.log('[MMM-pages]: received that all objects are created;'
           + ' will now hide things!');
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
         this.sendNotification('NEW_PAGE', this.curPage);
@@ -134,12 +134,12 @@ Module.register('MMM-pages', {
         this.notificationReceived('PAGE_CHANGED', this.config.homePage);
         break;
       case 'SHOW_HIDDEN_PAGE':
-        Log.log(`[Pages]: received a notification to change to the hidden page "${payload}" of type "${typeof payload}"`);
+        Log.log(`[MMM-pages]: received a notification to change to the hidden page "${payload}" of type "${typeof payload}"`);
         this.setRotation(false);
         this.showHiddenPage(payload);
         break;
       case 'LEAVE_HIDDEN_PAGE':
-        Log.log("[Pages]: received a notification to leave the current hidden page ");
+        Log.log("[MMM-pages]: received a notification to leave the current hidden page ");
         this.animatePageChange();
         this.setRotation(true);
         break;
@@ -159,7 +159,7 @@ Module.register('MMM-pages', {
    */
   changePageBy: function (amt, fallback) {
     if (typeof amt !== 'number' && typeof fallback === 'undefined') {
-      Log.warn(`[Pages]: ${amt} is not a number!`);
+      Log.warn(`[MMM-pages]: ${amt} is not a number!`);
     }
 
     if (typeof amt === 'number' && !Number.isNaN(amt)) {
@@ -187,7 +187,7 @@ Module.register('MMM-pages', {
         this.resetTimerWithDelay(0);
       }
       this.sendNotification('NEW_PAGE', this.curPage);
-    } else { Log.error("[Pages]: Pages aren't properly defined!"); }
+    } else { Log.error("[MMM-pages]: Pages aren't properly defined!"); }
   },
 
   /**
@@ -311,9 +311,9 @@ Module.register('MMM-pages', {
   setRotation: function (isRotating) {
     const stateBaseString = (isRotating) ? "resum" : "paus";
     if (isRotating === this.rotationPaused) {
-      Log.warn(`[Pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
+      Log.warn(`[MMM-pages]: Was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
-      Log.log(`[Pages]: ${stateBaseString}ing rotation`);
+      Log.log(`[MMM-pages]: ${stateBaseString}ing rotation`);
       if (!isRotating) {
         if(this.timer){
           this.timer_clear_function(this.timer);
