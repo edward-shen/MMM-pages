@@ -1,0 +1,32 @@
+{
+  "name": "mmm-pages",
+  "version": "1.0.0",
+  "description": "Add pages to your MagicMirror².",
+  "main": "MMM-pages.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdetweil/MMM-pages.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "pages",
+    "slides"
+  ],
+  "author": "Edward Shen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sdetweil/MMM-pages/issues"
+  },
+  "homepage": "https://github.com/sdetweil/MMM-pages#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "@stylistic/eslint-plugin": "^2.8.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0"
+  }
+}
