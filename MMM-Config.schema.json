@@ -51,12 +51,6 @@
                   }
               }
             },
-            "excludes": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
             "fixed": {
               "type": "array",
               "items": {
@@ -66,9 +60,20 @@
             "hiddenPages": {
               "type": "array",
               "items": {
-                "type": "pair"
-              }
-            },
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "pages": {
+                    "type": "array",
+                    "items":{
+                      "type":"string"
+                      }
+                    }
+                  }
+                }
+              },
             "animationTime": {
               "type": "integer"
             },
@@ -95,7 +100,7 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "pageNumber": {
+                  "page_number": {
                     "type": "integer"
                   },
                   "timeout": {
@@ -158,17 +163,6 @@
         },
         {
           "type": "array",
-          "title": "excludes",
-          "deleteCurrent": false,
-          "items": [
-            {
-              "title": "excludes {{idx}}",
-              "key": "MMM-pages.config.excludes[]"
-            }
-          ]
-        },
-        {
-          "type": "array",
           "title": "fixed",
           "deleteCurrent": false,
           "items": [
@@ -179,15 +173,29 @@
           ]
         },
         {
-          "type": "array",
-          "title": "hiddenPages",
-          "deleteCurrent": false,
-          "items": [
-            {
-              "key": "MMM-pages.config.hiddenPages[]",
-              "title": "hiddenPage {{idx}}"
-            }
-          ]
+            "type": "array",
+            "title": "hiddenpages",
+            "items": [
+              {
+                "type":"fieldset",
+                "items":[
+                  {
+                    "title": "page name",
+                    "key": "MMM-pages.config.hiddenPages[].name"
+                  },
+                  {
+                    "type":"array",
+                    "items":[
+                      {
+                      "title": "module on page",
+                      "key": "MMM-pages.config.hiddenPages[].pages[]"
+                      }
+                    ]
+                  }
+                  ]
+                }
+              ]
+
         },
         {
           "title": "animationTime",
@@ -226,8 +234,8 @@
             "title": "pageTimeout",
             "items": [
               {
-                "title": "pageNumber",
-                "key": "MMM-pages.config.pageTimeout[].pageNumber"
+                "title": "page_number",
+                "key": "MMM-pages.config.pageTimeout[].page_number"
               },
               {
                 "title": "timeout",
@@ -248,13 +256,17 @@
     "config": {
       "modules": [
         [
+          ""
         ]
       ],
-      "excludes": [],
       "fixed": [
         "MMM-page-indicator"
       ],
-      "hiddenPages": {},
+      "hiddenPages": {
+        "name": [
+          ""
+        ]
+      },
       "animationTime": 1000,
       "rotationTime": 0,
       "rotationFirstPage": 0,
@@ -262,7 +274,8 @@
       "rotationDelay": 10000,
       "homePage": 0,
       "useLockString": true,
-      "pageTimeout": []
+      "pageTimeout": [
+      ]
     }
   }
 }
