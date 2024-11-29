@@ -81,7 +81,7 @@ modules: [
 ]
 ```
 
-and alternative approach, is to define a fixed MMM-Pages config
+an alternative approach, is to define a fixed MMM-Pages config
 
 ```js
 modules: [
@@ -89,9 +89,10 @@ modules: [
         module: 'MMM-Pages',
         config: {
                 modules:
-                    [[ "page1" ],
+                    [
+                     [ "page1" ],
                      [ "page2" ],
-                     [ "page3" ],
+                     [ "page3" ]
                     ],
                 fixed: [ "fixed_page" ],
                 hiddenPages: {
