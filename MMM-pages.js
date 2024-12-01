@@ -176,7 +176,7 @@ Module.register('MMM-pages', {
    * elements.
    */
   updatePages: function () {
-    // Update iff there's at least one page.
+    // Update if there's at least one page.
     if (this.config.modules.length !== 0) {
       this.animatePageChange();
       if (!this.rotationPaused) {
