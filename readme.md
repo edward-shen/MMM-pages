@@ -16,8 +16,8 @@ high quality code and match the standards of the existing codebase.
 
 # MMM-pages
 
-This [MagicMirror²][mm] Module allows you to have pages in your magic mirror!
-Want to have more modules in your magic mirror, but want to keep the format?
+This [MagicMirror²][mm] module allows you to have pages in your MagicMirror!
+Want to have more modules in your MagicMirror, but want to keep the format?
 Or, want to have grouped modules that are themed together? Look no further!
 
 ![Example](example.webp)
@@ -166,7 +166,7 @@ See also FAQ below.
 
   MMM-pages intentionally does not provide methods to interact with the pages.
   This is intentional by design, as there are too many ways to interact with a
-  Magic Mirror. [MMM-page-indicator][page indicator] does provide a way to click
+  MagicMirror. [MMM-page-indicator][page indicator] does provide a way to click
   on the circles to change pages, but this requires the ability to click or tap
   on the circles itself. If no other method is available, MMM-pages provides an
   automatic rotation feature.
