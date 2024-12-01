@@ -52,6 +52,7 @@ To display what page you're on, I'd highly recommend checking out my
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.
+
 Note: module names used in the following example are fictitious.
 
 ```js
@@ -140,8 +141,8 @@ MMM-pages notifications.
 
 ### Initialization
 
-_This section provides documentation on what notifications the module sends on
-startup. This section isn't necessary to read for most users._
+*This section provides documentation on what notifications the module sends on
+startup. This section isn't necessary to read for most users.*
 
 MMM-pages doesn't activate until we receive the `DOM_OBJECTS_CREATED`
 notification, as that notification ensures all modules have been loaded. On this
