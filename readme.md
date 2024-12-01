@@ -37,7 +37,7 @@ cd ~/MagicMirror/modules
 Clone this repository:
 
 ```bash
-git clone https://github.com/edward-shen/MMM-pages.git
+git clone https://github.com/edward-shen/MMM-pages
 ```
 
 Configure the module in your config.js file.
