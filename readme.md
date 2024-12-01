@@ -1,4 +1,6 @@
-## Maintainer needed
+# MMM-pages
+
+## Project status
 
 This project is **mature** and in maintence mode only. New features or fixes
 will not be actively made. If you'd like to see a feature or fix, please
@@ -12,9 +14,7 @@ contribute to this repository before asking for maintainership. As this module
 is used by a lot of people, I need to ensure that a new maintainer can write
 high quality code and match the standards of the existing codebase.
 
----
-
-# MMM-pages
+## Description
 
 This [MagicMirror²][mm] module allows you to have pages in your MagicMirror!
 Want to have more modules in your MagicMirror, but want to keep the format?
