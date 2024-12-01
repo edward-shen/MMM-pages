@@ -28,7 +28,7 @@ one yourself!
 
 ## Installation
 
-In your terminal, go to your MagicMirror's Module folder:
+In your terminal, go to your MagicMirror's module directory:
 
 ```bash
 cd ~/MagicMirror/modules
