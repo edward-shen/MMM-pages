@@ -190,5 +190,5 @@ See also FAQ below.
   Please make an issue. Thanks!
 
 [example_url]: https://www.youtube.com/watch?v=1NQ-sGtdUdg
-[mm]: https://github.com/MichMich/MagicMirror
+[mm]: https://github.com/MagicMirrorOrg/MagicMirror
 [page indicator]: https://github.com/edward-shen/MMM-page-indicator
