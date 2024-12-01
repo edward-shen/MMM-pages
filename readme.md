@@ -1,4 +1,6 @@
-## Maintainer needed
+# MMM-pages
+
+## Project status
 
 This project is **mature** and in maintence mode only. New features or fixes
 will not be actively made. If you'd like to see a feature or fix, please
@@ -12,12 +14,10 @@ contribute to this repository before asking for maintainership. As this module
 is used by a lot of people, I need to ensure that a new maintainer can write
 high quality code and match the standards of the existing codebase.
 
----
+## Description
 
-# MMM-pages
-
-This [MagicMirror²][mm] Module allows you to have pages in your magic mirror!
-Want to have more modules in your magic mirror, but want to keep the format?
+This [MagicMirror²][mm] module allows you to have pages in your MagicMirror!
+Want to have more modules in your MagicMirror, but want to keep the format?
 Or, want to have grouped modules that are themed together? Look no further!
 
 ![Example](example.webp)
@@ -28,7 +28,7 @@ one yourself!
 
 ## Installation
 
-In your terminal, go to your MagicMirror's Module folder:
+In your terminal, go to your MagicMirror's module directory:
 
 ```bash
 cd ~/MagicMirror/modules
@@ -37,7 +37,7 @@ cd ~/MagicMirror/modules
 Clone this repository:
 
 ```bash
-git clone https://github.com/edward-shen/MMM-pages.git
+git clone https://github.com/edward-shen/MMM-pages
 ```
 
 Configure the module in your config.js file.
@@ -52,6 +52,7 @@ To display what page you're on, I'd highly recommend checking out my
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.
+
 Note: module names used in the following example are fictitious.
 
 ```js
@@ -140,8 +141,8 @@ MMM-pages notifications.
 
 ### Initialization
 
-_This section provides documentation on what notifications the module sends on
-startup. This section isn't necessary to read for most users._
+*This section provides documentation on what notifications the module sends on
+startup. This section isn't necessary to read for most users.*
 
 MMM-pages doesn't activate until we receive the `DOM_OBJECTS_CREATED`
 notification, as that notification ensures all modules have been loaded. On this
@@ -166,7 +167,7 @@ See also FAQ below.
 
   MMM-pages intentionally does not provide methods to interact with the pages.
   This is intentional by design, as there are too many ways to interact with a
-  Magic Mirror. [MMM-page-indicator][page indicator] does provide a way to click
+  MagicMirror. [MMM-page-indicator][page indicator] does provide a way to click
   on the circles to change pages, but this requires the ability to click or tap
   on the circles itself. If no other method is available, MMM-pages provides an
   automatic rotation feature.
@@ -189,6 +190,5 @@ See also FAQ below.
 
   Please make an issue. Thanks!
 
-[example_url]: https://www.youtube.com/watch?v=1NQ-sGtdUdg
-[mm]: https://github.com/MichMich/MagicMirror
+[mm]: https://github.com/MagicMirrorOrg/MagicMirror
 [page indicator]: https://github.com/edward-shen/MMM-page-indicator
