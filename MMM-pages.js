@@ -69,7 +69,7 @@ Module.register('MMM-pages', {
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
 
     if (!this.config.useLockString) {
-      Log.info('[MMM-pages] User opted to not use lock strings!');
+      Log.log('[MMM-pages] User opted to not use lock strings!');
     }
   },
 
