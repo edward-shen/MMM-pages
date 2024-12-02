@@ -183,7 +183,7 @@ Module.register('MMM-pages', {
         this.resetTimerWithDelay(0);
       }
       this.sendNotification('NEW_PAGE', this.curPage);
-    } else { Log.error('[MMM-pages] Pages aren\'t properly defined!'); }
+    } else { Log.error('[MMM-pages] Pages are not properly defined!'); }
   },
 
   /**
