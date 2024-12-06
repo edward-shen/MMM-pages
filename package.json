@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/edward-shen/MMM-pages/issues"
   },
-  "homepage": "https://github.com/edward-shen/MMM-pages#readme"
+  "homepage": "https://github.com/edward-shen/MMM-pages#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "@stylistic/eslint-plugin": "^2.11.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0"
+  }
 }
