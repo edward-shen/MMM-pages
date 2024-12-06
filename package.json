@@ -1,0 +1,21 @@
+{
+  "name": "mmm-pages",
+  "version": "1.0.0",
+  "description": "Add pages to your MagicMirror².",
+  "main": "MMM-pages.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edward-shen/MMM-pages.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "pages",
+    "slides"
+  ],
+  "author": "Edward Shen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edward-shen/MMM-pages/issues"
+  },
+  "homepage": "https://github.com/edward-shen/MMM-pages#readme"
+}
