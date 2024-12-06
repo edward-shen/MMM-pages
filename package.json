@@ -18,6 +18,11 @@
     "url": "https://github.com/edward-shen/MMM-pages/issues"
   },
   "homepage": "https://github.com/edward-shen/MMM-pages#readme",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "npm run lint"
+  },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@stylistic/eslint-plugin": "^2.11.0",
