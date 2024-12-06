@@ -37,7 +37,7 @@ Module.register('MMM-pages', {
    * @param {number} n The divisor
    */
   mod: function (x, n) {
-    return ((x % n) + n) % n;
+    return (x % n + n) % n;
   },
 
   /**
@@ -195,7 +195,7 @@ Module.register('MMM-pages', {
    * Optional and only used when we want to switch to a hidden page
    */
   animatePageChange: function (targetPageName) {
-    let lockStringObj = { lockString: this.identifier };
+    let lockStringObj = {lockString: this.identifier};
     if (!this.config.useLockString) {
       // Passing in an undefined object is equivalent to not passing it in at
       // all, effectively providing only one arg to the hide and show calls
@@ -216,13 +216,13 @@ Module.register('MMM-pages', {
 
     MM.getModules()
       .exceptWithClass(modulesToShow)
-      .enumerate(module => module.hide(animationTime, lockStringObj));
+      .enumerate((module) => module.hide(animationTime, lockStringObj));
 
     // Shows all modules meant to be on the current page, after a small delay.
     setTimeout(() => {
       MM.getModules()
         .withClass(modulesToShow)
-        .enumerate(module => module.show(animationTime, lockStringObj));
+        .enumerate((module) => module.show(animationTime, lockStringObj));
     }, animationTime);
   },
 
@@ -276,7 +276,7 @@ Module.register('MMM-pages', {
    * @param {boolean} isRotating the parameter, if you want to pause or resume.
    */
   setRotation: function (isRotating) {
-    const stateBaseString = (isRotating) ? "resum" : "paus";
+    const stateBaseString = isRotating ? 'resum' : 'paus';
     if (isRotating === this.rotationPaused) {
       Log.warn(`[MMM-pages] was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
