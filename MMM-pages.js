@@ -34,7 +34,7 @@ Module.register('MMM-pages', {
    * @param {number} n The divisor
    */
   mod (x, n) {
-    return (x % n + n) % n;
+    return ((x % n) + n) % n;
   },
 
   /**

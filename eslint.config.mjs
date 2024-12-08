@@ -33,6 +33,7 @@ const config = [
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/multiline-comment-style': 'off',
       '@stylistic/multiline-ternary': 'off',
+      '@stylistic/no-extra-parens': 'off',
       'object-shorthand': ['error', 'always']
     },
   }
