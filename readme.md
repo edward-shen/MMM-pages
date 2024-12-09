@@ -51,31 +51,40 @@ cd ~/MagicMirror/modules/MMM-pages
 git pull
 ```
 
-## Using the module
+## Configuration
 
 To use this module, add it to the modules array in the `config/config.js` file.
 
-Note: module names used in the following example are fictitious.
+*Note*: Some of the module names used in the following example are fictitious.
 
 ```js
-modules: [
     {
-        module: 'MMM-pages',
+        module: "MMM-pages",
         config: {
-                modules:
-                    [[ "newsfeed" ],
-                     [ "calendar", "compliments" ]],
-                fixed: [ "clock", "weather", "MMM-page-indicator" ],
-                hiddenPages: {
-                    "screenSaver": [ "clock", "MMM-SomeBackgroundImageModule" ],
-                    "admin": [ "MMM-ShowMeSystemStatsModule", "MMM-AnOnScreenMenuModule" ],
-                },
+            modules: [
+                ["newsfeed"],
+                ["calendar", "compliments"]
+            ],
+            fixed: [
+                "clock",
+                "weather",
+                "MMM-page-indicator"
+            ],
+            hiddenPages: {
+                "screenSaver": [
+                    "clock",
+                    "MMM-SomeBackgroundImageModule"
+                ],
+                "admin": [
+                    "MMM-ShowMeSystemStatsModule",
+                    "MMM-AnOnScreenMenuModule"
+                ]
+            }
         }
-    }
-]
+    },
 ```
 
-## Configuration options
+### Configuration options
 
 | Option | Type | Default Value | Description |
 | --- | --- | --- | --- |
@@ -89,7 +98,7 @@ modules: [
 | `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead. |
 | `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
 | `homePage`          | `int`                      | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead. |
-| `useLockString`     | `bool`                     | `true`                   | Whether or not to use a lock string to show or hide pages. If disabled, other modules may override when modules may be shown. _Advanced users only. Only override this if you know what you're doing._
+| `useLockString`     | `bool`                     | `true`                   | Whether or not to use a lock string to show or hide pages. If disabled, other modules may override when modules may be shown. *Advanced users only. Only override this if you know what you're doing.* |
 
 For the `module` configuration option, the first element of the outer array
 should consist of elements that should be on the first page. The second element
