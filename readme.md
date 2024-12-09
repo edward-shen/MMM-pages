@@ -49,6 +49,15 @@ To display what page you're on, I'd highly recommend checking out my
 
 *\<\\self-promotion>*
 
+## Update
+
+Go to the module’s directory inside your MagicMirror's module directory and pull the latest version:
+
+```bash
+cd ~/MagicMirror/modules/MMM-pages
+git pull
+```
+
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file.
