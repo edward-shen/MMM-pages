@@ -190,5 +190,13 @@ See also FAQ below.
 
   Please make an issue. Thanks!
 
+## Developer commands
+
+If you want to contribute to this poject, pleases use the following commands to maintain code quality:
+
+- `npm install` - Install development dependencies for linting.
+- `npm run lint` - Run linting checks.
+- `npm run lint:fix` - Fix linting issues. Please run this before committing.
+
 [mm]: https://github.com/MagicMirrorOrg/MagicMirror
 [page indicator]: https://github.com/edward-shen/MMM-page-indicator
