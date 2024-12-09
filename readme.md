@@ -26,6 +26,8 @@ Note that this module does not provide any method of manually changing the page!
 You should ask other developers to add a notification to their modules, or add
 one yourself!
 
+To display what page you're on, I highly recommend checking out my [page indicator module][page indicator].
+
 ## Installation
 
 In your terminal, go to your MagicMirror's module directory:
@@ -39,15 +41,6 @@ Clone this repository:
 ```bash
 git clone https://github.com/edward-shen/MMM-pages
 ```
-
-Configure the module in your config.js file.
-
-*\<self-promotion>*
-
-To display what page you're on, I'd highly recommend checking out my
-[page indicator module][page indicator].
-
-*\<\\self-promotion>*
 
 ## Update
 
