@@ -26,6 +26,8 @@ Note that this module does not provide any method of manually changing the page!
 You should ask other developers to add a notification to their modules, or add
 one yourself!
 
+## Page indicator
+
 To display what page you're on, I highly recommend checking out my [page indicator module][page indicator].
 
 ## Installation
@@ -53,24 +55,31 @@ git pull
 
 ## Configuration
 
-To use this module, add it to the modules array in the `config/config.js` file.
+To use this module, add a configuration to the modules array in the `config/config.js` file.
 
-*Note*: Some of the module names used in the following example are fictitious.
+*Note*: Some of the module names used in the following examples are fictitious.
+
+### Module name based configuration
+
+The easiest way to configure this module is to use the module names to define on which page they should appear:
+
+The first element of the array is the first page, the second element is the second page, and so on.
 
 ```js
     {
         module: "MMM-pages",
         config: {
+            rotationTime: 1000 * 20,         // rotate every 20 seconds
             modules: [
-                ["newsfeed"],
-                ["calendar", "compliments"]
+                ["newsfeed"],                // page 1
+                ["calendar", "compliments"], // page 2
             ],
-            fixed: [
+            fixed: [                         // modules that are always shown
                 "clock",
                 "weather",
                 "MMM-page-indicator"
             ],
-            hiddenPages: {
+            hiddenPages: {                   // modules that are only shown on specific pages
                 "screenSaver": [
                     "clock",
                     "MMM-SomeBackgroundImageModule"
@@ -82,6 +91,69 @@ To use this module, add it to the modules array in the `config/config.js` file.
             }
         }
     },
+```
+
+*Note:* This way you can only use one instance of each module. If you want to use multiple instances of the same module, you have to use the class based configuration.
+
+### Class based configuration
+
+Instead of using the module name, you can also use a class name for each page. This way you can have multiple instances of the same module on different pages.
+
+```js
+    {
+        module: "MMM-pages",
+        config: {
+            rotationTime: 1000 * 20, // rotate every 20 seconds
+            modules: [
+                ["page1"],  // class name for page 1
+                ["page2"],  // class name for page 2
+                ["page3"],  // class name for page 3
+            ],
+            fixed: ["fixed_page"],
+            hiddenPages: {
+                "screenSaver": ["screensaver_page"],
+                "admin": ["admin_page"],
+            }
+        }
+    },
+```
+
+You have to add the class name to the config of the module you want to show on a specific page. You can even add more than one class name to show a module istance on multiple pages.
+
+```js
+    {   // newsfeed on page 1
+        module:"newsfeed",
+        classes:"page1",
+        position: "...",
+        conig: {
+            ...
+        }
+    },
+    {   // first calendar instance on page 2
+        module:"calendar",
+        classes:"page2",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {   // second calendar instance on page 3
+        module:"calendar",
+        classes:"page3",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {  // this compliments istance appears on page 1 and 3
+        module:"compliments",
+        classes:"page1 page3",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    ...
 ```
 
 ### Configuration options
