@@ -125,7 +125,7 @@ You have to add the class name to the config of the module you want to show on a
         module:"newsfeed",
         classes:"page1",
         position: "...",
-        conig: {
+        config: {
             ...
         }
     },
