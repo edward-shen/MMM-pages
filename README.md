@@ -57,7 +57,7 @@ git pull
 
 To use this module, add a configuration to the modules array in the `config/config.js` file.
 
-There are two ways to configure this module: Using the module names or using class names. The module name based configuration is easier to use, but has the limitations that you can only use one instance of each module. So if you want to use multiple instances of the same module, you have to use the class based configuration.
+There are two ways to configure this module: Using the module names or using class names. The module name based configuration is easier to use, but has the limitation that you can only use one instance of each module. So if you want to use multiple instances of the same module, you have to use the class based configuration.
 
 *Note*: Some of the module names used in the following examples are fictitious.
 
