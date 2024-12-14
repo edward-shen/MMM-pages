@@ -57,6 +57,8 @@ git pull
 
 To use this module, add a configuration to the modules array in the `config/config.js` file.
 
+There are two ways to configure this module: Using the module names or using class names. The module name based configuration is easier to use, but has the limitations that you can only use one instance of each module. So if you want to use multiple instances of the same module, you have to use the class based configuration.
+
 *Note*: Some of the module names used in the following examples are fictitious.
 
 ### Module name based configuration
@@ -92,8 +94,6 @@ The first element of the array is the first page, the second element is the seco
         }
     },
 ```
-
-*Note:* This way you can only use one instance of each module. If you want to use multiple instances of the same module, you have to use the class based configuration.
 
 ### Class based configuration
 
