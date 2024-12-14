@@ -105,9 +105,9 @@ Instead of using the module name, you can also use a class name for each page. T
         config: {
             rotationTime: 1000 * 20, // rotate every 20 seconds
             modules: [
-                ["page1"],  // class name for page 1
-                ["page2"],  // class name for page 2
-                ["page3"],  // class name for page 3
+                ["page1"],           // class name for page 1
+                ["page2"],           // class name for page 2
+                ["page3"],           // class name for page 3
             ],
             fixed: ["fixed_page"],
             hiddenPages: {
