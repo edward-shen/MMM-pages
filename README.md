@@ -122,32 +122,32 @@ You have to add the class name to the config of the module you want to show on a
 
 ```js
     {   // newsfeed on page 1
-        module:"newsfeed",
-        classes:"page1",
+        module: "newsfeed",
+        classes: "page1",
         position: "...",
         config: {
             ...
         }
     },
     {   // first calendar instance on page 2
-        module:"calendar",
-        classes:"page2",
+        module: "calendar",
+        classes: "page2",
         position: "...",
         config: {
             ...
         }
     },
     {   // second calendar instance on page 3
-        module:"calendar",
-        classes:"page3",
+        module: "calendar",
+        classes: "page3",
         position: "...",
         config: {
             ...
         }
     },
     {  // this compliments instance appears on page 1 and 3
-        module:"compliments",
-        classes:"page1 page3",
+        module: "compliments",
+        classes: "page1 page3",
         position: "...",
         config: {
             ...
