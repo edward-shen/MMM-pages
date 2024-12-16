@@ -2,7 +2,7 @@
 
 ## Project status
 
-This project is **mature** and in maintence mode only. New features or fixes
+This project is **mature** and in maintenance mode only. New features or fixes
 will not be actively made. If you'd like to see a feature or fix, please
 create a pull request.
 
@@ -25,6 +25,8 @@ Or, want to have grouped modules that are themed together? Look no further!
 Note that this module does not provide any method of manually changing the page!
 You should ask other developers to add a notification to their modules, or add
 one yourself!
+
+## Page indicator
 
 To display what page you're on, I highly recommend checking out my [page indicator module][page indicator].
 
@@ -53,24 +55,33 @@ git pull
 
 ## Configuration
 
-To use this module, add it to the modules array in the `config/config.js` file.
+To use this module, add a configuration to the modules array in the `config/config.js` file.
 
-*Note*: Some of the module names used in the following example are fictitious.
+There are two ways to configure this module: Using the module names or using class names. The module name based configuration is easier to use, but has the limitation that you can only use one instance of each module. So if you want to use multiple instances of the same module, you have to use the class based configuration.
+
+*Note*: Some of the module names used in the following examples are fictitious.
+
+### Module name based configuration
+
+The easiest way to configure this module is to use the module names to define on which page they should appear:
+
+The first element of the array is the first page, the second element is the second page, and so on.
 
 ```js
     {
         module: "MMM-pages",
         config: {
+            rotationTime: 1000 * 20,         // rotate every 20 seconds
             modules: [
-                ["newsfeed"],
-                ["calendar", "compliments"]
+                ["newsfeed"],                // page 1
+                ["calendar", "compliments"], // page 2
             ],
-            fixed: [
+            fixed: [                         // modules that are always shown
                 "clock",
                 "weather",
                 "MMM-page-indicator"
             ],
-            hiddenPages: {
+            hiddenPages: {                   // modules that are only shown on specific pages
                 "screenSaver": [
                     "clock",
                     "MMM-SomeBackgroundImageModule"
@@ -84,6 +95,67 @@ To use this module, add it to the modules array in the `config/config.js` file.
     },
 ```
 
+### Class based configuration
+
+Instead of using the module name, you can also use a class name for each page. This way you can have multiple instances of the same module on different pages.
+
+```js
+    {
+        module: "MMM-pages",
+        config: {
+            rotationTime: 1000 * 20, // rotate every 20 seconds
+            modules: [
+                ["page1"],           // class name for page 1
+                ["page2"],           // class name for page 2
+                ["page3"],           // class name for page 3
+            ],
+            fixed: ["fixed_page"],
+            hiddenPages: {
+                "screenSaver": ["screensaver_page"],
+                "admin": ["admin_page"],
+            }
+        }
+    },
+```
+
+You have to add the class name to the config of the module you want to show on a specific page. You can even add more than one class name to show a module instance on multiple pages.
+
+```js
+    {   // newsfeed on page 1
+        module: "newsfeed",
+        classes: "page1",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {   // first calendar instance on page 2
+        module: "calendar",
+        classes: "page2",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {   // second calendar instance on page 3
+        module: "calendar",
+        classes: "page3",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {  // this compliments instance appears on page 1 and 3
+        module: "compliments",
+        classes: "page1 page3",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    ...
+```
+
 ### Configuration options
 
 | Option | Type | Default Value | Description |
@@ -91,7 +163,7 @@ To use this module, add it to the modules array in the `config/config.js` file.
 | `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
 | `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time. |
 | `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead. |
-| `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accassible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
+| `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accessible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
 | `animationTime`     | `int`                      | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
 | `rotationTime`      | `int`                      | `0`                      | Time, in milliseconds, between automatic page changes. |
 | `rotationDelay`     | `int`                      | `10000`                  | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
@@ -164,9 +236,9 @@ max pages have a way to determine which page to start on.
 ### Hidden pages
 
 The idea behind hidden pages is to be able to create special "modes" which
-are totally configurable by the user and are seperated from the "normal" MM² operation.
+are totally configurable by the user and are separated from the "normal" MM² operation.
 Some examples would be a "guest", "admin" or "screensaver" mode, where only very
-specific modules are shown and you do not want to have them in your normal page roation.
+specific modules are shown and you do not want to have them in your normal page rotation.
 
 These hidden pages are only accessible via notifications, so you need to send them from
 other modules. Examples integrations could be with touch, bots or voice commands.
@@ -203,7 +275,7 @@ See also FAQ below.
 
 ## Developer commands
 
-If you want to contribute to this poject, pleases use the following commands to maintain code quality:
+If you want to contribute to this project, pleases use the following commands to maintain code quality:
 
 - `npm install` - Install development dependencies for linting.
 - `npm run lint` - Run linting checks.
