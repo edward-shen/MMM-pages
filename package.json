@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/edward-shen/MMM-pages#readme",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "npm run lint"
   },
   "devDependencies": {
