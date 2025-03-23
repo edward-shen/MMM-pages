@@ -20,13 +20,6 @@ Module.register('MMM-pages', {
   },
 
   /**
-   * Apply any styles, if we have any.
-   */
-  getStyles() {
-    return ['pages.css'];
-  },
-
-  /**
    * Modulo that also works with negative numbers.
    *
    * @param {number} x The dividend
