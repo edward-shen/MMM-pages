@@ -12,6 +12,7 @@ Module.register('MMM-pages', {
     hiddenPages: {},
     animationTime: 1000,
     rotationTime: 0,
+    individualRotationTimes: [],
     rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationDelay: 10000,
@@ -221,11 +222,15 @@ Module.register('MMM-pages', {
    * @param {number} delay the delay, in milliseconds.
    */
   resetTimerWithDelay(delay) {
-    if (this.config.rotationTime > 0) {
+    if (this.config.rotationTime > 0 || this.config.individualRotationTimes.length) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
       // This is delay timer after manually updating.
       clearInterval(this.delayTimer);
+      let currentRotationTime = this.config.rotationTime;
+      if (this.config.individualRotationTimes[this.curPage]) {
+        currentRotationTime = this.config.individualRotationTimes[this.curPage];
+      }
       const self = this;
 
       this.delayTimer = setTimeout(() => {
@@ -235,7 +240,7 @@ Module.register('MMM-pages', {
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
-        }, self.config.rotationTime);
+        }, currentRotationTime);
       }, delay);
     } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
