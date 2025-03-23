@@ -12,7 +12,7 @@ Module.register('MMM-pages', {
     hiddenPages: {},
     animationTime: 1000,
     rotationTime: 0,
-    individualRotationTimes: [],
+    timings: { default: 0 },
     rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationDelay: 10000,
@@ -53,8 +53,13 @@ Module.register('MMM-pages', {
       this.config.rotationHomePage = this.config.rotationFirstPage;
     }
 
+    if (this.config.rotationTime) {
+      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please used "rotationHomePage" instead.');
+      this.config.timings.default = this.config.rotationTime;
+    }
+
     // Disable rotation if an invalid input is given
-    this.config.rotationTime = Math.max(this.config.rotationTime, 0);
+    this.config.timings.default = Math.max(this.config.timings.default, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
 
@@ -222,14 +227,14 @@ Module.register('MMM-pages', {
    * @param {number} delay the delay, in milliseconds.
    */
   resetTimerWithDelay(delay) {
-    if (this.config.rotationTime > 0 || this.config.individualRotationTimes.length) {
+    if (this.config.timings.default > 0 || Object.keys(this.config.timings).length > 1) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
       // This is delay timer after manually updating.
       clearInterval(this.delayTimer);
-      let currentRotationTime = this.config.rotationTime;
-      if (this.config.individualRotationTimes[this.curPage]) {
-        currentRotationTime = this.config.individualRotationTimes[this.curPage];
+      let currentRotationTime = this.config.timings.default;
+      if (this.config.timings[this.curPage]) {
+        currentRotationTime = this.config.timings[this.curPage];
       }
       const self = this;
 

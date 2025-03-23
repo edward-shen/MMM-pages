@@ -158,15 +158,15 @@ You have to add the class name to the config of the module you want to show on a
 
 ### Configuration options
 
-| Option | Type | Default Value | Description |
-| --- | --- | --- | --- |
+| Option              | Type                       | Default Value            | Description |
+| ------------------- | -------------------------- | ------------------------ | ----------- |
 | `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
 | `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time. |
 | `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead. |
 | `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accessible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
 | `animationTime`     | `int`                      | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
-| `rotationTime`      | `int`                      | `0`                      | Time, in milliseconds, between automatic page changes. |
-| `individualRotationTimes` | `[int, int, int...]`                 | `[]`                     | An array of integers (milliseconds) that define the rotation time of each page. If the array is shorter than the number of pages, `rotationTime` will be used for the remaining pages. You only need this if you want different rotation times for each page. |
+| `rotationTime`      | `int`                      | `0`                      | **Deprecated**. Use `timings` instead. |
+| `timings`           | `object`                   | `{ default: 0 }`         | An object whose keys define the rotation time of the pages in milliseconds. <br>Example, where each page is 3 seconds, except page 3 which is 20 seconds:<br>`{ default: 3000, 2: 20000 }`<br>If a page is not defined, it will use the `default` value. <br> *Note:* Remember that the numbering starts at 0, so the first page is `0`, the second page is `1`, and so forth. |
 | `rotationDelay`     | `int`                      | `10000`                  | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
 | `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead. |
 | `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
