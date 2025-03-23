@@ -7,12 +7,9 @@ const config = [
   eslintPluginStylistic.configs.recommended,
   {
     files: ['**/*.js', '**/*.mjs'],
-  },
-  {
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node,
         Log: 'readonly',
         MM: 'readonly',
         Module: 'readonly',
