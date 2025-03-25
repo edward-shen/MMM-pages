@@ -54,7 +54,7 @@ Module.register('MMM-pages', {
     }
 
     if (this.config.rotationTime) {
-      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please used "rotationHomePage" instead.');
+      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please used "timings" instead.');
       this.config.timings.default = this.config.rotationTime;
     }
 
