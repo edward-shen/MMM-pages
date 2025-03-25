@@ -71,10 +71,13 @@ The first element of the array is the first page, the second element is the seco
     {
         module: "MMM-pages",
         config: {
-            rotationTime: 1000 * 20,         // rotate every 20 seconds
+            timings: {
+                default: 5000,               // rotate every 5 seconds   
+                0: 20000                     // page 0 rotates every 20 seconds
+            },
             modules: [
-                ["newsfeed"],                // page 1
-                ["calendar", "compliments"], // page 2
+                ["newsfeed"],                // page 0
+                ["calendar", "compliments"], // page 1
             ],
             fixed: [                         // modules that are always shown
                 "clock",
@@ -103,11 +106,14 @@ Instead of using the module name, you can also use a class name for each page. T
     {
         module: "MMM-pages",
         config: {
-            rotationTime: 1000 * 20, // rotate every 20 seconds
+            timings: {
+                default: 20000,      // rotate every 20 seconds
+                2: 30000             // page 2 rotates every 30 seconds
+            }, 
             modules: [
+                ["page0"],           // class name for page 0
                 ["page1"],           // class name for page 1
                 ["page2"],           // class name for page 2
-                ["page3"],           // class name for page 3
             ],
             fixed: ["fixed_page"],
             hiddenPages: {
@@ -121,15 +127,23 @@ Instead of using the module name, you can also use a class name for each page. T
 You have to add the class name to the config of the module you want to show on a specific page. You can even add more than one class name to show a module instance on multiple pages.
 
 ```js
-    {   // newsfeed on page 1
+    {   // newsfeed on page 0
         module: "newsfeed",
+        classes: "page0",
+        position: "...",
+        config: {
+            ...
+        }
+    },
+    {   // first calendar instance on page 1
+        module: "calendar",
         classes: "page1",
         position: "...",
         config: {
             ...
         }
     },
-    {   // first calendar instance on page 2
+    {   // second calendar instance on page 2
         module: "calendar",
         classes: "page2",
         position: "...",
@@ -137,17 +151,9 @@ You have to add the class name to the config of the module you want to show on a
             ...
         }
     },
-    {   // second calendar instance on page 3
-        module: "calendar",
-        classes: "page3",
-        position: "...",
-        config: {
-            ...
-        }
-    },
-    {  // this compliments instance appears on page 1 and 3
+    {  // this compliments instance appears on page 0 and 2
         module: "compliments",
-        classes: "page1 page3",
+        classes: "page0 page2",
         position: "...",
         config: {
             ...
