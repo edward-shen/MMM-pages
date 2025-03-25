@@ -49,12 +49,12 @@ Module.register('MMM-pages', {
     }
 
     if (this.config.rotationFirstPage) {
-      Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please used "rotationHomePage" instead.');
+      Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please use "rotationHomePage" instead.');
       this.config.rotationHomePage = this.config.rotationFirstPage;
     }
 
     if (this.config.rotationTime) {
-      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please used "timings" instead.');
+      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please use "timings" instead.');
       this.config.timings.default = this.config.rotationTime;
     }
 
