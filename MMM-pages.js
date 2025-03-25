@@ -12,6 +12,7 @@ Module.register('MMM-pages', {
     hiddenPages: {},
     animationTime: 1000,
     rotationTime: 0,
+    timings: { default: 0 },
     rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationDelay: 10000,
@@ -48,12 +49,17 @@ Module.register('MMM-pages', {
     }
 
     if (this.config.rotationFirstPage) {
-      Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please used "rotationHomePage" instead.');
+      Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please use "rotationHomePage" instead.');
       this.config.rotationHomePage = this.config.rotationFirstPage;
     }
 
+    if (this.config.rotationTime) {
+      Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please use "timings" instead.');
+      this.config.timings.default = this.config.rotationTime;
+    }
+
     // Disable rotation if an invalid input is given
-    this.config.rotationTime = Math.max(this.config.rotationTime, 0);
+    this.config.timings.default = Math.max(this.config.timings.default, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
 
@@ -221,11 +227,15 @@ Module.register('MMM-pages', {
    * @param {number} delay the delay, in milliseconds.
    */
   resetTimerWithDelay(delay) {
-    if (this.config.rotationTime > 0) {
+    if (this.config.timings.default > 0 || Object.keys(this.config.timings).length > 1) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
       // This is delay timer after manually updating.
       clearInterval(this.delayTimer);
+      let currentRotationTime = this.config.timings.default;
+      if (this.config.timings[this.curPage]) {
+        currentRotationTime = this.config.timings[this.curPage];
+      }
       const self = this;
 
       this.delayTimer = setTimeout(() => {
@@ -235,7 +245,7 @@ Module.register('MMM-pages', {
           // message, so we need to trigger it for ourselves.
           self.sendNotification('PAGE_INCREMENT');
           self.notificationReceived('PAGE_INCREMENT');
-        }, self.config.rotationTime);
+        }, currentRotationTime);
       }, delay);
     } else if (this.config.rotationHomePage > 0) {
       // This timer is the auto rotate function.
