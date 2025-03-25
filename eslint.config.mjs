@@ -13,11 +13,13 @@ const config = [
         Log: 'readonly',
         MM: 'readonly',
         Module: 'readonly',
+        module: 'readonly',
       },
     },
     rules: {
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
       '@stylistic/comma-dangle': ['error', 'only-multiline'],
+      '@stylistic/max-statements-per-line': ['error', { max: 2 }],
       '@stylistic/semi': ['error', 'always'],
       'object-shorthand': ['error', 'always']
     },

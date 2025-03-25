@@ -59,7 +59,7 @@ To use this module, add a configuration to the modules array in the `config/conf
 
 There are two ways to configure this module: Using the module names or using class names. The module name based configuration is easier to use, but has the limitation that you can only use one instance of each module. So if you want to use multiple instances of the same module, you have to use the class based configuration.
 
-*Note*: Some of the module names used in the following examples are fictitious.
+*Note*: You can find complete configuration example files for both module name and class based configurations in the [example_configs](example_configs) directory.
 
 ### Module name based configuration
 
@@ -87,11 +87,11 @@ The first element of the array is the first page, the second element is the seco
             hiddenPages: {                   // modules that are only shown on specific pages
                 "screenSaver": [
                     "clock",
-                    "MMM-SomeBackgroundImageModule"
+                    "MMM-BackgroundSlideshow"
                 ],
                 "admin": [
-                    "MMM-ShowMeSystemStatsModule",
-                    "MMM-AnOnScreenMenuModule"
+                    "MMM-SystemMonitor",
+                    "MMM-OnScreenMenu"
                 ]
             }
         }
