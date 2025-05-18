@@ -23,4 +23,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Check linting
-        run: npm run lint
+        run: node --run lint

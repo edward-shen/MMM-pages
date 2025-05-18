@@ -21,7 +21,7 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "test": "npm run lint"
+    "test": "node --run lint"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
