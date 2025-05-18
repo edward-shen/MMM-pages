@@ -1,13 +1,14 @@
-import eslintPluginJs from '@eslint/js';
-import eslintPluginStylistic from '@stylistic/eslint-plugin';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
+import js from '@eslint/js';
+import markdown from '@eslint/markdown';
+import stylistic from '@stylistic/eslint-plugin';
 
-const config = [
-  eslintPluginJs.configs.recommended,
-  eslintPluginStylistic.configs.recommended,
+export default defineConfig([
   {
-    files: ['**/*.js', '**/*.mjs'],
+    files: ['**/*.js'],
     languageOptions: {
+      ecmaVersion: 'latest',
       globals: {
         ...globals.browser,
         Log: 'readonly',
@@ -16,14 +17,30 @@ const config = [
         module: 'readonly',
       },
     },
+    plugins: { js, stylistic },
+    extends: ['js/recommended', 'stylistic/recommended'],
     rules: {
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
       '@stylistic/comma-dangle': ['error', 'only-multiline'],
       '@stylistic/max-statements-per-line': ['error', { max: 2 }],
       '@stylistic/semi': ['error', 'always'],
-      'object-shorthand': ['error', 'always']
+    }
+  },
+  {
+    files: ['**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: {
+        ...globals.node,
+      },
+      sourceType: 'module'
     },
-  }
-];
-
-export default config;
+    plugins: { js, stylistic },
+    extends: ['js/recommended', 'stylistic/recommended'],
+    rules: {
+      '@stylistic/comma-dangle': ['error', 'only-multiline'],
+      '@stylistic/semi': ['error', 'always'],
+    }
+  },
+  { files: ['**/*.md'], plugins: { markdown }, language: 'markdown/gfm', extends: ['markdown/recommended'] },
+]);

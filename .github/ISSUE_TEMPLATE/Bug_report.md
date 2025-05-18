@@ -26,7 +26,7 @@ have aptly described your issue in words, feel free to ignore/delete this sectio
 **Please fill out the following information;**
 
 - Node version: [This can be obtained by running `node -v` in your terminal]
-- Have you updated to the latest MagicMirror core? [yes/no]
+- Have you updated to the latest MagicMirror core? (yes/no)
 - Please post the relevant part of your config file here:
 
 ```json
@@ -35,7 +35,7 @@ have aptly described your issue in words, feel free to ignore/delete this sectio
 
 - Please post any errors you see about MMM-pages in the console (Hit F12 > Console when the MagicMirror window is focused), or write **None** if there aren't any:
 
-```
+```bash
 (Paste the error here)
 ```
 
