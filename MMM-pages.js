@@ -172,7 +172,7 @@ Module.register('MMM-pages', {
    */
   updatePages() {
     // Update if there's at least one page.
-    if (this.config.modules.length !== 0) {
+    if (this.config.modules.length > 0) {
       this.animatePageChange();
       if (!this.rotationPaused) {
         this.resetTimerWithDelay(0);
@@ -202,10 +202,10 @@ Module.register('MMM-pages', {
 
     const self = this;
     let modulesToShow;
-    if (typeof targetPageName !== 'undefined') {
-      modulesToShow = this.config.hiddenPages[targetPageName];
-    } else {
+    if (typeof targetPageName === 'undefined') {
       modulesToShow = this.config.fixed.concat(this.config.modules[this.curPage]);
+    } else {
+      modulesToShow = this.config.hiddenPages[targetPageName];
     }
     const animationTime = self.config.animationTime / 2;
 
@@ -280,11 +280,11 @@ Module.register('MMM-pages', {
       Log.warn(`[MMM-pages] was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
       Log.log(`[MMM-pages] ${stateBaseString}ing rotation`);
-      if (!isRotating) {
+      if (isRotating) {
+        this.resetTimerWithDelay(this.rotationDelay);
+      } else {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
-      } else {
-        this.resetTimerWithDelay(this.rotationDelay);
       }
       this.rotationPaused = isRotating;
     }

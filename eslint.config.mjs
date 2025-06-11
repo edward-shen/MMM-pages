@@ -24,6 +24,7 @@ export default defineConfig([
       '@stylistic/comma-dangle': ['error', 'only-multiline'],
       '@stylistic/max-statements-per-line': ['error', { max: 2 }],
       '@stylistic/semi': ['error', 'always'],
+      'no-negated-condition': 'error'
     }
   },
   {
