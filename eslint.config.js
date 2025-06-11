@@ -27,21 +27,5 @@ export default defineConfig([
       'no-negated-condition': 'error'
     }
   },
-  {
-    files: ['**/*.mjs'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      globals: {
-        ...globals.node,
-      },
-      sourceType: 'module'
-    },
-    plugins: { js, stylistic },
-    extends: ['js/recommended', 'stylistic/recommended'],
-    rules: {
-      '@stylistic/comma-dangle': ['error', 'only-multiline'],
-      '@stylistic/semi': ['error', 'always'],
-    }
-  },
   { files: ['**/*.md'], plugins: { markdown }, language: 'markdown/gfm', extends: ['markdown/recommended'] },
 ]);
