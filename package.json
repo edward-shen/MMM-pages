@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "description": "Add pages to your MagicMirror².",
   "main": "MMM-pages.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/edward-shen/MMM-pages.git"
