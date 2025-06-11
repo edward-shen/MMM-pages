@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/edward-shen/MMM-pages/compare/v1.1.1...v1.1.2) - 2025-06-11 - Maintenance Release
+
+### Changed
+
+- chore: add "type": "module" to `package.json`
+- chore: simplify ESLint config
+- chore: switch to YAML issue templates
+- chore: update devDependencies
+- refactor: get rid of negated-conditions and add `no-negated-condition` rule to ESLint config
+
 ## [1.1.1](https://github.com/edward-shen/MMM-pages/compare/v1.1.0...v1.1.1) - 2025-03-26 - Maintenance Release
 
 ### Changed
