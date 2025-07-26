@@ -267,26 +267,26 @@ Module.register('MMM-pages', {
   },
 
   /**
-   * Pause or resume the page rotation. If the provided isRotating value is
-   * set to true, it will resume the rotation. If the requested
-   * state (f.e. isRotating === true) equals the current state, print a warning
-   * and do nothing.
+   * Toggles page rotation.
    *
-   * @param {boolean} isRotating the parameter, if you want to pause or resume.
+   * @param {boolean} shouldRotate - True to resume rotation, false to pause it.
    */
-  setRotation(isRotating) {
-    const stateBaseString = isRotating ? 'resum' : 'paus';
-    if (isRotating === !this.rotationPaused) {
-      Log.warn(`[MMM-pages] was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
+  setRotation(shouldRotate) {
+    const action = shouldRotate ? 'resume' : 'pause';
+    Log.debug(`[MMM-pages] setRotation called: ${action} rotation`);
+    if (shouldRotate === !this.rotationPaused) {
+      Log.debug(`[MMM-pages] Rotation already ${shouldRotate ? 'running' : 'paused'}!`);
     } else {
-      Log.log(`[MMM-pages] ${stateBaseString}ing rotation`);
-      if (isRotating) {
+      if (shouldRotate) {
         this.resetTimerWithDelay(this.config.rotationDelay);
+        this.rotationPaused = false;
+        Log.debug('[MMM-pages] Rotation resumed');
       } else {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
+        this.rotationPaused = true;
+        Log.debug('[MMM-pages] Rotation paused');
       }
-      this.rotationPaused = isRotating;
     }
   },
 
