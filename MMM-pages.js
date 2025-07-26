@@ -281,7 +281,7 @@ Module.register('MMM-pages', {
     } else {
       Log.log(`[MMM-pages] ${stateBaseString}ing rotation`);
       if (isRotating) {
-        this.resetTimerWithDelay(this.rotationDelay);
+        this.resetTimerWithDelay(this.config.rotationDelay);
       } else {
         clearInterval(this.timer);
         clearInterval(this.delayTimer);
