@@ -66,6 +66,8 @@ Module.register('MMM-pages', {
     if (!this.config.useLockString) {
       Log.log('[MMM-pages] User opted to not use lock strings!');
     }
+
+    this.hiddenPageTimer = null;
   },
 
   /**
@@ -131,6 +133,7 @@ Module.register('MMM-pages', {
         break;
       case 'LEAVE_HIDDEN_PAGE':
         Log.log('[MMM-pages] received a notification to leave the current hidden page.');
+        clearTimeout(this.hiddenPageTimer);
         this.animatePageChange();
         this.setRotation(true);
         break;
@@ -227,6 +230,7 @@ Module.register('MMM-pages', {
    * @param {number} delay the delay, in milliseconds.
    */
   resetTimerWithDelay(delay) {
+    Log.debug(`[MMM-pages] resetTimerWithDelay called with delay: ${delay}ms`);
     if (this.config.timings.default > 0 || Object.keys(this.config.timings).length > 1) {
       // This timer is the auto rotate function.
       clearInterval(this.timer);
@@ -239,6 +243,7 @@ Module.register('MMM-pages', {
       const self = this;
 
       this.delayTimer = setTimeout(() => {
+        Log.debug(`[MMM-pages] Starting auto rotation with interval: ${currentRotationTime}ms`);
         self.timer = setInterval(() => {
           // Inform other modules and page change.
           // MagicMirror automatically excludes the sender from receiving the
@@ -296,11 +301,30 @@ Module.register('MMM-pages', {
    * @param {string} name the name of the hiddenPage we want to show
    */
   showHiddenPage(name) {
-    // Only proceed if the named hidden page actually exists
     if (name in this.config.hiddenPages) {
       this.animatePageChange(name);
+      this.startHiddenPageTimer(name);
     } else {
       Log.error(`[MMM-pages] Hidden page "${name}" does not exist!`);
     }
   },
+
+  /**
+   * Starts a timer for a hidden page.
+   *
+   * @param {string} pageName - The name of the hidden page for which the timer is being started.
+   */
+  startHiddenPageTimer(pageName) {
+    clearTimeout(this.hiddenPageTimer);
+    const timeout = this.config.timings[pageName];
+    if (timeout && timeout > 0) {
+      Log.debug(`[MMM-pages] Starting hidden page timer for "${pageName}" with timeout ${timeout}ms`);
+      this.hiddenPageTimer = setTimeout(() => {
+        Log.debug(`[MMM-pages] Hidden page "${pageName}" timeout reached, returning to normal rotation`);
+        this.notificationReceived('LEAVE_HIDDEN_PAGE');
+      }, timeout);
+    } else {
+      Log.debug(`[MMM-pages] No timeout configured for hidden page "${pageName}"`);
+    }
+  }
 });
