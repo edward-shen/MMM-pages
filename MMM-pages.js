@@ -276,7 +276,7 @@ Module.register('MMM-pages', {
    */
   setRotation(isRotating) {
     const stateBaseString = isRotating ? 'resum' : 'paus';
-    if (isRotating === this.rotationPaused) {
+    if (isRotating === !this.rotationPaused) {
       Log.warn(`[MMM-pages] was asked to ${stateBaseString}e but rotation is already ${stateBaseString}ed!`);
     } else {
       Log.log(`[MMM-pages] ${stateBaseString}ing rotation`);
