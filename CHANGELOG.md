@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/edward-shen/MMM-pages/compare/v1.2.0...v1.2.1) - 2025-09-01
+
+### Added
+
+- chore: add dependabot configuration for GitHub Actions and npm updates
+
+### Changed
+
+- chore: update actions/checkout to version 5 in automated tests workflow
+- chore: update devDependencies
+
 ## [1.2.0](https://github.com/edward-shen/MMM-pages/compare/v1.1.2...v1.2.0) - 2025-07-26
 
 ### Added
@@ -12,7 +23,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 
-- chore: Update devDependencies
+- chore: update devDependencies
 - refactor: simplify rotation control logic in `setRotation` method
 
 ### Fixed
