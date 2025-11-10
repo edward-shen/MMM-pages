@@ -170,7 +170,6 @@ You have to add the class name to the config of the module you want to show on a
 | ------------------- | -------------------------- | ------------------------ | ----------- |
 | `modules`           | `[[String...]...]`         | `[]`                     | A 2D String array of what each module should be on which page. Note that all entries must take their class name (e.g. this module's class name is `MMM-pages`, while the default modules may just have `newsfeed`, without the `MMM-` prefix. |
 | `fixed`             | `[String...]`              | `["MMM-page-indicator"]` | Which modules should show up all the time. |
-| `excludes`          | *NA*                       | *NA*                     | **Deprecated**. Use `fixed` instead. |
 | `hiddenPages`       | `{String: [String...]...}` | `{}`                     | An Object defining special `hiddenPages` which are not available on the normal page rotation and only accessible via a notification. Modules defined in `fixed` are ignored and need to be also added if you wish to have them on any hidden page. |
 | `animationTime`     | `int`                      | `1000`                   | Fading animation time. Set to `0` for instant change. Value is in milliseconds (1 second = 1000 milliseconds). |
 | `rotationTime`      | *NA*                       | *NA*                     | **Deprecated**. Use `timings` instead. |

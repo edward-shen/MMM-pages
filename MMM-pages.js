@@ -7,7 +7,6 @@ Module.register('MMM-pages', {
    */
   defaults: {
     modules: [],
-    excludes: [], // Keep for compatibility
     fixed: ['MMM-page-indicator'],
     hiddenPages: {},
     animationTime: 1000,
@@ -45,11 +44,6 @@ Module.register('MMM-pages', {
     this.isOnHiddenPage = false;
 
     // Compatibility
-    if (this.config.excludes.length) {
-      Log.warn('[MMM-pages] The config option "excludes" is deprecated. Please use "fixed" instead.');
-      this.config.fixed = this.config.excludes;
-    }
-
     if (this.config.rotationFirstPage) {
       Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please use "rotationHomePage" instead.');
       this.config.rotationHomePage = this.config.rotationFirstPage;
