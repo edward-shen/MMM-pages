@@ -72,7 +72,7 @@ The first element of the array is the first page, the second element is the seco
         module: "MMM-pages",
         config: {
             timings: {
-                default: 5000,               // rotate every 5 seconds   
+                default: 5000,               // rotate every 5 seconds
                 0: 20000,                    // page 0 rotates every 20 seconds
                 "admin": 30000               // admin hidden page auto-returns after 30 seconds
             },
@@ -111,7 +111,7 @@ Instead of using the module name, you can also use a class name for each page. T
                 default: 20000,      // rotate every 20 seconds
                 2: 30000,            // page 2 rotates every 30 seconds
                 "admin": 30000       // admin hidden page auto-returns after 30 seconds
-            }, 
+            },
             modules: [
                 ["page0"],           // class name for page 0
                 ["page1"],           // class name for page 1
@@ -176,7 +176,8 @@ You have to add the class name to the config of the module you want to show on a
 | `rotationTime`      | *NA*                       | *NA*                     | **Deprecated**. Use `timings` instead. |
 | `timings`           | `object`                   | `{ default: 0 }`         | An object whose keys define the rotation time of the pages in milliseconds. <br>Example, where each page is 3 seconds, except page 3 which is 20 seconds:<br>`{ default: 3000, 2: 20000 }`<br>If a page is not defined, it will use the `default` value. <br>You can also specify timeouts for hidden pages by using the hidden page name as key (e.g., `"admin": 30000` will automatically return from the "admin" hidden page after 30 seconds). <br> *Note:* Remember that the numbering starts at 0, so the first page is `0`, the second page is `1`, and so forth. |
 | `rotationDelay`     | `int`                      | `10000`                  | Time, in milliseconds, of how long should a manual page change linger before returning to automatic page changing. In other words, how long should the timer wait for after you manually change a page. This does include the animation time, so you may wish to increase it by a few seconds or so to account for the animation time. |
-| `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead. |
+| `rotationHomePage`  | `int`                      | `0`                      | Time, in milliseconds, before automatically returning to the home page. If a home page is not set, this returns to the leftmost page instead. This only applies when on a regular page, not when on a hidden page. |
+| `rotationHomePageHidden` | `int`                 | `30000`                  | Time, in milliseconds, before automatically returning to the home page when on a hidden page. Set to `0` to disable automatic return from hidden pages (stay on hidden page indefinitely until manually changed). Default is 30 seconds. |
 | `rotationFirstPage` | *NA*                       | *NA*                     | **Deprecated**. Use `rotationHomePage` instead. |
 | `homePage`          | `int`                      | `0`                      | Which page index is the home page. If none is set, this returns to the leftmost page instead. |
 | `useLockString`     | `bool`                     | `true`                   | Whether or not to use a lock string to show or hide pages. If disabled, other modules may override when modules may be shown. *Advanced users only. Only override this if you know what you're doing.* |

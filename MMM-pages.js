@@ -15,6 +15,7 @@ Module.register('MMM-pages', {
     timings: { default: 0 },
     rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
+    rotationHomePageHidden: 30000,
     rotationDelay: 10000,
     homePage: 0,
     useLockString: true,
@@ -41,6 +42,7 @@ Module.register('MMM-pages', {
     }
     this.curPage = this.config.homePage;
     this.rotationPaused = false;
+    this.isOnHiddenPage = false;
 
     // Compatibility
     if (this.config.excludes.length) {
@@ -62,6 +64,7 @@ Module.register('MMM-pages', {
     this.config.timings.default = Math.max(this.config.timings.default, 0);
     this.config.rotationDelay = Math.max(this.config.rotationDelay, 0);
     this.config.rotationHomePage = Math.max(this.config.rotationHomePage, 0);
+    this.config.rotationHomePageHidden = Math.max(this.config.rotationHomePageHidden, 0);
 
     if (!this.config.useLockString) {
       Log.log('[MMM-pages] User opted to not use lock strings!');
@@ -128,11 +131,13 @@ Module.register('MMM-pages', {
         break;
       case 'SHOW_HIDDEN_PAGE':
         Log.log(`[MMM-pages] received a notification to change to the hidden page "${payload}" of type "${typeof payload}".`);
+        this.isOnHiddenPage = true;
         this.setRotation(false);
         this.showHiddenPage(payload);
         break;
       case 'LEAVE_HIDDEN_PAGE':
         Log.log('[MMM-pages] received a notification to leave the current hidden page.');
+        this.isOnHiddenPage = false;
         clearTimeout(this.hiddenPageTimer);
         this.animatePageChange();
         this.setRotation(true);
@@ -252,22 +257,29 @@ Module.register('MMM-pages', {
           self.notificationReceived('PAGE_INCREMENT');
         }, currentRotationTime);
       }, delay);
-    } else if (this.config.rotationHomePage > 0) {
-      // This timer is the auto rotate function.
-      clearInterval(this.timer);
-      // This is delay timer after manually updating.
-      clearInterval(this.delayTimer);
-      const self = this;
+    } else {
+      // Determine which rotationHomePage setting to use based on current page type
+      const rotationHomePageTimeout = this.isOnHiddenPage
+        ? this.config.rotationHomePageHidden
+        : this.config.rotationHomePage;
 
-      this.delayTimer = setTimeout(() => {
-        self.timer = setInterval(() => {
-          // Inform other modules and page change.
-          // MagicMirror automatically excludes the sender from receiving the
-          // message, so we need to trigger it for ourselves.
-          self.sendNotification('PAGE_CHANGED', 0);
-          self.notificationReceived('PAGE_CHANGED', self.config.homePage);
-        }, self.config.rotationHomePage);
-      }, delay);
+      if (rotationHomePageTimeout > 0) {
+        // This timer is the auto rotate function.
+        clearInterval(this.timer);
+        // This is delay timer after manually updating.
+        clearInterval(this.delayTimer);
+        const self = this;
+
+        this.delayTimer = setTimeout(() => {
+          self.timer = setInterval(() => {
+            // Inform other modules and page change.
+            // MagicMirror automatically excludes the sender from receiving the
+            // message, so we need to trigger it for ourselves.
+            self.sendNotification('PAGE_CHANGED', 0);
+            self.notificationReceived('PAGE_CHANGED', self.config.homePage);
+          }, rotationHomePageTimeout);
+        }, delay);
+      }
     }
   },
 
