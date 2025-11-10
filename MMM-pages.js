@@ -10,9 +10,8 @@ Module.register('MMM-pages', {
     fixed: ['MMM-page-indicator'],
     hiddenPages: {},
     animationTime: 1000,
-    rotationTime: 0,
+    rotationTime: 0, // Deprecated
     timings: { default: 0 },
-    rotationFirstPage: 0, // Keep for compatibility
     rotationHomePage: 0,
     rotationHomePageHidden: 30000,
     rotationDelay: 10000,
@@ -44,11 +43,6 @@ Module.register('MMM-pages', {
     this.isOnHiddenPage = false;
 
     // Compatibility
-    if (this.config.rotationFirstPage) {
-      Log.warn('[MMM-pages] The config option "rotationFirstPage" is deprecated. Please use "rotationHomePage" instead.');
-      this.config.rotationHomePage = this.config.rotationFirstPage;
-    }
-
     if (this.config.rotationTime) {
       Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please use "timings" instead.');
       this.config.timings.default = this.config.rotationTime;
