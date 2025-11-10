@@ -196,14 +196,13 @@ Module.register('MMM-pages', {
     // Hides all modules not on the current page. This hides any module not
     // meant to be shown.
 
-    const self = this;
     let modulesToShow;
     if (typeof targetPageName === 'undefined') {
       modulesToShow = this.config.fixed.concat(this.config.modules[this.curPage]);
     } else {
       modulesToShow = this.config.hiddenPages[targetPageName];
     }
-    const animationTime = self.config.animationTime / 2;
+    const animationTime = this.config.animationTime / 2;
 
     MM.getModules()
       .exceptWithClass(modulesToShow)
@@ -233,16 +232,15 @@ Module.register('MMM-pages', {
       if (this.config.timings[this.curPage]) {
         currentRotationTime = this.config.timings[this.curPage];
       }
-      const self = this;
 
       this.delayTimer = setTimeout(() => {
         Log.debug(`[MMM-pages] Starting auto rotation with interval: ${currentRotationTime}ms`);
-        self.timer = setInterval(() => {
+        this.timer = setInterval(() => {
           // Inform other modules and page change.
           // MagicMirror automatically excludes the sender from receiving the
           // message, so we need to trigger it for ourselves.
-          self.sendNotification('PAGE_INCREMENT');
-          self.notificationReceived('PAGE_INCREMENT');
+          this.sendNotification('PAGE_INCREMENT');
+          this.notificationReceived('PAGE_INCREMENT');
         }, currentRotationTime);
       }, delay);
     } else {
@@ -256,15 +254,14 @@ Module.register('MMM-pages', {
         clearInterval(this.timer);
         // This is delay timer after manually updating.
         clearInterval(this.delayTimer);
-        const self = this;
 
         this.delayTimer = setTimeout(() => {
-          self.timer = setInterval(() => {
+          this.timer = setInterval(() => {
             // Inform other modules and page change.
             // MagicMirror automatically excludes the sender from receiving the
             // message, so we need to trigger it for ourselves.
-            self.sendNotification('PAGE_CHANGED', 0);
-            self.notificationReceived('PAGE_CHANGED', self.config.homePage);
+            this.sendNotification('PAGE_CHANGED', 0);
+            this.notificationReceived('PAGE_CHANGED', this.config.homePage);
           }, rotationHomePageTimeout);
         }, delay);
       }
