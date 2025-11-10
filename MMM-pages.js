@@ -30,6 +30,18 @@ Module.register('MMM-pages', {
   },
 
   /**
+   * Clears all active timers.
+   */
+  clearTimers() {
+    // This timer is the auto rotate function.
+    clearInterval(this.timer);
+    // This is delay timer after manually updating.
+    clearInterval(this.delayTimer);
+    // This is the hidden page timer.
+    clearTimeout(this.hiddenPageTimer);
+  },
+
+  /**
    * Pseudo-constructor for our module. Makes sure that values aren't negative,
    * and sets the default current page to 0.
    */
@@ -224,10 +236,7 @@ Module.register('MMM-pages', {
   resetTimerWithDelay(delay) {
     Log.debug(`[MMM-pages] resetTimerWithDelay called with delay: ${delay}ms`);
     if (this.config.timings.default > 0 || Object.keys(this.config.timings).length > 1) {
-      // This timer is the auto rotate function.
-      clearInterval(this.timer);
-      // This is delay timer after manually updating.
-      clearInterval(this.delayTimer);
+      this.clearTimers();
       let currentRotationTime = this.config.timings.default;
       if (this.config.timings[this.curPage]) {
         currentRotationTime = this.config.timings[this.curPage];
@@ -250,10 +259,7 @@ Module.register('MMM-pages', {
         : this.config.rotationHomePage;
 
       if (rotationHomePageTimeout > 0) {
-        // This timer is the auto rotate function.
-        clearInterval(this.timer);
-        // This is delay timer after manually updating.
-        clearInterval(this.delayTimer);
+        this.clearTimers();
 
         this.delayTimer = setTimeout(() => {
           this.timer = setInterval(() => {
@@ -284,8 +290,7 @@ Module.register('MMM-pages', {
         this.rotationPaused = false;
         Log.debug('[MMM-pages] Rotation resumed');
       } else {
-        clearInterval(this.timer);
-        clearInterval(this.delayTimer);
+        this.clearTimers();
         this.rotationPaused = true;
         Log.debug('[MMM-pages] Rotation paused');
       }
