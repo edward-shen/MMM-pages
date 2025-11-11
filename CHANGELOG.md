@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/edward-shen/MMM-pages/compare/v1.2.1...v1.3.0) - 2025-11-11
+
+### Added
+
+- feat: add rotationHomePageHidden config for separate hidden page timeout - this solves issue [#67](https://github.com/edward-shen/MMM-pages/issues/67)
+
+### Changed
+
+- chore: remove deprecated 'excludes' config option (6 years after deprecation)
+- chore: remove deprecated 'rotationFirstPage' config option (5 years after deprecation)
+- refactor: introduce `clearTimers()` method to simplify timer management
+- refactor: remove redundant 'const self = this' variables
+- chore: update actions/setup-node to version 6 in automated tests workflow
+- chore: update devDependencies
+
 ## [1.2.1](https://github.com/edward-shen/MMM-pages/compare/v1.2.0...v1.2.1) - 2025-09-01
 
 ### Added
