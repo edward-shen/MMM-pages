@@ -1,8 +1,17 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.3.1](https://github.com/edward-shen/MMM-pages/compare/v1.3.0...v1.3.1) (2026-01-31)
+
+
+### Chores
+
+* adapt stylistic plugin config to new pattern ([a4f7459](https://github.com/edward-shen/MMM-pages/commit/a4f74590239a7984351f2297ad94da04ea65a3c8))
+* add changelog config and release script ([400100e](https://github.com/edward-shen/MMM-pages/commit/400100e761074473fa21304737869692adb615be))
+* change CI environment to use ubuntu-slim ([f436afb](https://github.com/edward-shen/MMM-pages/commit/f436afbe46fd2887c52ad2e3631a00caf6748ecf))
+* update actions/checkout to v6 in automated tests workflow ([d90e45f](https://github.com/edward-shen/MMM-pages/commit/d90e45ff95397d29267c05f8cdb26b4daf361b27))
+* update devDependencies ([2b01a78](https://github.com/edward-shen/MMM-pages/commit/2b01a7818aad8c0b78dd3d87502a24139c34efec))
 
 ## [1.3.0](https://github.com/edward-shen/MMM-pages/compare/v1.2.1...v1.3.0) - 2025-11-11
 
