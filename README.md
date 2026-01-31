@@ -289,5 +289,15 @@ If you want to contribute to this project, pleases use the following commands to
 - `node --run lint` - Run linting checks.
 - `node --run lint:fix` - Fix linting issues. Please run this before committing.
 
+### Demo configurations
+
+To test the module with different configurations:
+
+- `node --run demo` - Main demo showing hiddenOnStartup feature
+- `node --run demo:minimal:class` - Minimal example using class-based configuration
+- `node --run demo:minimal:module` - Minimal example using module name-based configuration
+- `node --run demo:rotation` - Demo with many pages to test rotation
+- `node --run demo:debug` - Full configuration with debug modules for notification testing
+
 [mm]: https://github.com/MagicMirrorOrg/MagicMirror
 [page indicator]: https://github.com/edward-shen/MMM-page-indicator

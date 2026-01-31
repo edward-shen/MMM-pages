@@ -3,7 +3,7 @@
   "version": "1.3.1",
   "description": "Add pages to your MagicMirror².",
   "main": "MMM-pages.js",
-  "type": "module",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/edward-shen/MMM-pages.git"
@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/edward-shen/MMM-pages#readme",
   "scripts": {
+    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo.config.js node --run start:dev",
+    "demo:minimal:class": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-minimal-class.config.js node --run start:dev",
+    "demo:minimal:module": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-minimal-module.config.js node --run start:dev",
+    "demo:rotation": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-rotation.config.js node --run start:dev",
+    "demo:debug": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-debug.config.js node --run start:dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "release": "commit-and-tag-version --commit-all --config ./changelog.config.cjs",
