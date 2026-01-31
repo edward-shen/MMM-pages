@@ -71,6 +71,7 @@ Module.register('MMM-pages', {
     }
 
     this.hiddenPageTimer = null;
+    this.permanentlyHiddenModules = new Set();
   },
 
   /**
@@ -112,6 +113,13 @@ Module.register('MMM-pages', {
         break;
       case 'DOM_OBJECTS_CREATED':
         Log.log('[MMM-pages] received that all objects are created; will now hide things!');
+        // Store modules that are initially hidden (hiddenOnStartup: true)
+        MM.getModules().enumerate((module) => {
+          if (module.hidden) {
+            this.permanentlyHiddenModules.add(module.identifier);
+            Log.log(`[MMM-pages] Module ${module.name} (${module.identifier}) is initially hidden and will remain so`);
+          }
+        });
         this.sendNotification('MAX_PAGES_CHANGED', this.config.modules.length);
         this.sendNotification('NEW_PAGE', this.curPage);
         this.animatePageChange();
@@ -224,7 +232,12 @@ Module.register('MMM-pages', {
     setTimeout(() => {
       MM.getModules()
         .withClass(modulesToShow)
-        .enumerate(module => module.show(animationTime, () => {}, lockStringObj));
+        .enumerate((module) => {
+          // Respect hiddenOnStartup - don't show modules that were initially hidden
+          if (!this.permanentlyHiddenModules.has(module.identifier)) {
+            module.show(animationTime, () => {}, lockStringObj);
+          }
+        });
     }, animationTime);
   },
 
