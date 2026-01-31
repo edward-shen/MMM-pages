@@ -27,9 +27,18 @@
     "demo:debug": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-debug.config.js node --run start:dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+	"prepare": "node -e \"try{require('simple-git-hooks').run()}catch(e){}\"",
     "release": "commit-and-tag-version --commit-all --config ./changelog.config.cjs",
     "test": "node --run lint && node --run test:unit",
     "test:unit": "node --test tests/unit/**/*.test.js"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -37,6 +46,8 @@
     "@stylistic/eslint-plugin": "^5.7.1",
     "commit-and-tag-version": "^12.6.1",
     "eslint": "^9.39.2",
-    "globals": "^17.2.0"
+    "globals": "^17.2.0",
+    "lint-staged": "^16.2.7",
+    "simple-git-hooks": "^2.13.1"
   }
 }
