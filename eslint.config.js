@@ -17,8 +17,8 @@ export default defineConfig([
         module: 'readonly',
       },
     },
-    plugins: { js, stylistic },
-    extends: ['js/recommended', 'stylistic/recommended'],
+    plugins: { js },
+    extends: ['js/recommended', stylistic.configs.recommended],
     rules: {
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
       '@stylistic/comma-dangle': ['error', 'only-multiline'],
