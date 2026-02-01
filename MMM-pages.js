@@ -21,9 +21,9 @@ Module.register('MMM-pages', {
 
   /**
    * Modulo that also works with negative numbers.
-   *
    * @param {number} x The dividend
    * @param {number} n The divisor
+   * @returns {number} The result of x mod n
    */
   mod(x, n) {
     return ((x % n) + n) % n;
@@ -88,7 +88,6 @@ Module.register('MMM-pages', {
    *                        page by name
    *   'LEAVE_HIDDEN_PAGE' - Hides the currently showing hidden page and
    *                         resumes showing the last page
-   *
    * @param {string} notification the notification ID
    * @param {number|string} payload the page to change to/by
    */
@@ -158,7 +157,6 @@ Module.register('MMM-pages', {
    * Changes the internal page number by the specified amount. If the provided
    * amount is invalid, use the fallback amount. If the fallback amount is
    * missing or invalid, do nothing.
-   *
    * @param {number} amt the amount of pages to move forward by. Accepts
    * negative numbers.
    * @param {number} fallback the fallback value to use. Accepts negative
@@ -203,7 +201,6 @@ Module.register('MMM-pages', {
    * Animates the page change from the previous page to the current one. This
    * assumes that there is a discrepancy between the page currently being shown
    * and the page that is meant to be shown.
-   *
    * @param {string} [targetPageName] the name of the hiddenPage we want to show.
    * Optional and only used when we want to switch to a hidden page
    */
@@ -245,7 +242,6 @@ Module.register('MMM-pages', {
 
   /**
    * Resets the page changing timer with a delay.
-   *
    * @param {number} delay the delay, in milliseconds.
    */
   resetTimerWithDelay(delay) {
@@ -291,7 +287,6 @@ Module.register('MMM-pages', {
 
   /**
    * Toggles page rotation.
-   *
    * @param {boolean} shouldRotate - True to resume rotation, false to pause it.
    */
   setRotation(shouldRotate) {
@@ -314,7 +309,6 @@ Module.register('MMM-pages', {
 
   /**
    * Handles hidden pages.
-   *
    * @param {string} name the name of the hiddenPage we want to show
    */
   showHiddenPage(name) {
@@ -328,7 +322,6 @@ Module.register('MMM-pages', {
 
   /**
    * Starts a timer for a hidden page.
-   *
    * @param {string} pageName - The name of the hidden page for which the timer is being started.
    */
   startHiddenPageTimer(pageName) {
