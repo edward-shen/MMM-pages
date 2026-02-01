@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.3.2](https://github.com/edward-shen/MMM-pages/compare/v1.3.1...v1.3.2) (2026-02-01)
+
+
+### Fixed
+
+* respect hiddenOnStartup flag for modules on pages ([1a416dc](https://github.com/edward-shen/MMM-pages/commit/1a416dcd829eee2e91abde8241a7e65f0b3df473)), closes [#71](https://github.com/edward-shen/MMM-pages/issues/71)
+
+
+### Chores
+
+* add demo scripts and change package type from module to commonjs ([1592dc7](https://github.com/edward-shen/MMM-pages/commit/1592dc72e8e9f72688c0b4ef001d3cc1f550a634))
+* add git hooks and lint-staged for pre-commit linting ([fe71823](https://github.com/edward-shen/MMM-pages/commit/fe71823c0a7ab260f76b97ceab84fa7bc65419ed))
+* add JSDoc validation with eslint-plugin-jsdoc ([4b9033c](https://github.com/edward-shen/MMM-pages/commit/4b9033c7f3d0f6a5fd695e62fb1c5b1217ff76b0))
+* add step to run unit tests in automated tests workflow ([4701684](https://github.com/edward-shen/MMM-pages/commit/4701684d42adafff43b8711a7c2ec7616ac84cf8))
+
+
+### Code Refactoring
+
+* improve error message clarity in updatePages() ([feba3ee](https://github.com/edward-shen/MMM-pages/commit/feba3eeacaad87c80bdf68da3d9535319632a7e1))
+
+
+### Tests
+
+* add comprehensive unit tests (67 tests) ([c7f1327](https://github.com/edward-shen/MMM-pages/commit/c7f1327545c4eaea9f633808c8d71f1364cf6598))
+* add unit tests for animation and timer functionality in MMM-pages ([8461816](https://github.com/edward-shen/MMM-pages/commit/8461816af7d4e55844e3cc787067647ca697dceb))
+
 ## [1.3.1](https://github.com/edward-shen/MMM-pages/compare/v1.3.0...v1.3.1) (2026-01-31)
 
 
