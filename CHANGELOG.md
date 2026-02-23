@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.4.0](https://github.com/edward-shen/MMM-pages/compare/v1.3.2...v1.4.0) (2026-02-23)
+
+
+### Added
+
+* add REGISTER_API for MMM-Remote-Control integration ([9413919](https://github.com/edward-shen/MMM-pages/commit/9413919d7b333aee42b5646e2111fdff291a7c5e))
+
+
+### Chores
+
+* update devDependencies ([d26ecb3](https://github.com/edward-shen/MMM-pages/commit/d26ecb3b79167bd12ef6a4037cbcf2f7b2142d1b))
+
 ## [1.3.2](https://github.com/edward-shen/MMM-pages/compare/v1.3.1...v1.3.2) (2026-02-01)
 
 
