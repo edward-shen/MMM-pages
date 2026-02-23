@@ -76,14 +76,15 @@ Module.register('MMM-pages', {
 
   /**
    * Handles incoming notifications. Responds to the following:
-   *   'PAGE_CHANGED' - Set the page to the specified payload page.
+   *   'PAGE_SELECT' - Set the page to the specified payload page.
+   *   'PAGE_CHANGED' - Deprecated alias for PAGE_SELECT.
    *   'PAGE_INCREMENT' - Move to the next page.
    *   'PAGE_DECREMENT' - Move to the previous page.
    *   'DOM_OBJECTS_CREATED' - Starts the module.
    *   'QUERY_PAGE_NUMBER' - Requests the current page number
    *   'PAUSE_ROTATION' - Stops rotation
    *   'RESUME_ROTATION' - Resumes rotation
-   *   'HOME_PAGE' - Calls PAGED_CHANGED with the default home page.
+   *   'HOME_PAGE' - Calls PAGE_SELECT with the default home page.
    *   'SHOW_HIDDEN_PAGE' - Shows the (in the payload) specified hidden
    *                        page by name
    *   'LEAVE_HIDDEN_PAGE' - Hides the currently showing hidden page and
@@ -94,6 +95,9 @@ Module.register('MMM-pages', {
   notificationReceived(notification, payload) {
     switch (notification) {
       case 'PAGE_CHANGED':
+        Log.warn('[MMM-pages] The notification "PAGE_CHANGED" is deprecated. Please use "PAGE_SELECT" instead.');
+        // falls through
+      case 'PAGE_SELECT':
         Log.log(`[MMM-pages] received a notification to change to page ${payload} of type ${typeof payload}.`);
         this.curPage = payload;
         this.updatePages();
@@ -123,6 +127,7 @@ Module.register('MMM-pages', {
         this.sendNotification('NEW_PAGE', this.curPage);
         this.animatePageChange();
         this.resetTimerWithDelay(0);
+        this.registerApiActions();
         break;
       case 'QUERY_PAGE_NUMBER':
         this.sendNotification('PAGE_NUMBER_IS', this.curPage);
@@ -134,7 +139,7 @@ Module.register('MMM-pages', {
         this.setRotation(true);
         break;
       case 'HOME_PAGE':
-        this.notificationReceived('PAGE_CHANGED', this.config.homePage);
+        this.notificationReceived('PAGE_SELECT', this.config.homePage);
         break;
       case 'SHOW_HIDDEN_PAGE':
         Log.log(`[MMM-pages] received a notification to change to the hidden page "${payload}" of type "${typeof payload}".`);
@@ -277,8 +282,8 @@ Module.register('MMM-pages', {
             // Inform other modules and page change.
             // MagicMirror automatically excludes the sender from receiving the
             // message, so we need to trigger it for ourselves.
-            this.sendNotification('PAGE_CHANGED', 0);
-            this.notificationReceived('PAGE_CHANGED', this.config.homePage);
+            this.sendNotification('PAGE_SELECT', 0);
+            this.notificationReceived('PAGE_SELECT', this.config.homePage);
           }, rotationHomePageTimeout);
         }, delay);
       }
@@ -305,6 +310,64 @@ Module.register('MMM-pages', {
         Log.debug('[MMM-pages] Rotation paused');
       }
     }
+  },
+
+  /**
+   * Register API actions for MMM-Remote-Control integration.
+   * This allows controlling pages from the Remote Control UI.
+   */
+  registerApiActions() {
+    const api = {
+      module: 'MMM-pages',
+      path: 'pages',
+      actions: {
+        next: {
+          notification: 'PAGE_INCREMENT',
+          prettyName: 'Next Page'
+        },
+        previous: {
+          notification: 'PAGE_DECREMENT',
+          prettyName: 'Previous Page'
+        },
+        home: {
+          notification: 'HOME_PAGE',
+          prettyName: 'Home Page'
+        },
+        pause: {
+          notification: 'PAUSE_ROTATION',
+          prettyName: 'Pause Rotation'
+        },
+        resume: {
+          notification: 'RESUME_ROTATION',
+          prettyName: 'Resume Rotation'
+        },
+        leave: {
+          notification: 'LEAVE_HIDDEN_PAGE',
+          prettyName: 'Leave Hidden Page'
+        }
+      }
+    };
+
+    // Add an action for each page
+    for (let i = 0; i < this.config.modules.length; i++) {
+      api.actions[`page${i}`] = {
+        notification: 'PAGE_SELECT',
+        payload: i,
+        prettyName: `Page ${i}`
+      };
+    }
+
+    // Add an action for each hidden page (prefixed to avoid collision with core actions)
+    for (const pageName of Object.keys(this.config.hiddenPages)) {
+      const key = `show${pageName.replace(/\s/gu, '').toLowerCase()}`;
+      api.actions[key] = {
+        notification: 'SHOW_HIDDEN_PAGE',
+        payload: pageName,
+        prettyName: `Show ${pageName}`
+      };
+    }
+
+    this.sendNotification('REGISTER_API', api);
   },
 
   /**

@@ -90,6 +90,36 @@ describe('Notification Handling', () => {
       instance.notificationReceived('PAGE_CHANGED', 1);
       assert.ok(updatePagesCalled);
     });
+
+    test('logs deprecation warning', () => {
+      let warnMessage = '';
+      global.Log.warn = (msg) => { warnMessage = msg; };
+      instance.notificationReceived('PAGE_CHANGED', 1);
+      assert.ok(warnMessage.includes('deprecated'));
+      global.Log.warn = () => {};
+    });
+  });
+
+  describe('PAGE_SELECT notification', () => {
+    test('sets curPage to payload value', () => {
+      instance.notificationReceived('PAGE_SELECT', 2);
+      assert.equal(instance.curPage, 2);
+    });
+
+    test('triggers updatePages', () => {
+      let updatePagesCalled = false;
+      instance.updatePages = () => { updatePagesCalled = true; };
+      instance.notificationReceived('PAGE_SELECT', 1);
+      assert.ok(updatePagesCalled);
+    });
+
+    test('does not log deprecation warning', () => {
+      let warnCalled = false;
+      global.Log.warn = () => { warnCalled = true; };
+      instance.notificationReceived('PAGE_SELECT', 1);
+      assert.equal(warnCalled, false);
+      global.Log.warn = () => {};
+    });
   });
 
   describe('PAGE_INCREMENT notification', () => {
@@ -353,5 +383,74 @@ describe('updatePages()', () => {
     instance.updatePages();
     assert.ok(errorLogged);
     global.Log.error = () => {};
+  });
+});
+
+describe('registerApiActions()', () => {
+  let instance;
+  let capturedNotifications;
+
+  beforeEach(() => {
+    capturedNotifications = [];
+    instance = Object.create(MMM_pages);
+    instance.config = {
+      modules: [['page0'], ['page1'], ['page2']],
+      hiddenPages: {
+        admin: ['admin-module'],
+        screensaver: ['clock']
+      }
+    };
+    instance.sendNotification = (notification, payload) => {
+      capturedNotifications.push({ notification, payload });
+    };
+  });
+
+  test('sends REGISTER_API notification', () => {
+    instance.registerApiActions();
+    assert.equal(capturedNotifications.length, 1);
+    assert.equal(capturedNotifications[0].notification, 'REGISTER_API');
+  });
+
+  test('registers module name and path', () => {
+    instance.registerApiActions();
+    const api = capturedNotifications[0].payload;
+    assert.equal(api.module, 'MMM-pages');
+    assert.equal(api.path, 'pages');
+  });
+
+  test('registers next, previous, home, pause, resume, leave actions', () => {
+    instance.registerApiActions();
+    const { actions } = capturedNotifications[0].payload;
+    assert.equal(actions.next.notification, 'PAGE_INCREMENT');
+    assert.equal(actions.previous.notification, 'PAGE_DECREMENT');
+    assert.equal(actions.home.notification, 'HOME_PAGE');
+    assert.equal(actions.pause.notification, 'PAUSE_ROTATION');
+    assert.equal(actions.resume.notification, 'RESUME_ROTATION');
+    assert.equal(actions.leave.notification, 'LEAVE_HIDDEN_PAGE');
+  });
+
+  test('registers one action per page', () => {
+    instance.registerApiActions();
+    const { actions } = capturedNotifications[0].payload;
+    assert.equal(actions.page0.notification, 'PAGE_SELECT');
+    assert.equal(actions.page0.payload, 0);
+    assert.equal(actions.page1.payload, 1);
+    assert.equal(actions.page2.payload, 2);
+  });
+
+  test('registers actions for hidden pages', () => {
+    instance.registerApiActions();
+    const { actions } = capturedNotifications[0].payload;
+    assert.equal(actions.showadmin.notification, 'SHOW_HIDDEN_PAGE');
+    assert.equal(actions.showadmin.payload, 'admin');
+    assert.equal(actions.showscreensaver.notification, 'SHOW_HIDDEN_PAGE');
+    assert.equal(actions.showscreensaver.payload, 'screensaver');
+  });
+
+  test('works with no hidden pages', () => {
+    instance.config.hiddenPages = {};
+    instance.registerApiActions();
+    const { actions } = capturedNotifications[0].payload;
+    assert.equal(Object.keys(actions).length, 9); // 6 fixed + 3 pages
   });
 });

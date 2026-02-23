@@ -190,7 +190,8 @@ The following is the list of notifications that MMM-pages will handle:
 
 | Notification | Payload type | Description |
 | --- | --- | --- |
-| `PAGE_CHANGED`      | `int`           | MMM-pages will switch to the provided page index. |
+| `PAGE_SELECT`       | `int`           | MMM-pages will switch to the provided page index. |
+| `PAGE_CHANGED`      | `int`           | **Deprecated.** Use `PAGE_SELECT` instead. Still works but logs a warning. |
 | `PAGE_INCREMENT`    | `int`, Optional | MMM-pages will increment the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to increment by, this will loop around to the first page. |
 | `PAGE_DECREMENT`    | `int`, Optional | MMM-pages will decrement the page, or by `n` times if a number is provided. Not providing a number is equivalent to sending a payload of `1`. If there are no more pages to decrement by, this will loop around to the last page. |
 | `QUERY_PAGE_NUMBER` | *None*          | MMM-pages will respond with `PAGE_NUMBER_IS` with the current page index. |
@@ -207,12 +208,16 @@ The following is the list of notifications that MMM-pages sends out:
 | `MAX_PAGES_CHANGED` | `int`        | This is sent only once during initialization of MMM-pages. This contains the number of pages defined in `config.js`.                                           |
 | `NEW_PAGE`          | `int`        | This notification is sent out on every page change and contains the current page index. This is to help other modules keep track of what the current page is. This is also sent out during initialization. |
 | `PAGE_NUMBER_IS`    | `int`        | Sent in response to a `QUERY_PAGE_NUMBER` notification. Returns the current page index. This notification sends the same payload as `NEW_PAGE`.                |
+| `REGISTER_API`      | `object`     | Sent once during initialization. Registers page control actions with [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) (next, previous, home, pause, resume, leave, and one action per page and hidden page). |
 
 ### Notes
 
-This module responds to the notification `PAGE_CHANGED` and the payload strictly
+This module responds to the notification `PAGE_SELECT` and the payload strictly
 must be an `integer`. Note that this has strict error checking, so `"3"` will
 not work, while `3` will.
+
+The older notification name `PAGE_CHANGED` still works but is deprecated and will
+log a warning. Please use `PAGE_SELECT` instead.
 
 This module keeps track of pages by their index rather than their page number,
 so the leftmost page has an index of 0, the page to the right of that has an
@@ -220,7 +225,7 @@ index of 1, and the page to the right of that has an index of 2. Thus, to change
 to the third page, your module should send out:
 
 ```js
-this.sendNotification("PAGE_CHANGED", 2);
+this.sendNotification("PAGE_SELECT", 2);
 ```
 
 This module keeps internal track of how many pages you have, defined by your
