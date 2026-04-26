@@ -27,7 +27,7 @@
     "demo:debug": "cd ../../ && MM_CONFIG_FILE=modules/MMM-pages/example_configs/demo-debug.config.js node --run start:dev",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "prepare": "node -e \"try{require('simple-git-hooks').run()}catch(e){}\"",
+    "prepare": "simple-git-hooks || true",
     "release": "commit-and-tag-version --commit-all --config ./changelog.config.cjs",
     "test": "node --run lint && node --run test:unit",
     "test:unit": "node --test tests/unit/**/*.test.js"
