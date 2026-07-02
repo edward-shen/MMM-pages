@@ -54,6 +54,11 @@ Module.register('MMM-pages', {
     this.rotationPaused = false;
     this.isOnHiddenPage = false;
 
+    if (!this.config.timings || typeof this.config.timings !== 'object' || Array.isArray(this.config.timings)) {
+      Log.warn('[MMM-pages] The config option "timings" is missing or invalid. Please provide an object with page numbers as keys and rotation times in milliseconds as values.');
+      this.config.timings = { default: 0 };
+    }
+
     // Compatibility
     if (this.config.rotationTime) {
       Log.warn('[MMM-pages] The config option "rotationTime" is deprecated. Please use "timings" instead.');
@@ -251,12 +256,13 @@ Module.register('MMM-pages', {
    */
   resetTimerWithDelay(delay) {
     Log.debug(`[MMM-pages] resetTimerWithDelay called with delay: ${delay}ms`);
-    if (this.config.timings.default > 0 || Object.keys(this.config.timings).length > 1) {
+    let currentRotationTime = this.config.timings.default;
+    if (Object.hasOwn(this.config.timings, this.curPage)) {
+      currentRotationTime = this.config.timings[this.curPage];
+    }
+
+    if (currentRotationTime > 0) {
       this.clearTimers();
-      let currentRotationTime = this.config.timings.default;
-      if (this.config.timings[this.curPage]) {
-        currentRotationTime = this.config.timings[this.curPage];
-      }
 
       this.delayTimer = setTimeout(() => {
         Log.debug(`[MMM-pages] Starting auto rotation with interval: ${currentRotationTime}ms`);

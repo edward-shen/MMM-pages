@@ -148,6 +148,7 @@ describe('Timer Functionality', () => {
       };
 
       global.setInterval = (callback, interval) => {
+        assert.equal(interval, 100);
         const timer = originalSetInterval(callback, interval);
         instance.timer = timer;
         return timer;
@@ -157,6 +158,26 @@ describe('Timer Functionality', () => {
 
       global.setTimeout = originalSetTimeout;
       global.setInterval = originalSetInterval;
+    });
+
+    test('does not use hidden-page timings for normal page rotation', (t, done) => {
+      instance.config.timings = { default: 0, admin: 30000 };
+      instance.config.rotationHomePage = 100;
+
+      const originalSetInterval = setInterval;
+      const originalSetTimeout = setTimeout;
+
+      global.setInterval = (callback, interval) => {
+        assert.equal(interval, 100);
+        const timer = originalSetInterval(callback, interval);
+        instance.timer = timer;
+        global.setInterval = originalSetInterval;
+        global.setTimeout = originalSetTimeout;
+        done();
+        return timer;
+      };
+
+      instance.resetTimerWithDelay(0);
     });
 
     test('uses rotationHomePageHidden when on hidden page', (t, done) => {

@@ -145,6 +145,12 @@ describe('Page Navigation', () => {
       assert.equal(instance.config.timings.default, 0);
     });
 
+    test('start() falls back invalid numeric timings to default timing', () => {
+      instance.config.timings = 5000;
+      instance.start();
+      assert.deepEqual(instance.config.timings, { default: 0 });
+    });
+
     test('start() ensures rotationDelay is non-negative', () => {
       instance.config.rotationDelay = -5000;
       instance.start();
