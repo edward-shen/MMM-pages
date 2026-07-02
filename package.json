@@ -1,6 +1,6 @@
 {
   "name": "mmm-pages",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Add pages to your MagicMirror².",
   "main": "MMM-pages.js",
   "type": "commonjs",

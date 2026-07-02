@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.4.1](https://github.com/edward-shen/MMM-pages/compare/v1.4.0...v1.4.1) (2026-07-02)
+
+
+### Fixed
+
+* prevent unintended 0ms rotation and clarify timings behavior ([221d645](https://github.com/edward-shen/MMM-pages/commit/221d645a6db271222a70a8bd835dbb058e55719c))
+
+
+### Chores
+
+* simplify prepare script ([146af72](https://github.com/edward-shen/MMM-pages/commit/146af729586778a1c25b06e141dd4e520d59fe7d))
+* update actions/checkout to v7 ([95ab8fc](https://github.com/edward-shen/MMM-pages/commit/95ab8fc4bda5d1d573e6d37721407c432caa7c15))
+* update devDependencies ([dd29e18](https://github.com/edward-shen/MMM-pages/commit/dd29e180abaf3552b5f1f2c4f3f64882ac115fd3))
+
 ## [1.4.0](https://github.com/edward-shen/MMM-pages/compare/v1.3.2...v1.4.0) (2026-02-23)
 
 
