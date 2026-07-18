@@ -44,11 +44,11 @@
     "@eslint/js": "^10.0.1",
     "@eslint/markdown": "^8.0.3",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "commit-and-tag-version": "^12.7.3",
-    "eslint": "^10.6.0",
-    "eslint-plugin-jsdoc": "^63.0.10",
+    "commit-and-tag-version": "^13.0.0",
+    "eslint": "^10.7.0",
+    "eslint-plugin-jsdoc": "^63.1.0",
     "globals": "^17.7.0",
-    "lint-staged": "^17.0.8",
+    "lint-staged": "^17.1.0",
     "simple-git-hooks": "^2.13.1"
   }
 }
