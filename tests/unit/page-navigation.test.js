@@ -110,6 +110,15 @@ describe('Page Navigation', () => {
   });
 
   describe('Page validation', () => {
+    test('logs an error for an invalid modules configuration', () => {
+      let errorMessage = '';
+      global.Log.error = (message) => { errorMessage = message; };
+      instance.config.modules = ['page0'];
+      instance.start();
+      assert.ok(errorMessage.includes('Invalid "modules" configuration'));
+      global.Log.error = () => {};
+    });
+
     test('start() clamps invalid homePage to 0', () => {
       instance.config.homePage = 10; // invalid
       instance.config.modules = [['page0'], ['page1']];

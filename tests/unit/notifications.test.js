@@ -120,6 +120,14 @@ describe('Notification Handling', () => {
       assert.equal(warnCalled, false);
       global.Log.warn = () => {};
     });
+
+    test('ignores an invalid page index', () => {
+      let updatePagesCalled = false;
+      instance.updatePages = () => { updatePagesCalled = true; };
+      instance.notificationReceived('PAGE_SELECT', 3);
+      assert.equal(instance.curPage, 0);
+      assert.equal(updatePagesCalled, false);
+    });
   });
 
   describe('PAGE_INCREMENT notification', () => {

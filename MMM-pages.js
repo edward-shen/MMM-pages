@@ -46,6 +46,8 @@ Module.register('MMM-pages', {
    * and sets the default current page to 0.
    */
   start() {
+    this.validateConfig();
+
     // Clamp homePage value to [0, num pages).
     if (this.config.homePage >= this.config.modules.length || this.config.homePage < 0) {
       this.config.homePage = 0;
@@ -80,6 +82,38 @@ Module.register('MMM-pages', {
   },
 
   /**
+   * Validates the shape of the `modules`, `fixed`, and `hiddenPages` config
+   * options, logging an error and resetting to a safe default for any that
+   * are malformed. Also logs a debug hint when no pages are configured at
+   * all, since that would otherwise fail silently. This runs before any
+   * other config-dependent logic in `start()`, so a broken config never
+   * crashes the module later on.
+   */
+  validateConfig() {
+    if (!Array.isArray(this.config.modules) || !this.config.modules.every(page => this.isStringArray(page))) {
+      Log.error('[MMM-pages] Invalid "modules" configuration. Expected an array of string arrays.');
+      this.config.modules = [];
+    }
+
+    if (this.config.modules.length === 0) {
+      Log.debug('[MMM-pages] No pages are configured; no page-specific modules will be shown.');
+    }
+
+    if (this.config.fixed !== undefined && !this.isStringArray(this.config.fixed)) {
+      Log.error('[MMM-pages] Invalid "fixed" configuration. Expected an array of module names.');
+      this.config.fixed = [];
+    }
+
+    const { hiddenPages } = this.config;
+    const isPlainObject = typeof hiddenPages === 'object' && hiddenPages !== null && !Array.isArray(hiddenPages);
+    if (hiddenPages !== undefined
+      && (!isPlainObject || !Object.values(hiddenPages).every(page => this.isStringArray(page)))) {
+      Log.error('[MMM-pages] Invalid "hiddenPages" configuration. Expected an object of string arrays.');
+      this.config.hiddenPages = {};
+    }
+  },
+
+  /**
    * Handles incoming notifications. Responds to the following:
    *   'PAGE_SELECT' - Set the page to the specified payload page.
    *   'PAGE_CHANGED' - Deprecated alias for PAGE_SELECT.
@@ -103,6 +137,10 @@ Module.register('MMM-pages', {
         Log.warn('[MMM-pages] The notification "PAGE_CHANGED" is deprecated. Please use "PAGE_SELECT" instead.');
         // falls through
       case 'PAGE_SELECT':
+        if (!Number.isInteger(payload) || payload < 0 || payload >= this.config.modules.length) {
+          Log.warn(`[MMM-pages] Cannot select page ${payload}. Expected an integer from 0 to ${this.config.modules.length - 1}.`);
+          break;
+        }
         Log.log(`[MMM-pages] received a notification to change to page ${payload} of type ${typeof payload}.`);
         this.curPage = payload;
         this.updatePages();
@@ -161,6 +199,10 @@ Module.register('MMM-pages', {
         break;
       default: // Do nothing
     }
+  },
+
+  isStringArray(value) {
+    return Array.isArray(value) && value.every(item => typeof item === 'string');
   },
 
   /**
