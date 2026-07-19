@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.5.0](https://github.com/edward-shen/MMM-pages/compare/v1.4.1...v1.5.0) (2026-07-19)
+
+### Added
+
+* validate config and reject invalid PAGE_SELECT payloads ([6053714](https://github.com/edward-shen/MMM-pages/commit/6053714d8e591bc355063b95566d6c0b03cdbaed))
+
+### Fixed
+
+* update PAGE_SELECT notification to use configured homePage ([807d033](https://github.com/edward-shen/MMM-pages/commit/807d033d0fb06ba26a375612b2c30199411da1ba))
+
+### Chores
+
+* update devDependencies ([00911e3](https://github.com/edward-shen/MMM-pages/commit/00911e33747e83cd43da4ac73193537aa256fd48))
 ## [1.4.1](https://github.com/edward-shen/MMM-pages/compare/v1.4.0...v1.4.1) (2026-07-02)
 
 
