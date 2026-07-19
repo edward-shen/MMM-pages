@@ -160,6 +160,37 @@ describe('Timer Functionality', () => {
       global.setInterval = originalSetInterval;
     });
 
+    test('broadcasts the configured homePage, not a hardcoded 0, when the rotation home timer fires', (t, done) => {
+      instance.config.timings.default = 0;
+      instance.config.rotationHomePage = 100;
+      instance.config.homePage = 2;
+
+      const originalSetTimeout = setTimeout;
+      const originalSetInterval = setInterval;
+      const sentPayloads = [];
+      instance.sendNotification = (notification, payload) => {
+        sentPayloads.push({ notification, payload });
+      };
+
+      global.setTimeout = (callback) => {
+        callback();
+        return 0;
+      };
+
+      global.setInterval = (callback) => {
+        // Simulate the timer firing once, synchronously, instead of waiting
+        // on a real interval.
+        callback();
+        assert.deepEqual(sentPayloads[0], { notification: 'PAGE_SELECT', payload: 2 });
+        global.setTimeout = originalSetTimeout;
+        global.setInterval = originalSetInterval;
+        done();
+        return 0;
+      };
+
+      instance.resetTimerWithDelay(0);
+    });
+
     test('does not use hidden-page timings for normal page rotation', (t, done) => {
       instance.config.timings = { default: 0, admin: 30000 };
       instance.config.rotationHomePage = 100;

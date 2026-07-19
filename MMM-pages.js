@@ -330,7 +330,7 @@ Module.register('MMM-pages', {
             // Inform other modules and page change.
             // MagicMirror automatically excludes the sender from receiving the
             // message, so we need to trigger it for ourselves.
-            this.sendNotification('PAGE_SELECT', 0);
+            this.sendNotification('PAGE_SELECT', this.config.homePage);
             this.notificationReceived('PAGE_SELECT', this.config.homePage);
           }, rotationHomePageTimeout);
         }, delay);
